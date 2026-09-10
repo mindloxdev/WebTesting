@@ -1,0 +1,63 @@
+@echo off
+setlocal EnableDelayedExpansion
+title Mindlox AI - local site (production build)
+cd /d "%~dp0"
+
+set "PORT=3000"
+if not "%~1"=="" set "PORT=%~1"
+
+where node >nul 2>nul
+if errorlevel 1 (
+  echo.
+  echo  Node.js was not found. Install it from https://nodejs.org ^(LTS^) and run this file again.
+  echo.
+  pause
+  exit /b 1
+)
+
+if not exist "node_modules\" (
+  echo.
+  echo  First run - installing dependencies...
+  echo.
+  call npm install
+  if errorlevel 1 (
+    echo  npm install failed. See the messages above.
+    pause
+    exit /b 1
+  )
+)
+
+echo.
+echo  Building the optimized production site (1-3 minutes)...
+echo.
+call npm run build
+if errorlevel 1 (
+  echo.
+  echo  Build failed. See the messages above.
+  pause
+  exit /b 1
+)
+
+echo.
+echo  Serving Mindlox AI at http://localhost:%PORT%
+echo  Leave this window open while you browse. Press Ctrl+C here to stop the site.
+echo.
+
+start "Mindlox AI server" cmd /k "cd /d "%~dp0" && npm run start -- --port %PORT%"
+
+set /a tries=0
+:wait
+set /a tries+=1
+powershell -NoProfile -Command "try { $r = Invoke-WebRequest -UseBasicParsing -Uri 'http://localhost:%PORT%/' -TimeoutSec 3; exit 0 } catch { exit 1 }" >nul 2>nul
+if not errorlevel 1 goto ready
+if !tries! geq 30 goto ready
+timeout /t 2 /nobreak >nul
+goto wait
+
+:ready
+start "" "http://localhost:%PORT%/demos"
+echo  Browser opened.
+echo  Home page ^(recommended concept^): http://localhost:%PORT%/
+echo  Concept selector:                 http://localhost:%PORT%/demos
+echo.
+pause
