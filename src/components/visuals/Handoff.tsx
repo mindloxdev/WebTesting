@@ -12,8 +12,8 @@ import { AIDetectionFeed } from "@/components/visuals/AIDetectionFeed";
 const TABS = ["Claims", "Denials", "A/R", "Payments", "Eligibility", "Coding", "Credentialing"] as const;
 
 const ROLES = [
-  { role: "Certified Coder", initials: "CC", statuses: ["Reviewing 99214 + 25", "Modifier 25 added", "Resolved"] },
-  { role: "Denial Specialist", initials: "DS", statuses: ["Reviewing CO-50", "Appeal drafted", "Appeal filed"] },
+  { role: "Certified Coder", initials: "CC", statuses: ["Reviewing 99215 + 25", "Modifier 25 added", "Resolved"] },
+  { role: "Denial Specialist", initials: "DS", statuses: ["Reviewing CO-197", "Appeal drafted", "Appeal filed"] },
   { role: "A/R Specialist", initials: "AR", statuses: ["Prioritizing 90+ bucket", "Payer contacted", "Resolved"] },
   { role: "Eligibility Specialist", initials: "ES", statuses: ["Verifying 270/271", "Plan updated", "Resolved"] },
   { role: "Payment Integrity Analyst", initials: "PI", statuses: ["Comparing to contract", "Variance confirmed", "Recovery opened"] },

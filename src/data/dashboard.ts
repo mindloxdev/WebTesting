@@ -80,23 +80,24 @@ export type Detection = {
 };
 
 export const DETECTIONS: Detection[] = [
-  { id: "d1", type: "eligibility", title: "Eligibility mismatch detected", detail: "Plan terminated 03/31 — registration shows active.", claim: "MLX-10492", amount: 412, resolver: "Eligibility Specialist" },
-  { id: "d2", type: "underpayment", title: "Underpayment identified", detail: "Paid $184.20 vs. contracted $246.00 on 99214.", claim: "MLX-10377", amount: 61.8, resolver: "Payment Integrity Analyst" },
-  { id: "d3", type: "denial-risk", title: "Potential denial detected", detail: "Modifier 25 missing with same-day procedure.", claim: "MLX-10511", amount: 318, resolver: "Certified Coder" },
-  { id: "d4", type: "appeal", title: "Appeal recommended", detail: "CO-50 denial — LCD criteria met per documentation.", claim: "MLX-10218", amount: 1248, resolver: "Denial Specialist" },
-  { id: "d5", type: "high-risk", title: "High-risk claim detected", detail: "Timely filing limit in 6 days — payer requires corrected claim.", claim: "MLX-09980", amount: 870, resolver: "A/R Specialist" },
-  { id: "d6", type: "auth", title: "Authorization not on file", detail: "MRI lumbar scheduled 09/14 — payer requires prior auth.", claim: "MLX-10602", amount: 1560, resolver: "Authorization Coordinator" },
-  { id: "d7", type: "coding", title: "Coding specificity flag", detail: "Unspecified diagnosis where laterality is documented.", claim: "MLX-10588", amount: 96, resolver: "Certified Coder" },
-  { id: "d8", type: "underpayment", title: "Payer pattern identified", detail: "Commercial B underpaying 97110 by 12% across 41 claims.", claim: "Batch", amount: 2140, resolver: "Payment Integrity Analyst" },
+  { id: "d1", type: "eligibility", title: "Eligibility mismatch detected", detail: "Plan terminated 06/30 — registration still shows active coverage.", claim: "MLX-11204", amount: 284.5, resolver: "Eligibility Specialist" },
+  { id: "d2", type: "underpayment", title: "Underpayment identified", detail: "Paid $96.40 against a contracted $128.40 on 99214.", claim: "MLX-11138", amount: 32, resolver: "Payment Integrity Analyst" },
+  { id: "d3", type: "denial-risk", title: "Potential denial detected", detail: "Modifier 25 missing on an office visit billed with a same-day injection.", claim: "MLX-11317", amount: 68.2, resolver: "Certified Coder" },
+  { id: "d4", type: "appeal", title: "Appeal recommended", detail: "CO-50 denial on 64483 — LCD criteria are met in the operative note.", claim: "MLX-11052", amount: 1904, resolver: "Denial Specialist" },
+  { id: "d5", type: "high-risk", title: "High-risk claim detected", detail: "Timely filing closes in 6 days and the payer requires a corrected claim.", claim: "MLX-10796", amount: 742.3, resolver: "A/R Specialist" },
+  { id: "d6", type: "auth", title: "Authorization not on file", detail: "MRI lumbar (72148) scheduled 09/24 with no prior authorization recorded.", claim: "MLX-11423", amount: 986, resolver: "Authorization Coordinator" },
+  { id: "d7", type: "coding", title: "Coding specificity flag", detail: "Unspecified diagnosis submitted where the note documents laterality.", claim: "MLX-11365", amount: 64.8, resolver: "Certified Coder" },
+  { id: "d8", type: "underpayment", title: "Payer pattern identified", detail: "Commercial B paying 97110 twelve percent under contract across 41 claims.", claim: "Batch", amount: 3180, resolver: "Payment Integrity Analyst" },
 ];
 
+/** The three queue counts add up to the greeting; the dollar lines add up to the total. */
 export const AI_MORNING = {
-  greeting: "Good morning. I found 37 claims requiring attention.",
+  greeting: "Good morning. I found 29 claims that need a decision today.",
   recommendations: [
-    { text: "12 claims can be appealed.", value: "$9,640" },
-    { text: "8 eligibility issues detected.", value: "$3,120" },
-    { text: "5 underpayments identified.", value: "$1,860" },
-    { text: "$18,420 potential revenue recovery this week.", value: "" },
+    { text: "14 appeals are ready to file.", value: "$11,280" },
+    { text: "9 eligibility mismatches need a corrected claim.", value: "$2,470" },
+    { text: "6 remittances came in below contract.", value: "$4,315" },
+    { text: "$18,065 recoverable across the three queues this week.", value: "" },
   ],
 };
 
@@ -110,13 +111,14 @@ export type ClaimStage = {
   amount?: string;
 };
 
+/** One orthopedic claim followed end to end: 99214 office visit plus a same-day 20610 injection. */
 export const CLAIM_JOURNEY: ClaimStage[] = [
-  { id: 1, name: "Patient Visit", status: "Eligibility Verified", timestamp: "Day 0 · 8:42 AM", detail: "Coverage confirmed 48 hours before the appointment. Copay and deductible remaining shared with the front desk.", work: ["270/271 eligibility check", "Benefit summary to front desk", "Auth requirement screened"] },
-  { id: 2, name: "Coding", status: "CPT / ICD Review Complete", timestamp: "Day 1 · 10:15 AM", detail: "Certified coder confirmed E/M level from documented MDM, added modifier 25 for the same-day procedure, and validated diagnosis specificity.", work: ["E/M level validated (99214)", "Modifier 25 applied", "ICD-10 specificity confirmed"] },
-  { id: 3, name: "Claim Submission", status: "Submitted", timestamp: "Day 1 · 4:30 PM", detail: "Claim scrubbed against payer edits and NCCI rules, then transmitted electronically. Clearinghouse acceptance received same day.", work: ["Payer edit scrub passed", "837P transmitted", "999/277 acceptance logged"] },
-  { id: 4, name: "Payer", status: "Adjudicated", timestamp: "Day 14 · 9:02 AM", detail: "Payer adjudicated the claim. AI compared the allowed amount against the contracted rate — no variance detected.", work: ["Claim status tracked daily", "Adjudication received", "Contract variance check: 0%"] },
-  { id: 5, name: "Payment", status: "Paid $1,248.00", timestamp: "Day 16 · 11:20 AM", detail: "835 remittance received and matched to the claim. Patient responsibility calculated from the EOB.", work: ["835 ERA received", "EFT deposit matched", "Patient balance: $40.00 copay (collected at visit)"], amount: "$1,248.00" },
-  { id: 6, name: "Reconciliation", status: "Posted", timestamp: "Day 16 · 11:45 AM", detail: "Payment posted, contractual adjustment applied, and the claim closed with a full audit trail visible in your dashboard.", work: ["Payment posted to ledger", "Contractual adjustment applied", "Claim closed · audit trail complete"] },
+  { id: 1, name: "Patient Visit", status: "Eligibility Verified", timestamp: "Day 0 · 8:42 AM", detail: "Coverage confirmed 48 hours before the appointment. Copay and remaining deductible were shared with the front desk so the balance could be collected at check-in.", work: ["270/271 eligibility check", "Benefit summary to front desk", "Auth requirement screened — none for 20610"] },
+  { id: 2, name: "Coding", status: "CPT / ICD Review Complete", timestamp: "Day 1 · 10:15 AM", detail: "A certified coder confirmed the E/M level from documented medical decision-making, added modifier 25 for the same-day injection, and validated diagnosis specificity including laterality.", work: ["E/M level validated (99214)", "Modifier 25 applied for same-day 20610", "ICD-10 laterality confirmed"] },
+  { id: 3, name: "Claim Submission", status: "Submitted", timestamp: "Day 1 · 4:30 PM", detail: "The claim was scrubbed against payer edits and NCCI pairings, then transmitted electronically. Clearinghouse acceptance came back the same day.", work: ["Payer edit and NCCI scrub passed", "837P transmitted", "999 / 277 acceptance logged"] },
+  { id: 4, name: "Payer", status: "Adjudicated", timestamp: "Day 14 · 9:02 AM", detail: "The payer adjudicated both lines. The allowed amount was compared against the contracted rate line by line, and no variance was found.", work: ["Claim status tracked daily", "Adjudication received on both lines", "Contract variance check: 0%"] },
+  { id: 5, name: "Payment", status: "Paid $156.60", timestamp: "Day 16 · 11:20 AM", detail: "The 835 remittance was received and matched to the claim. Allowed was $196.60 across the two lines, less the $40.00 copay already collected at the visit.", work: ["835 ERA received", "EFT deposit matched", "Patient responsibility: $40.00 copay, collected at visit"], amount: "$196.60" },
+  { id: 6, name: "Reconciliation", status: "Posted", timestamp: "Day 16 · 11:45 AM", detail: "Payment posted, the contractual adjustment applied, and the claim closed with a full audit trail visible in your dashboard.", work: ["Payment posted to ledger", "Contractual adjustment applied", "Claim closed · audit trail complete"] },
 ];
 
 export const CLAIM_ID = "MLX-10492";

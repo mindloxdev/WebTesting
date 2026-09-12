@@ -5,18 +5,17 @@ import { Building2, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { TEAM_ROLES } from "@/data/dashboard";
 import { cn } from "@/lib/utils";
-import { DemoBadge } from "@/components/ui/DemoBadge";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 
 /* Sample status chips — labeled on the stage. */
 const STATUS = [
-  "12 claims coded today",
-  "38 claims out the door",
-  "$4,120 recovered this week",
-  "3 appeals filed today",
-  "2 enrollments approved",
+  "18 charts coded today",
+  "52 claims out the door",
+  "$6,840 recovered this week",
+  "5 appeals filed today",
+  "3 enrollments approved",
   "Weekly review · Thursday",
-  "37 claims flagged overnight",
+  "24 claims flagged overnight",
 ];
 
 const N = TEAM_ROLES.length;
@@ -176,7 +175,7 @@ export function TeamAssembly({ className }: { className?: string }) {
                 </span>
               </div>
               <div className="absolute right-6 top-5 z-10">
-                <DemoBadge />
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-fg-3">A typical engagement</span>
               </div>
 
               <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
@@ -211,7 +210,7 @@ export function TeamAssembly({ className }: { className?: string }) {
           <div className="relative">
             <div className="mb-5 flex items-center justify-between">
               <span className="eyebrow">Your department</span>
-              <DemoBadge />
+              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-fg-3">A typical engagement</span>
             </div>
             <div className="flex justify-center">
               <PracticeTile />

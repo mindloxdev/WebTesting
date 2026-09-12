@@ -20,13 +20,13 @@ const COLOR: Record<Kind, string> = {
 };
 
 const EVENTS: { kind: Kind; text: string; ago: number }[] = [
-  { kind: "payment", text: "Payment posted · $1,248.00 · Commercial A", ago: 2 },
-  { kind: "appeal", text: "Appeal filed · MLX-10218 · CO-50 · $1,248.00", ago: 4 },
-  { kind: "eligibility", text: "Eligibility verified · 48 h ahead · 212 patients", ago: 6 },
-  { kind: "underpayment", text: "Underpayment flagged · 97110 · Commercial B · $2,140", ago: 9 },
-  { kind: "claims", text: "Claims submitted · 412 · clearinghouse accepted 411", ago: 12 },
-  { kind: "auth", text: "Prior auth approved · MRI lumbar · MLX-10602", ago: 15 },
-  { kind: "denial", text: "Denial prevented · modifier 25 added · MLX-10511", ago: 21 },
+  { kind: "payment", text: "Payment posted · $3,412.75 · Commercial A", ago: 2 },
+  { kind: "appeal", text: "Appeal filed · MLX-10883 · CO-197 · $1,268.40", ago: 4 },
+  { kind: "eligibility", text: "Eligibility verified · 48 h ahead · 178 patients", ago: 6 },
+  { kind: "underpayment", text: "Underpayment flagged · 73721 · Commercial C · $612.40", ago: 9 },
+  { kind: "claims", text: "Claims submitted · 389 · clearinghouse accepted 387", ago: 12 },
+  { kind: "auth", text: "Prior auth approved · CT abdomen and pelvis · MLX-11026", ago: 15 },
+  { kind: "denial", text: "Denial prevented · modifier 59 added · MLX-10957", ago: 21 },
   { kind: "credentialing", text: "Payer enrollment effective · Provider F · Medicare", ago: 34 },
 ];
 

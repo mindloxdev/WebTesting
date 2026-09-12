@@ -17,11 +17,11 @@ const PROMPTS = [
   },
   {
     q: "What can we appeal before Friday?",
-    a: "12 claims are appealable with documentation already on file — $9,640 in total. Four are CO-50 medical-necessity denials where LCD criteria are met; the rest are CO-197 authorization denials with retro-auth windows still open. Drafts are ready for the denial specialist to review.",
+    a: "14 claims are appealable with documentation already on file — $11,280 in total. Five are CO-50 medical-necessity denials where LCD criteria are met; the rest are CO-197 authorization denials with retro-auth windows still open. Drafts are ready for the denial specialist to review.",
   },
   {
     q: "Where were we underpaid?",
-    a: "Commercial B paid 97110 at 12% below contract on 41 claims — $2,140 in variance. Two 99214 claims from Commercial A were short $61.80 each. A payer-pattern report is attached and a recovery project is open with the payment-integrity analyst.",
+    a: "Commercial B paid 97110 at twelve percent below contract on 41 claims — $3,180 in variance. Two 99214 claims from Commercial A came in at $96.40 against a contracted $128.40. A payer-pattern report is attached and a recovery project is open with the payment-integrity analyst.",
   },
 ];
 

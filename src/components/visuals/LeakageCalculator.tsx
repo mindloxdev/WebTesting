@@ -45,7 +45,27 @@ const FIELDS: { key: keyof Inputs; label: string; min: number; max: number; step
   { key: "avgReimbursement", label: "Average reimbursement per claim", min: 25, max: 2500, step: 5, fmt: (n) => currency(n) },
 ];
 
-export function computeLeakage(i: Inputs) {
+/** Clamp to the slider's own range and fall back to the default if the value is not a finite number. */
+const clamp = (v: number, key: keyof Inputs) => {
+  const f = FIELDS.find((x) => x.key === key)!;
+  if (!Number.isFinite(v)) return DEFAULTS[key];
+  return Math.min(f.max, Math.max(f.min, v));
+};
+
+/**
+ * Pure and total: every input is clamped to its slider range first, so no entry
+ * can produce NaN, a negative figure, or a zero result. At the floor of every
+ * slider the model still returns a positive leakage figure.
+ */
+export function computeLeakage(input: Inputs) {
+  const i: Inputs = {
+    monthlyCharges: clamp(input.monthlyCharges, "monthlyCharges"),
+    providers: clamp(input.providers, "providers"),
+    monthlyClaims: clamp(input.monthlyClaims, "monthlyClaims"),
+    denialRate: clamp(input.denialRate, "denialRate"),
+    arDays: clamp(input.arDays, "arDays"),
+    avgReimbursement: clamp(input.avgReimbursement, "avgReimbursement"),
+  };
   const expected = Math.min(i.monthlyClaims * i.avgReimbursement, i.monthlyCharges);
   const deniedValue = expected * (i.denialRate / 100);
   const denialLeak = deniedValue * ASSUMPTIONS.deniedNeverReworked;
@@ -63,7 +83,7 @@ export function LeakageCalculator({ className, compact }: Props) {
   const [inputs, setInputs] = useState<Inputs>(DEFAULTS);
   const [showAssumptions, setShowAssumptions] = useState(false);
   const r = useMemo(() => computeLeakage(inputs), [inputs]);
-  const set = (k: keyof Inputs, v: number) => setInputs((s) => ({ ...s, [k]: v }));
+  const set = (k: keyof Inputs, v: number) => setInputs((s) => ({ ...s, [k]: clamp(v, k) }));
 
   const parts = [
     { label: "Denials never reworked", value: r.denialLeak, color: "var(--negative)" },
@@ -181,7 +201,7 @@ function Output({ label, sub, value, large, tone }: { label: string; sub: string
         <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-fg-3">{sub}</p>
       </div>
       <span className={cn("font-display font-bold tracking-tight", color, large ? "text-4xl lg:text-5xl" : "text-2xl lg:text-3xl")}>
-        <AnimatedNumber value={value} format={(n) => currency(n)} duration={1.2} />
+        <AnimatedNumber value={value} format={(n) => currency(n)} duration={1.2} immediate />
       </span>
     </div>
   );

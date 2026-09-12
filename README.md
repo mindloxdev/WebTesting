@@ -70,3 +70,29 @@ Tokens live once in `src/app/globals.css` (Tailwind v4 `@theme`): palette, displ
 2. Confirm BAA/HIPAA/security statements with counsel.
 3. Confirm EHR/PM connectivity claims per system.
 4. If the site is not served at mindlox.ai, update `metadataBase` in `src/app/layout.tsx` and `BASE` in `src/app/sitemap.ts`.
+
+## Lead form
+
+The four-step form on `/contact` (and in every closing CTA) posts to `src/app/api/lead/route.ts`,
+which emails each submission over SMTP. Set these in Vercel → Settings → Environment Variables
+(Production and Preview). None of them may ever carry a `NEXT_PUBLIC_` prefix.
+
+| Variable | Required | Notes |
+|---|---|---|
+| `LEAD_SMTP_HOST` | yes | e.g. `smtp.resend.com`, `smtp.postmarkapp.com` |
+| `LEAD_SMTP_PORT` | no | defaults to `587`; `465` switches to implicit TLS |
+| `LEAD_SMTP_USER` | yes | SMTP username |
+| `LEAD_SMTP_PASS` | yes | SMTP password or API key |
+| `LEAD_TO` | no | delivery inbox, defaults to `CONTACT.email` |
+| `LEAD_FROM` | no | envelope sender, defaults to `LEAD_SMTP_USER` |
+
+Until SMTP is configured the route returns 503 and the browser opens the visitor's mail client
+with the submission prefilled, so a lead is never silently lost.
+
+The route enforces POST only, an 8 KB body cap, zod validation with strict enums, a honeypot,
+a minimum fill time, and a per-IP rate limit of 10 requests per 10 minutes.
+
+**Rate limiting is in-memory**, so it is per serverless instance and resets on cold start. That is
+adequate for marketing-form volume. For a durable, cross-region limit, add
+`@upstash/ratelimit` and `@vercel/kv` (or Upstash Redis), set `KV_REST_API_URL` and
+`KV_REST_API_TOKEN`, and replace the `rateLimited()` function in the route.

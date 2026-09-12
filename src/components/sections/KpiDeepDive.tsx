@@ -34,14 +34,14 @@ const COPY: Record<string, { meaning: string; action: string; rec: string }> = {
       "Clean claim rate is the share of claims accepted and paid on first submission without rejection, edit, or rework. It is the leading indicator for predictable cash flow.",
     action:
       "Mindlox AI scrubs against payer edits, NCCI rules, and specialty requirements before release, then feeds rejection patterns back into registration and coding.",
-    rec: "Modifier 25 conflicts flagged on 14 claims before submission.",
+    rec: "Modifier 25 conflicts flagged on 11 claims before submission.",
   },
   denial: {
     meaning:
       "Denial rate is the share of submitted claims a payer refuses to pay as billed. Most denials are preventable, and a large share are never reworked at all.",
     action:
       "Mindlox AI scores denial risk before submission, categorizes every denial by CARC root cause, and works appeals in order of recoverable value and deadline.",
-    rec: "12 CO-197 denials share one authorization gap — fix at scheduling.",
+    rec: "8 CO-197 denials trace back to a single scheduling gap — fixed at the source.",
   },
   submitted: {
     meaning:
@@ -53,14 +53,14 @@ const COPY: Record<string, { meaning: string; action: string; rec: string }> = {
     meaning:
       "Dollar value of remittances posted and reconciled to claims. Posting speed and accuracy decide whether underpayments and secondary balances surface in time to act.",
     action: "Mindlox AI posts 835s daily and validates every line against contracted rates, so variances appear the same day they arrive.",
-    rec: "$1,860 in contract variances identified this week.",
+    rec: "$5,940 in contract variances identified this week.",
   },
   recovered: {
     meaning:
       "Revenue brought back from denials, underpayments, and aged A/R that would otherwise have been written off.",
     action:
       "Mindlox AI runs recovery as a prioritized program — highest value, highest likelihood, shortest timely-filing window first — with specialists on the appeals.",
-    rec: "Appeal batch of 12 claims worth $9,640 ready for review.",
+    rec: "Appeal batch of 17 claims worth $23,410 ready for review.",
   },
   outstanding: {
     meaning:

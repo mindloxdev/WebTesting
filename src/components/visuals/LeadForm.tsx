@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, Check, Lock, Mail } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { NEEDS, ORG_TYPES, PROVIDER_COUNTS } from "@/data/content";
 import { CONTACT } from "@/data/site";
 import { EASE } from "@/lib/motion";
@@ -54,6 +54,7 @@ export function LeadForm({ className, initialNeed, title = "Get your free revenu
   const [dir, setDir] = useState(1);
   const [a, setA] = useState<Answers>({ need: initialNeed });
   const [website, setWebsite] = useState(""); // honeypot
+  const openedAt = useRef(Date.now()); // used for the server-side minimum fill-time check
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<Delivery | null>(null);
@@ -76,19 +77,29 @@ export function LeadForm({ className, initialNeed, title = "Get your free revenu
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...a, website, page: typeof window !== "undefined" ? window.location.href : "" }),
+        body: JSON.stringify({
+          ...a,
+          website,
+          elapsedMs: Date.now() - openedAt.current,
+          page: typeof window !== "undefined" ? window.location.href : "",
+        }),
       });
       if (res.ok) {
         setDone("sent");
         return;
       }
-      const data = (await res.json().catch(() => ({}))) as { configured?: boolean; error?: string };
+      const data = (await res.json().catch(() => ({}))) as {
+        configured?: boolean;
+        error?: string;
+        fields?: Record<string, string>;
+      };
       if (res.status === 503 && data.configured === false) {
         window.location.href = mailtoFor(a);
         setDone("mail-app");
         return;
       }
-      setError(data.error ?? "Something went wrong. Please try again or email us directly.");
+      const firstField = data.fields ? Object.values(data.fields)[0] : undefined;
+      setError(firstField ?? data.error ?? "Something went wrong. Please try again or email us directly.");
     } catch {
       setError("We could not reach the server. Please try again or email us directly.");
     } finally {

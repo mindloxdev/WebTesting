@@ -12,12 +12,12 @@ const STEPS = ["Submitted", "Adjudicated", "Paid", "Posted"] as const;
 const DAYS = ["Day 1", "Day 12", "Day 16", "Day 16"];
 
 const ROWS = [
-  { id: "MLX-10471", service: "99214 · Office visit", payer: "Commercial A", amount: 246 },
-  { id: "MLX-10472", service: "93306 · Echocardiogram", payer: "Medicare", amount: 1248 },
-  { id: "MLX-10473", service: "97110 · Therapeutic exercise", payer: "Commercial B", amount: 118 },
-  { id: "MLX-10474", service: "90837 · Psychotherapy, 60 min", payer: "Commercial C", amount: 164 },
-  { id: "MLX-10475", service: "45380 · Colonoscopy w/ biopsy", payer: "Medicaid", amount: 612 },
-  { id: "MLX-10476", service: "17000 · Destruction, lesion", payer: "Commercial A", amount: 132 },
+  { id: "MLX-10471", service: "99213 · Office visit, established", payer: "Commercial A", amount: 92.4 },
+  { id: "MLX-10472", service: "93306 · Echocardiogram, complete", payer: "Medicare", amount: 231.8 },
+  { id: "MLX-10473", service: "45378 · Colonoscopy, diagnostic", payer: "Commercial B", amount: 418.6 },
+  { id: "MLX-10474", service: "90834 · Psychotherapy, 45 min", payer: "Commercial C", amount: 118.25 },
+  { id: "MLX-10475", service: "29881 · Knee arthroscopy", payer: "Medicaid", amount: 604.1 },
+  { id: "MLX-10476", service: "71046 · Chest X-ray, 2 views", payer: "Commercial A", amount: 34.7 },
 ];
 
 const INITIAL = [3, 2, 1, 1, 0, 0];

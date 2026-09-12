@@ -15,6 +15,12 @@ type Props = {
   from?: number;
   /** Wait until scrolled into view. */
   startOnView?: boolean;
+  /**
+   * Render the real value on the server and on first paint, then animate only
+   * when `value` later changes. Use for figures that must be correct before any
+   * interaction — calculator outputs, for example — so they never read $0.
+   */
+  immediate?: boolean;
   className?: string;
 };
 
@@ -30,16 +36,24 @@ export function AnimatedNumber({
   delay = 0,
   from = 0,
   startOnView = true,
+  immediate = false,
   className,
 }: Props) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px -10% 0px" });
   const reduce = useReducedMotion();
-  const [display, setDisplay] = useState(from);
-  const prev = useRef(from);
+  const [display, setDisplay] = useState(immediate ? value : from);
+  const prev = useRef(immediate ? value : from);
   const started = useRef(false);
 
   useEffect(() => {
+    // Immediate mode: the correct figure is already painted, so the first pass
+    // only records it. Later changes animate from there.
+    if (immediate && !started.current) {
+      started.current = true;
+      prev.current = value;
+      return;
+    }
     if (startOnView && !inView) return;
     if (reduce) {
       prev.current = value;
@@ -56,7 +70,7 @@ export function AnimatedNumber({
     });
     prev.current = value;
     return () => controls.stop();
-  }, [value, inView, startOnView, reduce, duration, delay]);
+  }, [value, inView, startOnView, reduce, duration, delay, immediate]);
 
   return (
     <span ref={ref} className={cn("tabular", className)}>
