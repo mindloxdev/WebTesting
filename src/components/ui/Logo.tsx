@@ -1,6 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { BRAND } from "@/data/site";
+import logoMark from "../../../public/logo.png";
 
 type Props = {
   className?: string;
@@ -9,37 +11,34 @@ type Props = {
   href?: string;
 };
 
-/** Mark: a rounded tile with an "M" drawn as a revenue pulse. */
+/** Natural aspect ratio of the mark (368 × 420), used to derive width from height. */
+const ASPECT = logoMark.width / logoMark.height;
+
+/**
+ * The Mindlox AI mark: a circuit hexagon around a lightbulb.
+ * `size` is the rendered height in pixels; width follows the artwork's ratio.
+ */
 export function LogoMark({ size = 28, className }: { size?: number; className?: string }) {
+  // Request 3x the display size so the mark stays sharp on high-density screens,
+  // then let CSS scale it down to `size`. next/image picks the source width from
+  // the `width` prop, so asking for the display size alone renders it soft.
+  const intrinsic = size * 3;
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 28 28"
-      fill="none"
+    <Image
+      src={logoMark}
+      alt=""
       aria-hidden
-      className={cn("shrink-0", className)}
-    >
-      <defs>
-        <linearGradient id="mlx-g" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="var(--accent)" />
-          <stop offset="1" stopColor="var(--accent-2)" />
-        </linearGradient>
-      </defs>
-      <rect width="28" height="28" rx="8" fill="url(#mlx-g)" />
-      <path
-        d="M6.5 19.5 L10.2 9 L14 16.2 L17.8 9 L21.5 19.5"
-        stroke="#fff"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="14" cy="21" r="1.4" fill="#fff" />
-    </svg>
+      height={intrinsic}
+      width={Math.round(intrinsic * ASPECT)}
+      priority
+      quality={95}
+      className={cn("shrink-0 select-none", className)}
+      style={{ height: size, width: "auto" }}
+    />
   );
 }
 
-export function Logo({ className, size = 28, wordmark = true, href = "/" }: Props) {
+export function Logo({ className, size = 30, wordmark = true, href = "/" }: Props) {
   return (
     <Link
       href={href}
