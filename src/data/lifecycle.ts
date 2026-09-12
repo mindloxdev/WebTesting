@@ -4,7 +4,7 @@ export type LifecycleStage = {
   short: string;
   /** What Mindlox AI does here. */
   action: string;
-  /** Where AI assists (responsible language). */
+  /** How AI supports this stage (responsible language). */
   ai: string;
   phase: "front" | "mid" | "back";
 };

@@ -1,4 +1,6 @@
 /** Schema.org JSON-LD. Only emit facts the site actually asserts — no fabricated ratings, addresses, or reviews. */
+import { CONTACT } from "@/data/site";
+
 export function JsonLd({ data }: { data: Record<string, unknown> | Record<string, unknown>[] }) {
   return (
     <script
@@ -17,6 +19,16 @@ export const ORGANIZATION_LD = {
   description:
     "Medical billing and healthcare revenue-cycle management for U.S. healthcare providers — experienced billing specialists, intelligent automation, and AI-assisted revenue-cycle intelligence.",
   areaServed: "US",
+  telephone: CONTACT.phone,
+  email: CONTACT.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: CONTACT.street,
+    addressLocality: CONTACT.locality,
+    addressRegion: CONTACT.region,
+    postalCode: CONTACT.postalCode,
+    addressCountry: "US",
+  },
 };
 
 export const serviceLd = (name: string, description: string, url: string) => ({

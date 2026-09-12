@@ -49,7 +49,7 @@ export function SpecialtiesSection({ className, tone = "default", id = "specialt
         eyebrow="Specialties"
         title="Billing built around your specialty — not a generic queue."
         highlight="your specialty"
-        description="Twenty-five specialties, each with its own coding reality, denial patterns, and payer rules. Pick yours and see the playbook."
+        description="30+ specialties, each with its own coding reality, denial patterns, and payer rules. Pick yours and see the playbook."
       />
       <Reveal className="mt-12" delay={0.1}>
         {variant === "morph" ? (
@@ -61,7 +61,7 @@ export function SpecialtiesSection({ className, tone = "default", id = "specialt
         )}
       </Reveal>
       <Reveal className="mt-10 flex justify-center">
-        <MagneticButton href="/specialties" arrow variant="outline" hoverLabel="See All 25 Specialties">
+        <MagneticButton href="/specialties" arrow variant="outline" hoverLabel="See All 30+ Specialties">
           {CTA.specialty}
         </MagneticButton>
       </Reveal>

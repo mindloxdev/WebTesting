@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------ */
-/*  DEMO DATA — every UI that renders this must show a "Demo Data"     */
+/*  SAMPLE DATA — every UI that renders this must show a sample-data   */
 /*  label. Values are illustrative and are not Mindlox AI results.     */
 /* ------------------------------------------------------------------ */
 

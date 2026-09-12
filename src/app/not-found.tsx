@@ -21,14 +21,14 @@ export default function NotFound() {
           </Reveal>
           <TextReveal as="h1" text="This page was denied — but your revenue doesn't have to be." highlight="doesn't have to be." immediate delay={0.1} className="text-display-xl font-bold text-fg" />
           <Reveal delay={0.5} className="mt-6">
-            <p className="max-w-xl text-lg text-fg-2">The page you requested doesn't exist or has moved. The revenue audit, the concept demos, and the home page are all one click away.</p>
+            <p className="max-w-xl text-lg text-fg-2">The page you requested doesn't exist or has moved. The revenue audit, our services, and the home page are all one click away.</p>
           </Reveal>
           <Reveal delay={0.7} className="mt-9 flex flex-wrap gap-3">
             <MagneticButton href="/" size="lg" arrow hoverLabel="Back to Mindlox AI">
               Go to the home page
             </MagneticButton>
-            <MagneticButton href="/demos" size="lg" variant="outline">
-              Browse the 10 concepts
+            <MagneticButton href="/services" size="lg" variant="outline">
+              Explore our services
             </MagneticButton>
             <MagneticButton href="/contact" size="lg" variant="ghost">
               Get a free revenue audit

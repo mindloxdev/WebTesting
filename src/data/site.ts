@@ -1,3 +1,6 @@
+/** Specialty count used in marketing copy site-wide. */
+export const SPECIALTY_COUNT = "30+";
+
 export const BRAND = {
   name: "Mindlox AI",
   wordmark: "MINDLOX",
@@ -40,6 +43,7 @@ export const NAV: NavItem[] = [
             { label: "Medical Coding", href: "/medical-coding", description: "CPT, ICD-10, HCPCS accuracy by specialty." },
             { label: "Denial Management", href: "/denial-management", description: "Prevent, prioritize, appeal, learn." },
             { label: "A/R Recovery", href: "/ar-recovery", description: "Aging balances worked by strategy, not queue." },
+            { label: "Out-of-Network Negotiations", href: "/out-of-network-negotiations", description: "Turn out-of-network into revenue." },
           ],
         },
         {
@@ -79,7 +83,7 @@ export const NAV: NavItem[] = [
             { label: "Radiology", href: "/specialties/radiology" },
             { label: "Oncology", href: "/specialties/oncology" },
             { label: "Physical Therapy", href: "/specialties/physical-therapy" },
-            { label: "View all 25 specialties →", href: "/specialties" },
+            { label: "View all 30+ specialties →", href: "/specialties" },
           ],
         },
       ],
@@ -88,7 +92,30 @@ export const NAV: NavItem[] = [
   { label: "Solutions", href: "/solutions" },
   { label: "Why Mindlox AI", href: "/why-mindlox-ai" },
   { label: "Technology", href: "/technology" },
-  { label: "Resources", href: "/resources" },
+  {
+    label: "Resources",
+    href: "/resources",
+    mega: {
+      columns: [
+        {
+          title: "Learn",
+          links: [
+            { label: "Blog", href: "/blog", description: "Practical articles on clean claims, denials, A/R, and the front end." },
+            { label: "Revenue Leakage Calculator", href: "/revenue-leakage-calculator", description: "Estimate what denials and aging A/R cost you." },
+            { label: "FAQ", href: "/resources#faq", description: "Straight answers on onboarding, pricing, and security." },
+          ],
+        },
+        {
+          title: "Company",
+          links: [
+            { label: "About", href: "/about", description: "Who we are and what we believe." },
+            { label: "Careers", href: "/careers", description: "Roles we hire for and how to apply." },
+            { label: "Policies", href: "/policies", description: "Privacy, terms, HIPAA and security, accessibility." },
+          ],
+        },
+      ],
+    },
+  },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -102,6 +129,7 @@ export const FOOTER_COLUMNS: { title: string; links: NavLink[] }[] = [
       { label: "Medical Coding", href: "/medical-coding" },
       { label: "Denial Management", href: "/denial-management" },
       { label: "A/R Recovery", href: "/ar-recovery" },
+      { label: "Out-of-Network Negotiations", href: "/out-of-network-negotiations" },
       { label: "Credentialing", href: "/credentialing" },
       { label: "All services", href: "/services" },
     ],
@@ -132,10 +160,12 @@ export const FOOTER_COLUMNS: { title: string; links: NavLink[] }[] = [
       { label: "Why Mindlox AI", href: "/why-mindlox-ai" },
       { label: "Technology", href: "/technology" },
       { label: "Resources", href: "/resources" },
+      { label: "Blog", href: "/blog" },
       { label: "Revenue Leakage Calculator", href: "/revenue-leakage-calculator" },
       { label: "About", href: "/about" },
+      { label: "Careers", href: "/careers" },
       { label: "Contact", href: "/contact" },
-      { label: "Concept demos", href: "/demos" },
+      { label: "Policies", href: "/policies" },
     ],
   },
 ];
@@ -148,10 +178,17 @@ export const TRUST_PILLARS = [
   { label: "End-to-End RCM", detail: "Patient registration to reporting — one accountable partner." },
 ] as const;
 
-/** Placeholder metrics — replace with verified Mindlox AI data. Never fabricate. */
-export const PLACEHOLDER_METRICS = [
-  { value: "[X]+", label: "Providers Supported" },
-  { value: "[X]%", label: "Clean Claim Rate" },
-  { value: "$[X]M", label: "Revenue Recovered" },
-  { value: "[X]+", label: "Specialties Served" },
-] as const;
+
+/** Company contact details — footer, contact page, legal pages, and structured data all read from here. */
+export const CONTACT = {
+  phone: "817-256-4378",
+  phoneHref: "tel:+18172564378",
+  email: "info@mindlox.ai",
+  emailHref: "mailto:info@mindlox.ai",
+  street: "0345 Lakemont Dr",
+  locality: "Fort Worth",
+  region: "TX",
+  postalCode: "76131-2447",
+  /** One-line address for inline copy. */
+  address: "0345 Lakemont Dr, Fort Worth, TX 76131-2447",
+} as const;

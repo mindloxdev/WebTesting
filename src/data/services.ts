@@ -7,7 +7,7 @@ export type Service = {
   description: string;
   outcomes: string[];
   category: ServiceCategory;
-  /** True for the ten SEO-chase pages that live at the site root. */
+  /** True for the SEO-chase pages that live at the site root (one per core service). */
   root?: boolean;
 };
 
@@ -117,6 +117,16 @@ export const SERVICES: Service[] = [
     description:
       "Patient statements, payment plans, and follow-up communications designed to be understood — improving collections without damaging the patient relationship.",
     outcomes: ["Plain-language statements", "Payment plan support", "Patient inquiry handling"],
+    category: "back-end",
+    root: true,
+  },
+  {
+    slug: "out-of-network-negotiations",
+    name: "Out-of-Network Negotiations",
+    short: "Turn out-of-network into revenue.",
+    description:
+      "Out-of-network claims negotiated case by case — single-case agreements before care, payer negotiations after adjudication, and No Surprises Act open negotiation and dispute resolution where they apply — so out-of-network care is paid at a defensible rate instead of written off.",
+    outcomes: ["Single-case agreement requests", "Post-adjudication rate negotiation", "No Surprises Act negotiation & IDR support"],
     category: "back-end",
     root: true,
   },

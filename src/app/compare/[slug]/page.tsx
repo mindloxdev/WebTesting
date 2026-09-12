@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { COMPARE_PAGES, getComparePage } from "@/data/compare";
-import { ComparePageView } from "@/concepts/company/ComparePage";
+import { ComparePageView } from "@/templates/company/ComparePage";
 
 export const dynamicParams = false;
 

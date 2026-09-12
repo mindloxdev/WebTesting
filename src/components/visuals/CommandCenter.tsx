@@ -68,7 +68,7 @@ export function CommandCenter({ variant = "full", className, tilt, assistant = t
           </div>
           <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-fg-3">Mindlox AI · Command Center</span>
         </div>
-        <DemoBadge label="Example Dashboard" />
+        <DemoBadge label="Example dashboard" />
       </div>
 
       {variant === "full" && (
@@ -290,7 +290,7 @@ export function Assistant({ start, className }: { start: boolean; className?: st
           Review the 37 claims <ChevronRight className="size-4" />
         </motion.button>
       )}
-      <p className="mt-auto pt-4 font-mono text-[10px] text-fg-3">Demo data · illustrative recommendations</p>
+      <p className="mt-auto pt-4 font-mono text-[10px] text-fg-3">Sample data · illustrative recommendations</p>
     </aside>
   );
 }

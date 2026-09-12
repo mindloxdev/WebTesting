@@ -14,15 +14,13 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 type Props = {
   ctaLabel?: string;
   ctaHref?: string;
-  /** Show the "Concepts" shortcut (used inside demos). */
-  showConcepts?: boolean;
 };
 
 /**
  * Sticky, glass-on-scroll navigation. Shrinks slightly after 24 px,
  * keeps the primary CTA visible at every scroll position.
  */
-export function Navbar({ ctaLabel = CTA.primary, ctaHref = CTA.auditHref, showConcepts = true }: Props) {
+export function Navbar({ ctaLabel = CTA.primary, ctaHref = CTA.auditHref }: Props) {
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState<string | null>(null);
@@ -84,14 +82,6 @@ export function Navbar({ ctaLabel = CTA.primary, ctaHref = CTA.auditHref, showCo
 
           <div className="hidden items-center gap-2 lg:flex">
             <ThemeToggle className="h-9 px-2.5" />
-            {showConcepts && (
-              <Link
-                href="/demos"
-                className="hidden rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-fg-3 transition-colors hover:text-fg xl:inline-block"
-              >
-                Concepts
-              </Link>
-            )}
             <MagneticButton href={ctaHref} size="sm" hoverLabel={CTA.primaryHover} magnetic={false}>
               <span className="xl:hidden">{CTA.primaryShort}</span>
               <span className="hidden xl:inline">{ctaLabel}</span>
@@ -186,15 +176,6 @@ export function Navbar({ ctaLabel = CTA.primary, ctaHref = CTA.auditHref, showCo
               ))}
               <motion.div variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }} className="mt-4 flex flex-wrap gap-2">
                 <ThemeToggle showLabel className="h-12 px-4" />
-                {showConcepts && (
-                  <Link
-                    href="/demos"
-                    onClick={() => setMobile(false)}
-                    className="inline-flex h-12 items-center rounded-full border border-line px-4 font-mono text-xs uppercase tracking-[0.14em] text-fg-2"
-                  >
-                    View all 10 concepts →
-                  </Link>
-                )}
               </motion.div>
             </motion.nav>
             <div className="container-x fixed inset-x-0 bottom-0 border-t border-line glass-strong py-4">

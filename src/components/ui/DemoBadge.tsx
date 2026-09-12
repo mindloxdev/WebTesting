@@ -1,13 +1,13 @@
 import { cn } from "@/lib/utils";
 
 type Props = {
-  label?: "Demo Data" | "Illustrative Data" | "Example Dashboard" | "Illustrative Estimate" | "Demo Testimonial" | "Placeholder" | (string & {});
+  label?: "Sample data" | "Illustrative" | "Example dashboard" | "Illustrative estimate" | (string & {});
   className?: string;
   tone?: "neutral" | "accent";
 };
 
 /** Every piece of sample data wears one of these. Integrity is a feature. */
-export function DemoBadge({ label = "Demo Data", className, tone = "neutral" }: Props) {
+export function DemoBadge({ label = "Sample data", className, tone = "neutral" }: Props) {
   return (
     <span
       className={cn(

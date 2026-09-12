@@ -1,9 +1,10 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, Check, Lock } from "lucide-react";
+import { ArrowLeft, Check, Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import { NEEDS, ORG_TYPES, PROVIDER_COUNTS } from "@/data/content";
+import { CONTACT } from "@/data/site";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { MagneticButton } from "@/components/ui/MagneticButton";
@@ -19,15 +20,43 @@ const STEPS = [
 
 type Props = { className?: string; initialNeed?: string; title?: string };
 
+/** How the submission was delivered: through the site's email endpoint, or via the visitor's own email app. */
+type Delivery = "sent" | "mail-app";
+
+/** Builds a prefilled email so a request is never lost when the server endpoint is unavailable. */
+function mailtoFor(a: Answers) {
+  const subject = encodeURIComponent(`Revenue audit request — ${a.organization ?? ""}`.trim());
+  const body = encodeURIComponent(
+    [
+      `Name: ${a.name ?? ""}`,
+      `Work email: ${a.email ?? ""}`,
+      `Organization: ${a.organization ?? ""}`,
+      `Phone: ${a.phone ?? ""}`,
+      "",
+      `Organization type: ${a.org ?? ""}`,
+      `Providers: ${a.providers ?? ""}`,
+      `Needs help with: ${a.need ?? ""}`,
+      "",
+      "Please contact me to schedule a free revenue audit.",
+    ].join("\n"),
+  );
+  return `mailto:${CONTACT.email}?subject=${subject}&body=${body}`;
+}
+
 /**
  * Four-step conversational lead form. One question per screen, animated
  * progress, large tap targets, privacy reassurance, no PHI requested.
+ * Submissions post to /api/lead; if that endpoint is not configured the
+ * visitor's email app opens with the same details prefilled.
  */
 export function LeadForm({ className, initialNeed, title = "Get your free revenue audit" }: Props) {
   const [step, setStep] = useState(0);
   const [dir, setDir] = useState(1);
   const [a, setA] = useState<Answers>({ need: initialNeed });
-  const [done, setDone] = useState(false);
+  const [website, setWebsite] = useState(""); // honeypot
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [done, setDone] = useState<Delivery | null>(null);
 
   const go = (n: number) => {
     setDir(n > step ? 1 : -1);
@@ -38,9 +67,33 @@ export function LeadForm({ className, initialNeed, title = "Get your free revenu
     window.setTimeout(() => go(step + 1), 180);
   };
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setDone(true);
+    if (sending) return;
+    setSending(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...a, website, page: typeof window !== "undefined" ? window.location.href : "" }),
+      });
+      if (res.ok) {
+        setDone("sent");
+        return;
+      }
+      const data = (await res.json().catch(() => ({}))) as { configured?: boolean; error?: string };
+      if (res.status === 503 && data.configured === false) {
+        window.location.href = mailtoFor(a);
+        setDone("mail-app");
+        return;
+      }
+      setError(data.error ?? "Something went wrong. Please try again or email us directly.");
+    } catch {
+      setError("We could not reach the server. Please try again or email us directly.");
+    } finally {
+      setSending(false);
+    }
   };
 
   const progress = done ? 1 : step / (STEPS.length - 1);
@@ -70,9 +123,20 @@ export function LeadForm({ className, initialNeed, title = "Get your free revenu
               <p className="mt-2 text-fg-2">
                 An RCM specialist will reach out to schedule your revenue audit for a {a.org?.toLowerCase() ?? "practice"} with {a.providers ?? "your"} provider{a.providers === "1" ? "" : "s"}, focused on {a.need?.toLowerCase() ?? "the full revenue cycle"}.
               </p>
-              <p className="mt-6 rounded-xl bg-bg-2 p-3 font-mono text-[11px] text-fg-3">
-                Demo form — nothing was sent. In production this posts to your CRM and triggers the audit workflow.
-              </p>
+              {done === "mail-app" ? (
+                <p className="mt-6 rounded-xl bg-bg-2 p-4 text-sm text-fg-2">
+                  We opened your email app with your details filled in — just press send. If it did not open, email us at{" "}
+                  <a href={mailtoFor(a)} className="font-medium text-fg underline decoration-line underline-offset-4 hover:text-accent">
+                    {CONTACT.email}
+                  </a>
+                  .
+                </p>
+              ) : (
+                <p className="mt-6 flex items-center gap-2 rounded-xl bg-bg-2 p-4 text-sm text-fg-2">
+                  <Mail className="size-4 shrink-0 text-accent" aria-hidden />
+                  We sent a confirmation to our team. Expect a reply within one business day.
+                </p>
+              )}
             </motion.div>
           ) : (
             <motion.div
@@ -115,10 +179,24 @@ export function LeadForm({ className, initialNeed, title = "Get your free revenu
                   <Field label="Work email" id="lf-email" type="email" required value={a.email ?? ""} onChange={(v) => setA((s) => ({ ...s, email: v }))} autoComplete="email" />
                   <Field label="Organization" id="lf-org" required value={a.organization ?? ""} onChange={(v) => setA((s) => ({ ...s, organization: v }))} autoComplete="organization" />
                   <Field label="Phone (optional)" id="lf-phone" type="tel" value={a.phone ?? ""} onChange={(v) => setA((s) => ({ ...s, phone: v }))} autoComplete="tel" />
+                  {/* Honeypot: hidden from people, filled by bots. */}
+                  <div className="absolute -left-[9999px] top-0 h-px w-px overflow-hidden" aria-hidden>
+                    <label htmlFor="lf-website">Website</label>
+                    <input id="lf-website" type="text" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
+                  </div>
                   <div className="sm:col-span-2">
-                    <MagneticButton type="submit" size="lg" fullWidth arrow magnetic={false}>
-                      Get My Free Revenue Audit
+                    <MagneticButton type="submit" size="lg" fullWidth arrow magnetic={false} disabled={sending}>
+                      {sending ? "Sending…" : "Get My Free Revenue Audit"}
                     </MagneticButton>
+                    {error && (
+                      <p role="alert" className="mt-3 rounded-xl border border-negative/30 bg-negative/8 px-4 py-3 text-sm text-fg">
+                        {error}{" "}
+                        <a href={mailtoFor(a)} className="font-medium underline decoration-line underline-offset-4 hover:text-accent">
+                          Email us instead
+                        </a>
+                        .
+                      </p>
+                    )}
                     <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-fg-3">
                       <Lock className="size-3" /> No patient information is requested. Your details are used only to schedule your audit.
                     </p>

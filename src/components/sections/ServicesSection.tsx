@@ -50,7 +50,7 @@ export function ServicesSection({
   id = "services",
   initial = 8,
   title = "Every service a modern revenue cycle needs.",
-  description = "Twenty-four services, one accountable team. Engage end-to-end or start with the stage that hurts most.",
+  description = "Twenty-five services, one accountable team. Engage end-to-end or start with the stage that hurts most.",
   compact = false,
   moreHref = "/services",
 }: Props) {

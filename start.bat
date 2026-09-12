@@ -34,7 +34,7 @@ echo.
 
 start "Mindlox AI dev server" cmd /k "cd /d "%~dp0" && npm run dev -- --port %PORT%"
 
-rem Wait until the server answers, then open the browser on the concept selector.
+rem Wait until the server answers, then open the browser on the home page.
 set /a tries=0
 :wait
 set /a tries+=1
@@ -45,9 +45,9 @@ timeout /t 2 /nobreak >nul
 goto wait
 
 :ready
-start "" "http://localhost:%PORT%/demos"
+start "" "http://localhost:%PORT%/"
 echo  Browser opened. The first page load compiles the site and can take 10-20 seconds.
-echo  Home page ^(recommended concept^): http://localhost:%PORT%/
-echo  Concept selector:                 http://localhost:%PORT%/demos
+echo  Home page: http://localhost:%PORT%/
+echo  Services:  http://localhost:%PORT%/services
 echo.
 pause

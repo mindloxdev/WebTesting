@@ -6,32 +6,31 @@
 /*  • Hide a section with `enabled: false` (nothing is deleted — every  */
 /*    section still lives on its tab page: /services, /specialties,     */
 /*    /technology, /why-mindlox-ai, /resources).                        */
+/*  • `layout.compact` keeps the page short: tighter section spacing.   */
 /*  • Add a section: add its id to `HomeSectionId` and register a       */
 /*    component in src/components/home/HomePage.tsx.                    */
 /*                                                                      */
 /*  Shared copy (nav, CTAs, services, specialties, FAQ, comparison,     */
-/*  demo numbers) lives in src/data/*. See CONTENT-GUIDE.md.            */
+/*  sample numbers, contact details) lives in src/data/*.               */
+/*  See CONTENT-GUIDE.md.                                               */
 /* ------------------------------------------------------------------ */
 
 import { CTA } from "@/data/site";
 
 export type HomeSectionId =
-  | "trust" // trust strip: five pillars + placeholder metrics
+  | "trust" // trust strip: the five trust pillars
   | "problem" // "They have a revenue problem" cards
   | "lifecycle" // the 14-stage revenue cycle
   | "services" // compact services preview → /services
-  | "proof" // Humans + Technology + Intelligence band
-  | "ai" // "Meet the intelligence" → /technology
-  | "dashboard" // compact command center → /technology
+  | "proof" // Humans + Technology + Intelligence band (off by default)
+  | "ai" // "Meet the intelligence" → /technology (off by default)
+  | "dashboard" // compact command center → /technology (off by default)
   | "specialties" // featured specialties → /specialties
-  | "comparison" // short comparison table → /why-mindlox-ai
+  | "comparison" // short comparison table → /why-mindlox-ai (off by default)
   | "process" // 5-step onboarding (off by default; lives on /services and /about)
   | "calculator" // leakage calculator (off by default; lives on /revenue-leakage-calculator)
   | "integrations" // EHR ecosystem (off by default; lives on /technology)
-  | "case-studies" // (off by default; lives on /why-mindlox-ai and /resources)
-  | "testimonials" // (off by default; lives on /why-mindlox-ai)
-  | "resources" // (off by default; lives on /resources)
-  | "faq" // short FAQ → /resources#faq
+  | "faq" // short FAQ → /resources#faq (off by default)
   | "cta"; // closing CTA with the lead form
 
 export type HomeSection = {
@@ -45,6 +44,8 @@ export type HomeSection = {
   moreHref?: string;
   /** Override the section's primary CTA target. */
   ctaHref?: string;
+  /** AI section only: show the live detection feed under the visual. */
+  feed?: boolean;
 };
 
 export const HOME = {
@@ -54,6 +55,9 @@ export const HOME = {
     description:
       "Mindlox AI combines medical billing expertise, intelligent automation, and revenue-cycle intelligence to help U.S. healthcare organizations get paid faster, reduce denials, and recover lost revenue.",
   },
+
+  /** Page density. `compact: true` shortens the hero, tightens section spacing, and steps the display type down one size. */
+  layout: { compact: true },
 
   hero: {
     eyebrow: "Medical billing + revenue cycle intelligence",
@@ -65,32 +69,27 @@ export const HOME = {
     primary: { label: "Get Your Free Revenue Audit", hoverLabel: "Start Your Revenue Review", href: CTA.auditHref },
     secondary: { label: "Explore Mindlox AI", hoverLabel: "See the Whole System", href: "#solution" },
     /** Small trust indicators under the buttons. */
-    trust: ["HIPAA-conscious workflows", "U.S. healthcare focus", "End-to-end RCM", "AI-assisted, human-reviewed"],
-    /** Show the "Recommended · Concept 10" pill (only on the concept demo, not the live home). */
-    badge: false,
+    trust: ["HIPAA-conscious workflows", "U.S. healthcare focus", "End-to-end RCM"],
   },
 
-  /** Order and visibility of the sections under the hero. */
+  /** Order and visibility of the sections under the hero. Kept short on purpose — one scroll, one story. */
   sections: [
     { id: "trust", enabled: true },
     { id: "problem", enabled: true, ctaHref: "/revenue-leakage-calculator" },
     { id: "lifecycle", enabled: true, tone: "muted" },
     { id: "services", enabled: true, limit: 6, moreHref: "/services" },
-    { id: "proof", enabled: true },
-    { id: "ai", enabled: true, tone: "muted", moreHref: "/technology" },
-    { id: "dashboard", enabled: true, moreHref: "/technology" },
-    { id: "specialties", enabled: true, tone: "muted", limit: 8, moreHref: "/specialties" },
-    { id: "comparison", enabled: true, limit: 5, moreHref: "/why-mindlox-ai" },
-    { id: "faq", enabled: true, tone: "muted", limit: 5, moreHref: "/resources#faq" },
+    { id: "specialties", enabled: true, tone: "muted", limit: 4, moreHref: "/specialties" },
     { id: "cta", enabled: true },
 
     // Available but off by default — flip `enabled` to bring one back to the home page.
+    { id: "ai", enabled: false, moreHref: "/technology", feed: false },
+    { id: "proof", enabled: false },
+    { id: "dashboard", enabled: false, moreHref: "/technology" },
+    { id: "comparison", enabled: false, limit: 5, moreHref: "/why-mindlox-ai" },
+    { id: "faq", enabled: false, tone: "muted", limit: 5, moreHref: "/resources#faq" },
     { id: "process", enabled: false },
     { id: "calculator", enabled: false, tone: "muted" },
     { id: "integrations", enabled: false, tone: "muted" },
-    { id: "case-studies", enabled: false },
-    { id: "testimonials", enabled: false, tone: "muted" },
-    { id: "resources", enabled: false },
   ] satisfies HomeSection[],
 
   /** Closing CTA. */

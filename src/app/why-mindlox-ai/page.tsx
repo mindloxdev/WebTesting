@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Eye, Sparkles, Stethoscope, Timer, MonitorSmartphone, Handshake, ShieldCheck } from "lucide-react";
+import { ArrowRight, Eye, Sparkles, Stethoscope, Timer, MonitorSmartphone, Handshake } from "lucide-react";
 import { Frame } from "@/components/layout/Frame";
-import { PageHero, ComparisonSection, TestimonialsSection, CaseStudiesSection, FAQSection, FinalCTA } from "@/components/sections";
+import { PageHero, ComparisonSection, FAQSection, FinalCTA, PromisesStrip, TrustArchitecture, HandoffExplained } from "@/components/sections";
+import { ProofOfSystem } from "@/components/home/ProofOfSystem";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
@@ -17,21 +18,12 @@ export const metadata: Metadata = {
 };
 
 const GAPS = [
-  { icon: Eye, title: "Transparency", proof: "Claim-level dashboards, not monthly PDFs.", detail: "See where every dollar is. The clickable claim journey and live dashboards are proof, not promises.", href: "/demos/transparency", link: "Follow a claim" },
+  { icon: Eye, title: "Transparency", proof: "Claim-level dashboards, not monthly PDFs.", detail: "See where every dollar is. The clickable claim journey and live dashboards are proof, not promises.", href: "/technology#status", link: "See a claim's status" },
   { icon: Sparkles, title: "AI + Human", proof: "Intelligence finds. Specialists decide.", detail: "Not software you learn, not an agency you chase — an intelligent operating system with expert humans behind it.", href: "/technology", link: "See the technology" },
-  { icon: Stethoscope, title: "Specialty depth", proof: "Twenty-five specialty playbooks.", detail: "Coders and denial specialists aligned to your specialty's code sets, denial patterns, and payer rules.", href: "/specialties", link: "Explore specialties" },
+  { icon: Stethoscope, title: "Specialty depth", proof: "30+ specialty playbooks.", detail: "Coders and denial specialists aligned to your specialty's code sets, denial patterns, and payer rules.", href: "/specialties", link: "Explore specialties" },
   { icon: Timer, title: "Speed to value", proof: "Insight before the sales call.", detail: "A free revenue audit and a leakage calculator give you real findings before anyone asks for a signature.", href: "/contact", link: "Get the audit" },
-  { icon: MonitorSmartphone, title: "Modern experience", proof: "The website is evidence.", detail: "How a company builds its front door says how it thinks about technology. Ours is built like modern software because that's what we run.", href: "/demos", link: "See the concepts" },
+  { icon: MonitorSmartphone, title: "Modern experience", proof: "The website is evidence.", detail: "How a company builds its front door says how it thinks about technology. Ours is built like modern software because that's what we run.", href: "/revenue-leakage-calculator", link: "Try the calculator" },
   { icon: Handshake, title: "Partnership over vendor", proof: "We become an extension of your practice.", detail: "A named account team, weekly reviews, and clear escalation — not a ticket number.", href: "/switch", link: "How partnership starts" },
-];
-
-const TRUST = [
-  { title: "HIPAA-conscious workflows", detail: "Minimum-necessary access, secure handling of PHI, and documented procedures for every stage of the cycle." },
-  { title: "BAA where applicable", detail: "Mindlox AI enters into Business Associate Agreements with covered entities. [Confirm legal language before publishing.]" },
-  { title: "Role-based access controls", detail: "Every team member sees only the accounts and data their role requires." },
-  { title: "Audit trails", detail: "Every claim action is logged and visible — to us and to you." },
-  { title: "Data protection", detail: "Encryption in transit and at rest, secure data exchange with clearinghouses and payers. [Confirm specifics before publishing.]" },
-  { title: "Team expertise", detail: "Certified coders and experienced billing specialists. [List certifications only once verified.]" },
 ];
 
 export default function WhyPage() {
@@ -49,7 +41,9 @@ export default function WhyPage() {
         secondary={{ label: CTA.secondary }}
       />
 
-      <Section id="gaps" tone="muted">
+      <PromisesStrip />
+
+      <Section id="gaps">
         <SectionHeading eyebrow="The six gaps we own" title="Six things practices were missing. Six things we built the company around." highlight="built the company around." />
         <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3" staggerChildren={0.06}>
           {GAPS.map((g) => {
@@ -74,30 +68,15 @@ export default function WhyPage() {
         </RevealGroup>
       </Section>
 
+      <HandoffExplained />
+
       <ComparisonSection whySwitch id="compare" />
 
-      <Section id="trust" tone="muted">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.5fr] lg:items-start">
-          <SectionHeading eyebrow="Trust, designed as a system" size="md" title="Healthcare buyers buy trust first. So it isn't a footer link." description="Security, privacy, and accountability are designed into the workflow — and stated only where we can stand behind them." />
-          <RevealGroup className="grid gap-3 sm:grid-cols-2" staggerChildren={0.05}>
-            {TRUST.map((t) => (
-              <RevealItem key={t.title}>
-                <div className="flex h-full gap-3 rounded-2xl border border-line bg-bg p-5">
-                  <ShieldCheck className="mt-0.5 size-4.5 shrink-0 text-accent" />
-                  <div>
-                    <p className="font-medium text-fg">{t.title}</p>
-                    <p className="mt-1 text-sm leading-relaxed text-fg-2">{t.detail}</p>
-                  </div>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-        </div>
-      </Section>
+      <ProofOfSystem />
 
-      <TestimonialsSection tone="default" />
-      <CaseStudiesSection tone="muted" />
-      <FAQSection limit={6} />
+      <TrustArchitecture />
+
+      <FAQSection limit={6} tone="muted" />
 
       <FinalCTA form />
     </Frame>

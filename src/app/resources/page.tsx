@@ -1,25 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, Calculator, FileText } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Calculator } from "lucide-react";
 import { Frame } from "@/components/layout/Frame";
-import { PageHero, FAQSection, CaseStudiesSection, FinalCTA } from "@/components/sections";
+import { PageHero, FAQSection, FinalCTA } from "@/components/sections";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
-import { DemoBadge } from "@/components/ui/DemoBadge";
-import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
-import { RESOURCES } from "@/data/content";
+import { formatDate, readingTime, sortedPosts } from "@/data/blog";
 
 export const metadata: Metadata = {
   title: "Resources",
-  description:
-    "Medical billing guides, RCM insights, denial management guides, coding updates, credentialing resources, healthcare revenue reports, case studies, and FAQ from Mindlox AI.",
+  description: "Free tools, practical articles, and straight answers on medical billing and revenue cycle management from Mindlox AI.",
   alternates: { canonical: "/resources" },
 };
 
-const anchor = (href: string) => href.split("#")[1] ?? "";
+const JUMP = [
+  { label: "Revenue Leakage Calculator", href: "#tools" },
+  { label: "From the blog", href: "#blog" },
+  { label: "FAQ", href: "#faq" },
+  { label: "Policies", href: "/policies" },
+];
 
 export default function ResourcesPage() {
+  const posts = sortedPosts().slice(0, 3);
+
   return (
     <Frame scheme="light" theme="theme-ultimate">
       <JsonLd data={breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Resources", url: "https://mindlox.ai/resources" }])} />
@@ -27,17 +32,17 @@ export default function ResourcesPage() {
       <PageHero
         crumbs={[{ label: "Resources" }]}
         eyebrow="Resources"
-        title="Guides, insights, and updates for revenue leaders."
+        title="Tools, articles, and straight answers for revenue leaders."
         highlight="revenue leaders."
-        description="Practical, specific, written by people who work claims every day. Eight collections — jump to the one you need."
+        description="Practical and specific, written by people who work claims every day. Start with a number, read the thinking behind it, and get answers before any sales call."
         aside={
-          <nav aria-label="Resource collections" className="rounded-[22px] border border-line bg-bg p-6 shadow-e3">
+          <nav aria-label="On this page" className="rounded-[22px] border border-line bg-bg p-6 shadow-e3">
             <p className="eyebrow mb-4">Jump to</p>
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-2">
-              {RESOURCES.map((r) => (
-                <li key={r.title}>
-                  <a href={`#${anchor(r.href)}`} className="text-sm text-fg-2 transition-colors hover:text-accent">
-                    {r.title}
+            <ul className="space-y-2">
+              {JUMP.map((j) => (
+                <li key={j.href}>
+                  <a href={j.href} className="inline-flex items-center gap-1.5 text-sm text-fg-2 transition-colors hover:text-accent">
+                    {j.label} <ArrowRight className="size-3.5" aria-hidden />
                   </a>
                 </li>
               ))}
@@ -48,9 +53,7 @@ export default function ResourcesPage() {
 
       {/* Tools — self-serve value before any sales call. */}
       <Section id="tools" tight>
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading eyebrow="Tools" size="md" title="Start with a number." description="Free, instant, and fully explained — no sales call required." />
-        </div>
+        <SectionHeading eyebrow="Tools" size="md" title="Start with a number." description="Free, instant, and fully explained — no sales call required." />
         <RevealGroup className="mt-10 grid gap-4 md:grid-cols-3" staggerChildren={0.06}>
           <RevealItem>
             <Card className="h-full" padding="md">
@@ -70,34 +73,38 @@ export default function ResourcesPage() {
         </RevealGroup>
       </Section>
 
-      {RESOURCES.map((r, i) => {
-        const id = anchor(r.href);
-        if (id === "faq") return <FAQSection key={id} id="faq" tone={i % 2 ? "muted" : "default"} />;
-        if (id === "case-studies") return <CaseStudiesSection key={id} id="case-studies" tone={i % 2 ? "muted" : "default"} />;
-        return (
-          <Section key={id} id={id} tone={i % 2 ? "muted" : "default"} tight>
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-              <SectionHeading eyebrow={r.category} size="md" title={r.title} description={r.blurb} />
-              <DemoBadge label="Placeholder" className="lg:mb-2" />
-            </div>
-            <RevealGroup className="mt-10 grid gap-4 md:grid-cols-3" staggerChildren={0.06}>
-              {[1, 2, 3].map((n) => (
-                <RevealItem key={n}>
-                  <Card className="h-full" padding="md">
-                    <div className="flex items-center justify-between">
-                      <span className="rounded-full bg-accent-soft px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-accent">{r.category}</span>
-                      <FileText className="size-4 text-fg-3" />
-                    </div>
-                    <h3 className="mt-5 font-display text-lg font-semibold text-fg">[Article title placeholder]</h3>
-                    <p className="mt-2 text-sm text-fg-2">[One-line summary placeholder — replace with the published article's summary.]</p>
-                    <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-fg-3">[X] min read</p>
-                  </Card>
-                </RevealItem>
-              ))}
-            </RevealGroup>
-          </Section>
-        );
-      })}
+      {/* Blog */}
+      <Section id="blog" tone="muted">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <SectionHeading eyebrow="From the blog" size="md" title="Notes from the revenue cycle." description="Clean claims, denial codes, timely filing, eligibility, and out-of-network claims — explained the way we explain them to clients." />
+          <Reveal className="lg:mb-2">
+            <Link href="/blog" className="inline-flex items-center gap-1.5 font-medium text-accent transition-colors hover:text-fg">
+              All articles <ArrowUpRight className="size-4" aria-hidden />
+            </Link>
+          </Reveal>
+        </div>
+        <RevealGroup className="mt-10 grid gap-4 md:grid-cols-3" staggerChildren={0.06}>
+          {posts.map((p) => (
+            <RevealItem key={p.slug}>
+              <Card className="h-full" padding="md">
+                <Link href={`/blog/${p.slug}`} className="block after:absolute after:inset-0" aria-label={p.title}>
+                  <div className="flex items-center justify-between">
+                    <span className="rounded-full bg-accent-soft px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-accent">{p.category}</span>
+                    <ArrowUpRight className="size-4 text-fg-3 transition-all duration-500 ease-out-expo group-hover/card:-translate-y-0.5 group-hover/card:translate-x-0.5 group-hover/card:text-accent" />
+                  </div>
+                  <h3 className="mt-5 font-display text-lg font-semibold leading-snug text-fg">{p.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-fg-2">{p.excerpt}</p>
+                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-fg-3">
+                    {formatDate(p.date)} · {readingTime(p)} min read
+                  </p>
+                </Link>
+              </Card>
+            </RevealItem>
+          ))}
+        </RevealGroup>
+      </Section>
+
+      <FAQSection id="faq" />
 
       <FinalCTA />
     </Frame>

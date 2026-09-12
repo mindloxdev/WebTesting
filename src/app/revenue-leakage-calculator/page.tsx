@@ -4,6 +4,8 @@ import { PageHero, FinalCTA, LifecycleSection } from "@/components/sections";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { LeakageCalculator } from "@/components/visuals/LeakageCalculator";
+import { LeakReveal } from "@/components/visuals/LeakReveal";
+import { GrowthField } from "@/components/visuals/GrowthField";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
@@ -31,6 +33,7 @@ export default function CalculatorPage() {
         highlight="losing?"
         description="Move the sliders. The estimate updates in real time — an illustrative model with every assumption shown, so you can see exactly how it is calculated."
         size="lg"
+        background={<GrowthField className="absolute inset-x-0 bottom-0 h-[70%] opacity-50 fade-mask-t" />}
       />
       <Section tight className="pt-0">
         <Reveal y={30}>
@@ -51,7 +54,19 @@ export default function CalculatorPage() {
         </RevealGroup>
       </Section>
 
-      <LifecycleSection />
+      <Section id="where-it-goes" bleed ariaLabel="Where revenue goes">
+        <div className="container-x">
+          <SectionHeading
+            eyebrow="Where it goes"
+            title="Seven ways revenue leaks. One way to get it back."
+            highlight="One way to get it back."
+            description="Scroll through the causes. The bar on the left shows what a practice keeps as each one takes its share — and what comes back once they are found, fixed, and recovered."
+          />
+        </div>
+        <LeakReveal className="mt-10" />
+      </Section>
+
+      <LifecycleSection tone="muted" />
       <FinalCTA form title="Turn the estimate into a plan." highlight="a plan." description="A free revenue audit replaces the assumptions with your actual denials, A/R aging, and payer behavior." />
     </Frame>
   );

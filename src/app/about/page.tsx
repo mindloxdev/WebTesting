@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import { ArrowRight } from "lucide-react";
 import { Frame } from "@/components/layout/Frame";
 import { PageHero, TrustStrip, FinalCTA, ProcessSection } from "@/components/sections";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
-import { DemoBadge } from "@/components/ui/DemoBadge";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { JsonLd, ORGANIZATION_LD, breadcrumbLd } from "@/components/seo/JsonLd";
@@ -71,31 +69,10 @@ export default function AboutPage() {
         </RevealGroup>
       </Section>
 
-      <Section id="leadership" tone="muted">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading eyebrow="Leadership" title="The people behind the revenue cycle." highlight="behind the revenue cycle." description="Published once names, titles, and bios are approved." />
-          <DemoBadge label="Placeholder" className="lg:mb-2" />
-        </div>
-        <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" staggerChildren={0.06}>
-          {["A", "B", "C", "D"].map((m) => (
-            <RevealItem key={m}>
-              <Card className="h-full" padding="md" spotlight={false}>
-                <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-linear-to-br from-accent to-accent-2 font-display text-xl font-bold text-white" aria-hidden>
-                  {m}
-                </span>
-                <p className="mt-5 font-display text-lg font-semibold text-fg">[Name placeholder]</p>
-                <p className="text-sm text-fg-2">[Title placeholder]</p>
-                <p className="mt-3 text-sm text-fg-3">[Two-line bio placeholder — supply approved copy before publishing.]</p>
-              </Card>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </Section>
-
-      <TrustStrip variant="pillars" />
+      <TrustStrip />
 
       {/* How we work with you — the five-step onboarding (also on /services). */}
-      <ProcessSection id="how-we-work" tone="default" />
+      <ProcessSection id="how-we-work" tone="muted" />
 
       <Section id="careers" tight>
         <Reveal>
@@ -105,10 +82,8 @@ export default function AboutPage() {
               <h2 className="font-display text-display-sm font-semibold text-fg">Coders, billers, A/R strategists, and engineers who think revenue should be visible.</h2>
               <p className="mt-3 text-fg-2">If you've ever wanted to fix the revenue cycle instead of just working it, we'd like to talk.</p>
             </div>
-            <MagneticButton href="/contact?intent=careers" arrow variant="outline" hoverLabel="Introduce Yourself">
-              <span className="inline-flex items-center gap-1">
-                See open roles <ArrowRight className="hidden" />
-              </span>
+            <MagneticButton href="/careers" arrow variant="outline" hoverLabel="Introduce Yourself">
+              See careers
             </MagneticButton>
           </div>
         </Reveal>

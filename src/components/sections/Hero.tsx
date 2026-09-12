@@ -27,7 +27,7 @@ type Props = {
 /**
  * Hero copy block: eyebrow → masked headline reveal → two-line support →
  * primary + secondary CTA (the CTA settles last) → trust indicators.
- * The visual beside/behind it is concept-specific.
+ * The visual beside/behind it is page-specific.
  */
 export function HeroCopy({
   eyebrow,
@@ -91,4 +91,4 @@ export function HeroCopy({
   );
 }
 
-export const DEFAULT_TRUST = ["HIPAA-conscious workflows", "U.S. healthcare focus", "End-to-end RCM", "AI-assisted, human-reviewed"];
+export const DEFAULT_TRUST = ["HIPAA-conscious workflows", "U.S. healthcare focus", "End-to-end RCM"];

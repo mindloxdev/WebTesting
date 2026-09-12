@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ROOT_SERVICES, getService } from "@/data/services";
-import { ServicePage } from "@/concepts/seo/ServicePage";
+import { ServicePage } from "@/templates/seo/ServicePage";
 
 export const dynamicParams = false;
 

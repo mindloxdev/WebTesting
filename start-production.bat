@@ -55,9 +55,9 @@ timeout /t 2 /nobreak >nul
 goto wait
 
 :ready
-start "" "http://localhost:%PORT%/demos"
+start "" "http://localhost:%PORT%/"
 echo  Browser opened.
-echo  Home page ^(recommended concept^): http://localhost:%PORT%/
-echo  Concept selector:                 http://localhost:%PORT%/demos
+echo  Home page: http://localhost:%PORT%/
+echo  Services:  http://localhost:%PORT%/services
 echo.
 pause

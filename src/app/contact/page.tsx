@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Check, Lock } from "lucide-react";
+import { Check } from "lucide-react";
+import { CareersApply } from "@/components/sections/CareersApply";
 import { Frame } from "@/components/layout/Frame";
 import { Eyebrow } from "@/components/ui/Section";
 import { TextReveal } from "@/components/ui/TextReveal";
@@ -7,6 +8,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { LeadForm } from "@/components/visuals/LeadForm";
 import { JsonLd, ORGANIZATION_LD, breadcrumbLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/sections";
+import { CONTACT } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -108,15 +110,27 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
               <dl className="grid gap-2 rounded-2xl border border-line bg-bg-2/60 p-5 font-mono text-xs text-fg-3 sm:grid-cols-3">
                 <div>
                   <dt className="uppercase tracking-[0.12em]">Phone</dt>
-                  <dd className="mt-1 text-fg-2">[Phone placeholder]</dd>
+                  <dd className="mt-1 text-fg-2">
+                    <a href={CONTACT.phoneHref} className="transition-colors hover:text-fg">
+                      {CONTACT.phone}
+                    </a>
+                  </dd>
                 </div>
                 <div>
                   <dt className="uppercase tracking-[0.12em]">Email</dt>
-                  <dd className="mt-1 text-fg-2">[Email placeholder]</dd>
+                  <dd className="mt-1 text-fg-2">
+                    <a href={CONTACT.emailHref} className="transition-colors hover:text-fg">
+                      {CONTACT.email}
+                    </a>
+                  </dd>
                 </div>
                 <div>
                   <dt className="uppercase tracking-[0.12em]">Address</dt>
-                  <dd className="mt-1 text-fg-2">[Address placeholder]</dd>
+                  <dd className="mt-1 text-fg-2">
+                    {CONTACT.street}
+                    <br />
+                    {CONTACT.locality}, {CONTACT.region} {CONTACT.postalCode}
+                  </dd>
                 </div>
               </dl>
             </Reveal>
@@ -125,21 +139,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
           <Reveal id="audit" delay={0.3} y={30}>
             <div id="audit-form">
               {i === "careers" ? (
-                <div className="rounded-[22px] border border-line bg-bg p-8 shadow-e3 lg:p-10">
-                  <p className="eyebrow mb-4">Careers</p>
-                  <h2 className="font-display text-2xl font-semibold text-fg">[Careers form placeholder — link to ATS]</h2>
-                  <p className="mt-3 text-fg-2">In production this area embeds or links to the applicant tracking system. Open roles, locations, and application steps are listed here.</p>
-                  <ul className="mt-6 space-y-2 text-sm text-fg-2">
-                    {["[Role placeholder — Certified Medical Coder]", "[Role placeholder — A/R Specialist]", "[Role placeholder — Denial Specialist]", "[Role placeholder — Account Manager]"].map((r) => (
-                      <li key={r} className="rounded-xl border border-line bg-bg-2/60 px-4 py-3">
-                        {r}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="mt-6 flex items-center gap-1.5 text-xs text-fg-3">
-                    <Lock className="size-3" /> No patient information is requested.
-                  </p>
-                </div>
+                <CareersApply />
               ) : (
                 <LeadForm title={c.formTitle} initialNeed={key === "audit" ? "Full RCM" : undefined} />
               )}

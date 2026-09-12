@@ -3,7 +3,6 @@ import { HOME, type HomeSection, type HomeSectionId } from "@/content/home";
 import {
   AISection,
   CalculatorSection,
-  CaseStudiesSection,
   ComparisonSection,
   DashboardSection,
   FAQSection,
@@ -12,15 +11,14 @@ import {
   LifecycleSection,
   ProblemSection,
   ProcessSection,
-  ResourcesSection,
   ServicesSection,
   SpecialtiesSection,
-  TestimonialsSection,
   TrustStrip,
 } from "@/components/sections";
-import { DarkBlock, LightBlock } from "@/concepts/ultimate/SchemeBlock";
-import { ProofOfSystem } from "@/concepts/ultimate/ProofOfSystem";
-import { UltimateHero } from "@/concepts/ultimate/UltimateHero";
+import { cn } from "@/lib/utils";
+import { DarkBlock, LightBlock } from "./SchemeBlock";
+import { ProofOfSystem } from "./ProofOfSystem";
+import { HomeHero } from "./HomeHero";
 
 /**
  * Section registry — maps an id from src/content/home.ts to a component.
@@ -33,16 +31,13 @@ const REGISTRY: Record<HomeSectionId, (s: HomeSection) => ReactNode> = {
   lifecycle: (s) => <LifecycleSection tone={s.tone} id="solution" />,
   services: (s) => <ServicesSection tone={s.tone} compact initial={s.limit ?? 6} moreHref={s.moreHref} />,
   proof: () => <ProofOfSystem />,
-  ai: (s) => <AISection tone={s.tone} feed moreHref={s.moreHref} />,
+  ai: (s) => <AISection tone={s.tone} feed={s.feed ?? false} moreHref={s.moreHref} />,
   dashboard: (s) => <DashboardSection tone={s.tone} compact ctaHref={s.moreHref} />,
-  specialties: (s) => <SpecialtiesSection tone={s.tone} variant="compact" limit={s.limit ?? 8} />,
+  specialties: (s) => <SpecialtiesSection tone={s.tone} variant="compact" limit={s.limit ?? 4} />,
   comparison: (s) => <ComparisonSection tone={s.tone} whySwitch={false} limit={s.limit} moreHref={s.moreHref} />,
   process: (s) => <ProcessSection tone={s.tone} />,
   calculator: (s) => <CalculatorSection tone={s.tone} />,
   integrations: (s) => <IntegrationsSection tone={s.tone} />,
-  "case-studies": (s) => <CaseStudiesSection tone={s.tone} />,
-  testimonials: (s) => <TestimonialsSection tone={s.tone} />,
-  resources: (s) => <ResourcesSection tone={s.tone} />,
   faq: (s) => <FAQSection tone={s.tone} limit={s.limit} moreHref={s.moreHref} />,
   cta: () => (
     <FinalCTA
@@ -58,7 +53,9 @@ const REGISTRY: Record<HomeSectionId, (s: HomeSection) => ReactNode> = {
 
 /**
  * The live home page. Dark cinematic hero → light body → dark closing CTA.
- * Composition and copy come from src/content/home.ts.
+ * Composition and copy come from src/content/home.ts. With `layout.compact`
+ * the hero loses its 92vh minimum and every section uses the tighter
+ * `.home-compact` spacing and type defined in globals.css, so the page stays short.
  */
 export function HomePage() {
   const enabled = HOME.sections.filter((s) => s.enabled);
@@ -68,10 +65,12 @@ export function HomePage() {
 
   return (
     <>
-      <UltimateHero badge={HOME.hero.badge} hero={HOME.hero} />
-      {trust && REGISTRY.trust(trust)}
-      <LightBlock>{body.map((s) => <div key={s.id}>{REGISTRY[s.id](s)}</div>)}</LightBlock>
-      {cta && <DarkBlock>{REGISTRY.cta(cta)}</DarkBlock>}
+      <div className={cn(HOME.layout.compact && "home-compact")}>
+        <HomeHero hero={HOME.hero} compact={HOME.layout.compact} />
+        {trust && REGISTRY.trust(trust)}
+        <LightBlock>{body.map((s) => <div key={s.id}>{REGISTRY[s.id](s)}</div>)}</LightBlock>
+        {cta && <DarkBlock>{REGISTRY.cta(cta)}</DarkBlock>}
+      </div>
     </>
   );
 }

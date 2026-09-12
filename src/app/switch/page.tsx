@@ -11,7 +11,8 @@ import { JsonLd, faqLd, breadcrumbLd } from "@/components/seo/JsonLd";
 import { WHY_SWITCH } from "@/data/content";
 import { CTA } from "@/data/site";
 import { SWITCH_OBJECTIONS, WHAT_YOU_KEEP } from "@/data/compare";
-import { SwitchTimeline } from "@/concepts/company/SwitchTimeline";
+import { SwitchTimeline } from "@/templates/company/SwitchTimeline";
+import { BeforeAfter } from "@/components/visuals/BeforeAfter";
 
 export const metadata: Metadata = {
   title: "Switch to Mindlox AI",
@@ -49,6 +50,9 @@ export default function SwitchPage() {
           </div>
         }
       />
+
+      {/* Before / after the switch — pinned scroll transformation */}
+      <BeforeAfter />
 
       {/* Why practices switch */}
       <Section id="why-switch" tone="muted">

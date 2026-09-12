@@ -14,7 +14,7 @@ type Props = {
 };
 
 /** Dashboard preview — Claims · Payments · Denials · A/R · Payers · Providers. Demo-labeled. */
-export function DashboardSection({ className, tone = "default", id = "dashboard", ctaHref = "/demos/command-center", compact = false }: Props) {
+export function DashboardSection({ className, tone = "default", id = "dashboard", ctaHref = "/technology#command-center", compact = false }: Props) {
   return (
     <Section id={id} tone={tone} className={className}>
       <SectionHeading

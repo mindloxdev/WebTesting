@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import { Check, Lock, X } from "lucide-react";
 import { Frame } from "@/components/layout/Frame";
-import { PageHero, AISection, DashboardSection, IntegrationsSection, FinalCTA } from "@/components/sections";
+import { PageHero, AISection, DashboardSection, IntegrationsSection, FinalCTA, KpiDeepDive, AssistantShowcase } from "@/components/sections";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Accordion } from "@/components/ui/Accordion";
+import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { Handoff } from "@/components/visuals/Handoff";
+import { MetricStrip } from "@/components/visuals/MetricStrip";
+import { StatusTimeline } from "@/components/visuals/StatusTimeline";
 import { JsonLd, breadcrumbLd, faqLd } from "@/components/seo/JsonLd";
 import { FAQ } from "@/data/content";
 import { CTA } from "@/data/site";
@@ -12,7 +16,7 @@ import { CTA } from "@/data/site";
 export const metadata: Metadata = {
   title: "Technology",
   description:
-    "The Mindlox AI intelligence layer: denial-risk scoring, underpayment detection, eligibility mismatch detection, A/R prioritization, payer-pattern analysis — AI-assisted, human-reviewed, inside the systems you already use.",
+    "The Mindlox AI intelligence layer: denial-risk scoring, underpayment detection, eligibility mismatch detection, A/R prioritization, payer-pattern analysis — inside the systems you already use, with billing specialists making every call.",
   alternates: { canonical: "/technology" },
 };
 
@@ -36,8 +40,8 @@ const SECURITY = [
   { title: "HIPAA-conscious workflows", detail: "Minimum-necessary access and documented handling procedures across every stage." },
   { title: "Role-based access", detail: "Team members see only the accounts and data their role requires." },
   { title: "Audit logging", detail: "Every claim action is recorded and visible to you." },
-  { title: "Encryption in transit and at rest", detail: "[Confirm specifics before publishing.]" },
-  { title: "BAA where applicable", detail: "Business Associate Agreements with covered entities. [Confirm legal language before publishing.]" },
+  { title: "Encryption in transit and at rest", detail: "Data is encrypted in transit and at rest on the systems we operate." },
+  { title: "BAA where applicable", detail: "Business Associate Agreements are executed with covered entities before any PHI is handled." },
   { title: "Secure payer connectivity", detail: "Clearinghouse, ERA, and EFT exchange through established secure channels." },
 ];
 
@@ -55,10 +59,25 @@ export default function TechnologyPage() {
         highlight="intelligent operating system"
         description="AI-assisted pattern detection and decision support layered on the EHR and practice management systems you already use — with experienced billing specialists making every call."
         primary={{ label: "See What AI Finds in My Claims", hoverLabel: "Start With a Revenue Audit" }}
-        secondary={{ label: "Experience the Command Center", href: "/demos/command-center" }}
+        secondary={{ label: "Experience the Command Center", href: "#command-center" }}
       />
 
-      <AISection feed tone="muted" />
+      <MetricStrip />
+
+      <Section id="handoff">
+        <SectionHeading
+          eyebrow="AI detects. Specialists resolve."
+          title="Every detection is handed to a person."
+          highlight="handed to a person."
+          description="Detections stream in from claims, denials, A/R, payments, eligibility, coding, and credentialing. A named specialist reviews each one, decides, and closes it — nothing is auto-submitted."
+          align="center"
+        />
+        <Reveal className="mt-12" delay={0.1}>
+          <Handoff />
+        </Reveal>
+      </Section>
+
+      <AISection feed={false} tone="muted" />
 
       <Section id="does-doesnt">
         <SectionHeading eyebrow="Responsible by design" title="What the AI does — and doesn't." highlight="and doesn't." description="Clear boundaries make the intelligence trustworthy. It finds patterns at a scale no team can. People decide." align="center" />
@@ -97,11 +116,34 @@ export default function TechnologyPage() {
         </div>
       </Section>
 
-      <DashboardSection tone="muted" ctaHref="/demos/command-center" />
+      <DashboardSection id="command-center" tone="muted" ctaHref={CTA.auditHref} />
 
-      <IntegrationsSection tone="default" />
+      <KpiDeepDive />
 
-      <Section id="security" tone="muted">
+      <AssistantShowcase />
+
+      <Section id="status">
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:items-center">
+          <SectionHeading
+            eyebrow="Live status"
+            title="Every claim has a status you can see."
+            highlight="you can see."
+            size="md"
+            description="Submitted, adjudicated, paid, posted — with the day it happened and the person who touched it. You never have to call to ask where a claim is."
+          >
+            <MagneticButton href={CTA.auditHref} arrow hoverLabel="Start With a Revenue Audit">
+              See My Claims Like This
+            </MagneticButton>
+          </SectionHeading>
+          <Reveal delay={0.1}>
+            <StatusTimeline />
+          </Reveal>
+        </div>
+      </Section>
+
+      <IntegrationsSection tone="muted" />
+
+      <Section id="security">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.5fr] lg:items-start">
           <SectionHeading eyebrow="Security & data handling" size="md" title="Patient data handled the way a covered entity would expect." description="Security posture stated only where we can stand behind it. Documentation is available on request." />
           <RevealGroup className="grid gap-3 sm:grid-cols-2" staggerChildren={0.05}>
@@ -120,7 +162,7 @@ export default function TechnologyPage() {
         </div>
       </Section>
 
-      <Section id="faq">
+      <Section id="faq" tone="muted">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr]">
           <SectionHeading eyebrow="FAQ" size="md" title="How we use AI, and how we protect data." description={`Straight answers. For anything else, ${CTA.secondary.toLowerCase()}.`} />
           <Reveal delay={0.1}>

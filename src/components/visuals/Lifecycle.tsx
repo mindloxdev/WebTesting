@@ -120,10 +120,10 @@ export function Lifecycle({ className, autoplay = true }: Props) {
             <h3 className="font-display text-xl font-semibold text-fg">{s.name}</h3>
             <p className="mt-2 text-fg-2">{s.action}</p>
           </div>
-          <div className="rounded-xl bg-bg p-4">
-            <p className="mb-1.5 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-accent">
-              <Sparkles className="size-3.5" /> Where AI assists
-            </p>
+          <div className="flex items-start gap-3 rounded-xl bg-bg p-4">
+            <span className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent">
+              <Sparkles className="size-3.5" aria-hidden />
+            </span>
             <p className="text-sm text-fg-2">{s.ai}</p>
           </div>
         </motion.div>

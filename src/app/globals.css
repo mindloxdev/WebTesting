@@ -2,7 +2,7 @@
 
 /* ------------------------------------------------------------------ */
 /*  MINDLOX AI — DESIGN TOKENS                                         */
-/*  Defined once. Reused everywhere. Concepts override semantic vars.  */
+/*  Defined once. Reused everywhere. The theme class sets the accents.  */
 /* ------------------------------------------------------------------ */
 
 @custom-variant dark (&:where([data-scheme="dark"], [data-scheme="dark"] *));
@@ -195,22 +195,11 @@
   color-scheme: light;
 }
 
-/* Concept themes — only the semantic accents change; each concept
-   layers its own layout, motion, and storytelling on top. */
-.theme-engine { --accent: #4d85ff; --accent-2: #38d6f5; --accent-3: #9b85ff; }
-.theme-leak { --accent: #2b6bff; --accent-2: #10b981; --accent-3: #f0466a; --bg-2: #f7f8fb; }
-.theme-aihuman { --accent: #9b85ff; --accent-2: #38d6f5; --accent-3: #4d85ff; --accent-soft: rgb(155 133 255 / 0.14); --glow: rgb(155 133 255 / 0.45); --bg: #07070f; --bg-2: #0d0d1a; --bg-3: #15152a; }
-.theme-team { --bg: #fbfaf7; --bg-2: #f4f2ec; --bg-3: #ece9e0; --accent: #2b6bff; --accent-2: #14b8a6; --accent-3: #f59e5b; --line: rgb(30 25 10 / 0.09); }
-.theme-transparent { --accent: #0ea5e9; --accent-2: #2b6bff; --accent-3: #7c5cff; --accent-soft: rgb(14 165 233 / 0.1); --glow: rgb(14 165 233 / 0.35); }
-.theme-enterprise { --bg: #ffffff; --bg-2: #fafafa; --bg-3: #f2f2f2; --fg: #0a0a0a; --fg-2: #4a4a4a; --fg-3: #8a8a8a; --line: rgb(0 0 0 / 0.1); --line-strong: rgb(0 0 0 / 0.2); --accent: #2b6bff; --accent-2: #0a0a0a; --accent-3: #2b6bff; }
-.theme-specialty { --accent: #6d5bff; --accent-2: #14b8dc; --accent-3: #f0466a; --accent-soft: rgb(109 91 255 / 0.1); --glow: rgb(109 91 255 / 0.35); }
-.theme-command { --bg: #07090f; --bg-2: #0c1018; --bg-3: #121826; --accent: #5b8cff; --accent-2: #34d399; --accent-3: #38d6f5; --line: rgb(255 255 255 / 0.08); }
-.theme-growth { --accent: #2b6bff; --accent-2: #14b8dc; --accent-3: #10b981; }
+/* Site theme — the accent palette every page uses. */
 .theme-ultimate { --accent: #2b6bff; --accent-2: #38d6f5; --accent-3: #7c5cff; }
 
 /* Visitor theme override (ThemeToggle): forces a white or dark scheme on
-   every page regardless of the concept's default. Only scheme tokens are
-   overridden — each concept keeps its own accent personality. */
+   every page. Only scheme tokens are overridden — the accent palette stays. */
 html[data-theme="light"],
 html[data-theme="light"] [data-scheme] {
   --bg: #ffffff;
@@ -330,6 +319,23 @@ html[data-theme="dark"] [data-scheme] {
 @utility section-y {
   padding-block: 5rem;
   @media (width >= 64rem) { padding-block: 8rem; }
+}
+
+/* Compact density for the home page (src/content/home.ts -> layout.compact):
+   shorter sections and one step smaller display type, same rhythm. */
+.home-compact .section-y {
+  padding-block: 3rem;
+  @media (width >= 64rem) { padding-block: 5rem; }
+}
+.home-compact .text-display-xl {
+  font-size: var(--text-display-lg);
+  line-height: var(--text-display-lg--line-height);
+  letter-spacing: var(--text-display-lg--letter-spacing);
+}
+.home-compact .text-display-lg {
+  font-size: var(--text-display-md);
+  line-height: var(--text-display-md--line-height);
+  letter-spacing: var(--text-display-md--letter-spacing);
 }
 
 @utility glass {

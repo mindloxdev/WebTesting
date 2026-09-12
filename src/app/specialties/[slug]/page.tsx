@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SPECIALTIES, getSpecialty } from "@/data/specialties";
-import { SpecialtyPage } from "@/concepts/seo/SpecialtyPage";
+import { SpecialtyPage } from "@/templates/seo/SpecialtyPage";
 
 export const dynamicParams = false;
 

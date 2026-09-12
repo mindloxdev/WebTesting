@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BRAND, CTA, FOOTER_COLUMNS } from "@/data/site";
+import { BRAND, CONTACT, CTA, FOOTER_COLUMNS } from "@/data/site";
 import { Logo } from "@/components/ui/Logo";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
@@ -25,15 +25,27 @@ export function Footer() {
             <dl className="mt-8 space-y-1.5 font-mono text-xs text-fg-3">
               <div className="flex gap-2">
                 <dt className="w-16 shrink-0">Address</dt>
-                <dd>[Address placeholder]</dd>
+                <dd>
+                  {CONTACT.street}
+                  <br />
+                  {CONTACT.locality}, {CONTACT.region} {CONTACT.postalCode}
+                </dd>
               </div>
               <div className="flex gap-2">
                 <dt className="w-16 shrink-0">Phone</dt>
-                <dd>[Phone placeholder]</dd>
+                <dd>
+                  <a href={CONTACT.phoneHref} className="transition-colors hover:text-fg">
+                    {CONTACT.phone}
+                  </a>
+                </dd>
               </div>
               <div className="flex gap-2">
                 <dt className="w-16 shrink-0">Email</dt>
-                <dd>[Email placeholder]</dd>
+                <dd>
+                  <a href={CONTACT.emailHref} className="transition-colors hover:text-fg">
+                    {CONTACT.email}
+                  </a>
+                </dd>
               </div>
             </dl>
           </div>
@@ -60,6 +72,13 @@ export function Footer() {
           </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             <li>
+              <Link href="/policies" className="hover:text-fg">
+                Policies
+              </Link>
+
+            </li>
+
+            <li>
               <Link href="/privacy" className="hover:text-fg">
                 Privacy Policy
               </Link>
@@ -74,13 +93,7 @@ export function Footer() {
                 HIPAA / Security
               </Link>
             </li>
-            <li>
-              <Link href="/demos" className="hover:text-fg">
-                Concept demos
-              </Link>
-            </li>
           </ul>
-          <p className="font-mono">Demo site · sample data labeled · no fabricated claims</p>
         </div>
       </div>
     </footer>

@@ -4,7 +4,8 @@ import { SERVICES, SERVICE_CATEGORIES, type ServiceCategory } from "@/data/servi
 import { CTA } from "@/data/site";
 import { pad2 } from "@/lib/utils";
 import { Frame } from "@/components/layout/Frame";
-import { FinalCTA, LifecycleSection, PageHero, ProcessSection, ServiceCard } from "@/components/sections";
+import { Department, FinalCTA, LifecycleSection, PageHero, ProcessSection, ServiceCard } from "@/components/sections";
+import { TeamAssembly } from "@/components/visuals/TeamAssembly";
 import { JsonLd, ORGANIZATION_LD, breadcrumbLd } from "@/components/seo/JsonLd";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Section, SectionHeading } from "@/components/ui/Section";
@@ -13,7 +14,7 @@ import { Tag } from "@/components/ui/Tag";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Twenty-four medical billing and revenue cycle management services — billing, coding, denial management, A/R recovery, credentialing, eligibility, authorization, posting, patient billing, and more — from one accountable partner.",
+    "Twenty-five medical billing and revenue cycle management services — billing, coding, denial management, A/R recovery, credentialing, eligibility, authorization, posting, patient billing, and more — from one accountable partner.",
   alternates: { canonical: "/services" },
 };
 
@@ -45,7 +46,7 @@ export default function ServicesPage() {
         eyebrow="Services"
         title="Every stage of the revenue cycle. One accountable partner."
         highlight="One accountable partner."
-        description="Twenty-four services across the front end, mid cycle, and back end — engage end-to-end, or start with the stage that hurts most. Specialty-aligned specialists, intelligent automation, and dashboards you never have to ask for."
+        description="Twenty-five services across the front end, mid cycle, and back end — engage end-to-end, or start with the stage that hurts most. Specialty-aligned specialists, intelligent automation, and dashboards you never have to ask for."
         primary={{ label: "Get My Free Revenue Audit" }}
         secondary={{ label: CTA.secondary }}
       />
@@ -112,6 +113,19 @@ export default function ServicesPage() {
           })}
         </div>
       </Section>
+
+      {/* The team behind every service — assembles around the practice on scroll */}
+      <Section id="team" tight>
+        <SectionHeading
+          eyebrow="The team"
+          title="A billing department that assembles around your practice."
+          highlight="around your practice."
+          description="Coders, billers, A/R and denial specialists, credentialing experts, an account manager, and AI automation — one team, already aligned to your specialty."
+          align="center"
+        />
+      </Section>
+      <TeamAssembly />
+      <Department className="bg-bg-2" />
 
       <LifecycleSection tone="default" />
       <ProcessSection tone="muted" />

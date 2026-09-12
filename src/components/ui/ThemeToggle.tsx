@@ -9,7 +9,7 @@ export const THEME_KEY = "mlx-theme";
 
 const ORDER: ThemePref[] = ["auto", "light", "dark"];
 const LABEL: Record<ThemePref, string> = {
-  auto: "Concept default",
+  auto: "Default theme",
   light: "White theme",
   dark: "Dark theme",
 };
@@ -21,7 +21,7 @@ export function applyTheme(pref: ThemePref) {
 }
 
 /**
- * Site-wide theme switch: concept default → white → dark. Persists in
+ * Site-wide theme switch: default → white → dark. Persists in
  * localStorage; an inline script in the root layout applies it before paint.
  */
 export function ThemeToggle({ className, showLabel }: { className?: string; showLabel?: boolean }) {

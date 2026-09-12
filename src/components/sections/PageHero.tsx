@@ -44,6 +44,8 @@ type Props = {
   secondary?: { label: string; href?: string };
   /** Visual beside the copy (desktop). */
   aside?: ReactNode;
+  /** Decorative layer behind the copy (absolutely positioned by the caller). */
+  background?: ReactNode;
   className?: string;
   size?: "lg" | "xl";
 };
@@ -52,10 +54,11 @@ type Props = {
  * Inner-page hero (services, specialties, compare, company pages).
  * Consistent rhythm: crumbs → eyebrow → masked title → description → CTAs.
  */
-export function PageHero({ eyebrow, title, highlight, description, crumbs, primary, secondary, aside, className, size = "xl" }: Props) {
+export function PageHero({ eyebrow, title, highlight, description, crumbs, primary, secondary, aside, background, className, size = "xl" }: Props) {
   return (
     <section className={cn("relative overflow-hidden pt-32 pb-16 lg:pt-44 lg:pb-24", className)}>
       <div className="pointer-events-none absolute inset-0 mesh-bg opacity-70" aria-hidden />
+      {background}
       <div className={cn("container-x relative", !!aside && "grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center")}>
         <div className="max-w-3xl">
           {crumbs && (

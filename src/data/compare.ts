@@ -64,7 +64,7 @@ export const COMPARE_PAGES: ComparePage[] = [
       { title: "Dashboards on day one", detail: "You see the transition happening — not a report about it a month later." },
     ],
     faq: [
-      { q: "Is Mindlox AI more expensive than a traditional billing company?", a: "Pricing depends on scope, specialty, and volume and is provided after the free revenue audit. The comparison that matters is net collections after fees, which is what the audit estimates. [Pricing model placeholder — confirm with Mindlox AI.]" },
+      { q: "Is Mindlox AI more expensive than a traditional billing company?", a: "Pricing depends on scope, specialty, and volume and is provided after the free revenue audit. The comparison that matters is net collections after fees, which is what the audit estimates." },
       { q: "Do we lose the people we've worked with?", a: "You gain a named Mindlox AI account team. Where your existing vendor's staff hold institutional knowledge, we capture it during discovery and the parallel run." },
       { q: "What happens to claims already in flight?", a: "They keep moving. During the parallel run we agree on a cutover date for new charges and a plan for legacy A/R so no claim is orphaned." },
       { q: "How is this different from just a better vendor?", a: "The intelligence layer. Denial-risk scoring, underpayment detection, and A/R prioritization run on every claim, and you can see the results yourself instead of waiting for a report." },
@@ -97,7 +97,7 @@ export const COMPARE_PAGES: ComparePage[] = [
       { dimension: "Coverage", traditional: "Depends on one or two people being available.", mindlox: "Continuous coverage; follow-up never pauses for PTO or turnover." },
       { dimension: "Specialty expertise", traditional: "Limited to who you can hire locally.", mindlox: "Specialty-aligned coders and denial specialists on demand." },
       { dimension: "Technology", traditional: "Whatever the PM system offers.", mindlox: "AI-assisted denial risk, underpayment detection, and A/R prioritization on every claim." },
-      { dimension: "Cost structure", traditional: "Salaries, benefits, training, software, management time.", mindlox: "Scope-based pricing aligned to collections. [Confirm model.]" },
+      { dimension: "Cost structure", traditional: "Salaries, benefits, training, software, management time.", mindlox: "Scope-based pricing aligned to collections." },
       { dimension: "Visibility", traditional: "Ask the team.", mindlox: "Live dashboards down to the claim, no asking required." },
       { dimension: "Compliance & audits", traditional: "Practice carries the training burden.", mindlox: "Coding audits, documentation feedback, and payer-policy tracking included." },
       { dimension: "Scalability", traditional: "Hire ahead of growth.", mindlox: "Add providers and locations without adding headcount." },
@@ -111,7 +111,7 @@ export const COMPARE_PAGES: ComparePage[] = [
       { q: "Do we have to let our billing staff go?", a: "No. Many practices redeploy staff to patient access, eligibility, and patient communication — the front-end work that prevents denials — while Mindlox AI runs the back end." },
       { q: "Will we lose control over how our claims are handled?", a: "You set the priorities and see every claim in your dashboard. A named account team meets with you weekly and escalates anything that needs a decision." },
       { q: "Can we start with only part of the revenue cycle?", a: "Yes. Denial management, A/R recovery, coding, or credentialing can be engaged on their own and expanded later." },
-      { q: "How does the cost compare to salaries?", a: "The free revenue audit models your fully loaded in-house cost against a scope-based engagement and, more importantly, the net collections difference. [Pricing model placeholder — confirm with Mindlox AI.]" },
+      { q: "How does the cost compare to salaries?", a: "The free revenue audit models your fully loaded in-house cost against a scope-based engagement and, more importantly, the net collections difference." },
     ],
   },
   {
@@ -186,7 +186,7 @@ export const SWITCH_OBJECTIONS = [
   { q: "Will we lose visibility during the switch?", a: "The opposite. Dashboards are on from day one of go-live, and during the parallel run you see both the legacy A/R plan and new charges in one place." },
   { q: "Is switching painful?", a: "It is designed not to be. A parallel run, a single cutover date for new charges, and a shared checklist mean no claim is orphaned and your staff always know who to call." },
   { q: "Who works our old A/R?", a: "We decide together during discovery. Options include Mindlox AI taking all open balances, a split by date of service, or your current vendor finishing a defined tail — with timely-filing deadlines tracked either way." },
-  { q: "Can you handle our specialty?", a: "Twenty-five specialties and growing, with specialty-aligned coders and denial specialists. Discovery confirms fit before anything moves." },
+  { q: "Can you handle our specialty?", a: "30+ specialties and growing, with specialty-aligned coders and denial specialists. Discovery confirms fit before anything moves." },
   { q: "Do you work with our EHR?", a: "We support compatible workflows with major EHR and PM platforms and work within the system you have. Specific connectivity is confirmed during discovery." },
   { q: "What about our current contract?", a: "We review your agreement's notice period and terms with you and plan the parallel run around them. Nothing is cancelled until the transition plan is agreed." },
 ];

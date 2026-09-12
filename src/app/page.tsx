@@ -13,7 +13,6 @@ export const metadata: Metadata = {
 /**
  * Home / landing page. Composition and copy live in src/content/home.ts —
  * edit that file to change text, reorder sections, or switch sections on/off.
- * The full-length flagship concept remains at /demos/ultimate.
  */
 export default function Home() {
   return (

@@ -1,16 +1,14 @@
 import type { ReactNode } from "react";
-import { CONCEPTS, type Concept } from "@/data/concepts";
 import { cn } from "@/lib/utils";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { MobileCTABar } from "./MobileCTABar";
-import { ConceptSwitcher } from "./ConceptSwitcher";
 import { BodyScheme } from "./BodyScheme";
 
 type FrameProps = {
   children: ReactNode;
   scheme?: "dark" | "light";
-  /** CSS theme class, e.g. "theme-ultimate". */
+  /** CSS theme class carrying the accent palette (see globals.css). */
   theme?: string;
   ctaLabel?: string;
   ctaHref?: string;
@@ -21,7 +19,7 @@ type FrameProps = {
 };
 
 /**
- * Page shell: sets the color scheme + concept theme on an ancestor so every
+ * Page shell: sets the color scheme + theme on an ancestor so every
  * semantic token (bg, fg, accent...) resolves for the whole subtree.
  */
 export function Frame({
@@ -41,20 +39,6 @@ export function Frame({
       <main className="flex-1">{children}</main>
       {!noFooter && <Footer />}
       {!noMobileCta && <MobileCTABar label={ctaLabel} href={ctaHref} />}
-    </div>
-  );
-}
-
-/** Frame for one of the ten homepage concepts. Adds the floating concept switcher. */
-export function ConceptFrame({ concept, children }: { concept: Concept; children: ReactNode }) {
-  return (
-    <div data-scheme={concept.scheme} className={cn(concept.theme, "flex min-h-dvh flex-col bg-bg text-fg")}>
-      <BodyScheme scheme={concept.scheme} />
-      <Navbar ctaLabel={concept.cta} />
-      <main className="flex-1">{children}</main>
-      <Footer />
-      <MobileCTABar label={concept.cta} />
-      <ConceptSwitcher current={concept} concepts={CONCEPTS} />
     </div>
   );
 }

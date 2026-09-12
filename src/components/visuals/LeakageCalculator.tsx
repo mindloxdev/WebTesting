@@ -78,7 +78,7 @@ export function LeakageCalculator({ className, compact }: Props) {
         <div className="border-b border-line p-6 lg:border-b-0 lg:border-r lg:p-8">
           <div className="mb-6 flex items-center justify-between">
             <p className="eyebrow">Your practice</p>
-            <DemoBadge label="Illustrative Estimate" />
+            <DemoBadge label="Illustrative estimate" />
           </div>
           <div className="space-y-5">
             {FIELDS.map((f) => (

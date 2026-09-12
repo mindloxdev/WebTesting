@@ -34,7 +34,7 @@ export function IntegrationsSection({ className, tone = "muted", id = "integrati
           </RevealGroup>
           <Reveal className="mt-4">
             <p className="font-mono text-[11px] text-fg-3">
-              Integration support and compatible workflows. Specific connectivity is confirmed per practice. [Confirm before publishing.]
+              Integration support and compatible workflows. Specific connectivity is confirmed per practice during discovery.
             </p>
           </Reveal>
           <Reveal className="mt-8">
