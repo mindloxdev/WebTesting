@@ -9,7 +9,6 @@ import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/Logo";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 type Props = {
   ctaLabel?: string;
@@ -81,7 +80,6 @@ export function Navbar({ ctaLabel = CTA.primary, ctaHref = CTA.auditHref }: Prop
           </nav>
 
           <div className="hidden items-center gap-2 lg:flex">
-            <ThemeToggle className="h-9 px-2.5" />
             <MagneticButton href={ctaHref} size="sm" hoverLabel={CTA.primaryHover} magnetic={false}>
               <span className="xl:hidden">{CTA.primaryShort}</span>
               <span className="hidden xl:inline">{ctaLabel}</span>
@@ -175,7 +173,6 @@ export function Navbar({ ctaLabel = CTA.primary, ctaHref = CTA.auditHref }: Prop
                 <MobileItem key={item.label} item={item} onNavigate={() => setMobile(false)} />
               ))}
               <motion.div variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }} className="mt-4 flex flex-wrap gap-2">
-                <ThemeToggle showLabel className="h-12 px-4" />
               </motion.div>
             </motion.nav>
             <div className="container-x fixed inset-x-0 bottom-0 border-t border-line glass-strong py-4">

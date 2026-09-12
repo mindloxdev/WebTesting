@@ -55,7 +55,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
   const i = intent as Intent;
 
   return (
-    <Frame scheme="light" theme="theme-ultimate" noMobileCta>
+    <Frame theme="theme-ultimate" noMobileCta>
       <JsonLd data={[ORGANIZATION_LD, breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Contact", url: "https://mindlox.ai/contact" }])]} />
 
       <section className="relative overflow-hidden pt-32 pb-20 lg:pt-44 lg:pb-28">

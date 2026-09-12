@@ -5,8 +5,6 @@
 /*  Defined once. Reused everywhere. The theme class sets the accents.  */
 /* ------------------------------------------------------------------ */
 
-@custom-variant dark (&:where([data-scheme="dark"], [data-scheme="dark"] *));
-@custom-variant light (&:where([data-scheme="light"], [data-scheme="light"] *));
 
 @theme {
   /* Palette (static) */
@@ -152,90 +150,8 @@
   color-scheme: light;
 }
 
-[data-scheme="dark"] {
-  --bg: #060b1a;
-  --bg-2: #0b1230;
-  --bg-3: #111a3f;
-  --fg: #f3f5fb;
-  --fg-2: #a9b2c9;
-  --fg-3: #6e7894;
-  --line: rgb(255 255 255 / 0.09);
-  --line-strong: rgb(255 255 255 / 0.16);
-  --accent: #4d85ff;
-  --accent-2: #38d6f5;
-  --accent-3: #9b85ff;
-  --accent-fg: #ffffff;
-  --accent-soft: rgb(77 133 255 / 0.14);
-  --glow: rgb(77 133 255 / 0.45);
-  --surface: rgb(11 18 48 / 0.6);
-  --surface-strong: rgb(11 18 48 / 0.88);
-  --positive: #34d399;
-  --negative: #ff5c7a;
-  --warning: #fbbf24;
-  color-scheme: dark;
-}
-
-/* Explicit light scheme — lets a light block nest inside a dark frame
-   (flagship: dark hero → light body). Accents are inherited from the theme. */
-[data-scheme="light"] {
-  --bg: #ffffff;
-  --bg-2: #f6f8fc;
-  --bg-3: #eef1f8;
-  --fg: #06091a;
-  --fg-2: #4a5470;
-  --fg-3: #8a93ab;
-  --line: rgb(6 9 26 / 0.09);
-  --line-strong: rgb(6 9 26 / 0.16);
-  --accent-fg: #ffffff;
-  --surface: rgb(255 255 255 / 0.72);
-  --surface-strong: rgb(255 255 255 / 0.92);
-  --positive: #10b981;
-  --negative: #f0466a;
-  --warning: #f59e0b;
-  color-scheme: light;
-}
-
 /* Site theme — the accent palette every page uses. */
 .theme-ultimate { --accent: #2b6bff; --accent-2: #38d6f5; --accent-3: #7c5cff; }
-
-/* Visitor theme override (ThemeToggle): forces a white or dark scheme on
-   every page. Only scheme tokens are overridden — the accent palette stays. */
-html[data-theme="light"],
-html[data-theme="light"] [data-scheme] {
-  --bg: #ffffff;
-  --bg-2: #f6f8fc;
-  --bg-3: #eef1f8;
-  --fg: #06091a;
-  --fg-2: #4a5470;
-  --fg-3: #8a93ab;
-  --line: rgb(6 9 26 / 0.09);
-  --line-strong: rgb(6 9 26 / 0.16);
-  --surface: rgb(255 255 255 / 0.72);
-  --surface-strong: rgb(255 255 255 / 0.92);
-  --accent-fg: #ffffff;
-  --positive: #10b981;
-  --negative: #f0466a;
-  --warning: #f59e0b;
-  color-scheme: light;
-}
-html[data-theme="dark"],
-html[data-theme="dark"] [data-scheme] {
-  --bg: #060b1a;
-  --bg-2: #0b1230;
-  --bg-3: #111a3f;
-  --fg: #f3f5fb;
-  --fg-2: #a9b2c9;
-  --fg-3: #6e7894;
-  --line: rgb(255 255 255 / 0.09);
-  --line-strong: rgb(255 255 255 / 0.16);
-  --surface: rgb(11 18 48 / 0.6);
-  --surface-strong: rgb(11 18 48 / 0.88);
-  --accent-fg: #ffffff;
-  --positive: #34d399;
-  --negative: #ff5c7a;
-  --warning: #fbbf24;
-  color-scheme: dark;
-}
 
 @theme inline {
   --color-bg: var(--bg);

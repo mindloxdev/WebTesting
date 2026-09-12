@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function SpecialtiesPage() {
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd
         data={[
           ORGANIZATION_LD,

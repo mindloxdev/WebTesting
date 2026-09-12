@@ -16,7 +16,6 @@ import {
   TrustStrip,
 } from "@/components/sections";
 import { cn } from "@/lib/utils";
-import { DarkBlock, LightBlock } from "./SchemeBlock";
 import { ProofOfSystem } from "./ProofOfSystem";
 import { HomeHero } from "./HomeHero";
 
@@ -52,10 +51,10 @@ const REGISTRY: Record<HomeSectionId, (s: HomeSection) => ReactNode> = {
 };
 
 /**
- * The live home page. Dark cinematic hero → light body → dark closing CTA.
+ * The live home page: hero, the enabled sections, then the closing CTA.
  * Composition and copy come from src/content/home.ts. With `layout.compact`
  * the hero loses its 92vh minimum and every section uses the tighter
- * `.home-compact` spacing and type defined in globals.css, so the page stays short.
+ * `.home-compact` spacing and type from globals.css, so the page stays short.
  */
 export function HomePage() {
   const enabled = HOME.sections.filter((s) => s.enabled);
@@ -64,13 +63,13 @@ export function HomePage() {
   const cta = enabled.find((s) => s.id === "cta");
 
   return (
-    <>
-      <div className={cn(HOME.layout.compact && "home-compact")}>
-        <HomeHero hero={HOME.hero} compact={HOME.layout.compact} />
-        {trust && REGISTRY.trust(trust)}
-        <LightBlock>{body.map((s) => <div key={s.id}>{REGISTRY[s.id](s)}</div>)}</LightBlock>
-        {cta && <DarkBlock>{REGISTRY.cta(cta)}</DarkBlock>}
-      </div>
-    </>
+    <div className={cn(HOME.layout.compact && "home-compact")}>
+      <HomeHero hero={HOME.hero} compact={HOME.layout.compact} />
+      {trust && REGISTRY.trust(trust)}
+      {body.map((s) => (
+        <div key={s.id}>{REGISTRY[s.id](s)}</div>
+      ))}
+      {cta && REGISTRY.cta(cta)}
+    </div>
   );
 }

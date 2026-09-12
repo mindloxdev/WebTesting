@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "Page not found" };
 /** 404 — designed, on-brand, and still pointing at the CTA. */
 export default function NotFound() {
   return (
-    <Frame scheme="dark" theme="theme-ultimate" noMobileCta>
+    <Frame theme="theme-ultimate" noMobileCta>
       <section className="relative flex min-h-[80vh] items-center overflow-hidden pt-32 pb-20" aria-label="Page not found">
         <div className="pointer-events-none absolute inset-0 mesh-bg" aria-hidden />
         <div className="pointer-events-none absolute inset-0 grid-bg fade-mask-b opacity-30" aria-hidden />

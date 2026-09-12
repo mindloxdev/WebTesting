@@ -21,7 +21,7 @@ type Props = {
 /** Long-form policy document with a sticky on-page outline. */
 export function LegalPage({ eyebrow, title, highlight, description, crumb, sections, updated = LEGAL_UPDATED }: Props) {
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <PageHero crumbs={[{ label: "Policies", href: "/policies" }, { label: crumb }]} eyebrow={eyebrow} title={title} highlight={highlight} description={description} size="lg" />
       <Section tight>
         <div className="grid gap-12 lg:grid-cols-[220px_1fr]">

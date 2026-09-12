@@ -9,7 +9,6 @@ import { LogoMark } from "@/components/ui/Logo";
 export function BrandedLoader({ label = "Loading Mindlox AI" }: { label?: string }) {
   return (
     <div
-      data-scheme="dark"
       className="theme-ultimate flex min-h-[60vh] flex-col items-center justify-center bg-bg text-fg"
       role="status"
       aria-live="polite"

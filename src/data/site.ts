@@ -1,3 +1,5 @@
+import type { SocialIconKey } from "@/components/ui/SocialIcons";
+
 /** Specialty count used in marketing copy site-wide. */
 export const SPECIALTY_COUNT = "30+";
 
@@ -185,10 +187,24 @@ export const CONTACT = {
   phoneHref: "tel:+18172564378",
   email: "info@mindlox.ai",
   emailHref: "mailto:info@mindlox.ai",
-  street: "0345 Lakemont Dr",
-  locality: "Fort Worth",
+  street: "9474 Valley Ranch Pkwy E, Apt 1062",
+  locality: "Irving",
   region: "TX",
-  postalCode: "76131-2447",
+  postalCode: "75063",
   /** One-line address for inline copy. */
-  address: "0345 Lakemont Dr, Fort Worth, TX 76131-2447",
+  address: "9474 Valley Ranch Pkwy E, Apt 1062, Irving, TX 75063",
 } as const;
+
+/**
+ * Social profiles. Edit the URLs here — an entry with an empty `href` is
+ * hidden everywhere (footer icons and the Organization structured data),
+ * so removing a network is a one-line change.
+ */
+export const SOCIAL = [
+  { name: "LinkedIn", icon: "linkedin", href: "https://www.linkedin.com/company/mindloxai" },
+  { name: "Facebook", icon: "facebook", href: "https://www.facebook.com/mindloxai" },
+  { name: "Instagram", icon: "instagram", href: "https://www.instagram.com/mindloxai" },
+  { name: "X", icon: "x", href: "https://x.com/mindloxai" },
+  { name: "TikTok", icon: "tiktok", href: "https://www.tiktok.com/@mindloxai" },
+  { name: "YouTube", icon: "youtube", href: "https://www.youtube.com/@mindloxai" },
+] as const satisfies readonly { name: string; icon: SocialIconKey; href: string }[];

@@ -25,7 +25,7 @@ const BELIEFS = [
 
 export default function AboutPage() {
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd data={[ORGANIZATION_LD, breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "About", url: "https://mindlox.ai/about" }])]} />
 
       <PageHero

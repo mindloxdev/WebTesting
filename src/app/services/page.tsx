@@ -30,7 +30,7 @@ const ORDER: ServiceCategory[] = ["core", "front-end", "back-end", "specialized"
 
 export default function ServicesPage() {
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd
         data={[
           ORGANIZATION_LD,

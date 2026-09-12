@@ -22,7 +22,7 @@ export default function BlogPage() {
   const [featured, ...rest] = posts;
 
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd data={breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Blog", url: "https://mindlox.ai/blog" }])} />
 
       <PageHero

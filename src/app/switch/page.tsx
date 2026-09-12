@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 export default function SwitchPage() {
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd data={[faqLd(SWITCH_OBJECTIONS), breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Switch to Mindlox AI", url: "https://mindlox.ai/switch" }])]} />
 
       <PageHero

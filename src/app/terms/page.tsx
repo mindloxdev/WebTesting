@@ -70,7 +70,7 @@ export default function TermsPage() {
         {
           heading: "Governing law",
           paragraphs: [
-            "These terms are governed by the laws of the State of Texas, without regard to its conflict-of-law rules. Any dispute relating to the Site will be brought in the state or federal courts located in Tarrant County, Texas, and you consent to their jurisdiction.",
+            "These terms are governed by the laws of the State of Texas, without regard to its conflict-of-law rules. Any dispute relating to the Site will be brought in the state or federal courts located in Dallas County, Texas, and you consent to their jurisdiction.",
           ],
         },
         { heading: "Contact", paragraphs: [`Questions about these terms can be sent to ${CONTACT.email}, or mailed to Mindlox AI, ${CONTACT.address}.`] },

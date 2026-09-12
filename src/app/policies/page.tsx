@@ -54,7 +54,7 @@ const STATEMENTS = [
 
 export default function PoliciesPage() {
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd data={breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Policies", url: "https://mindlox.ai/policies" }])} />
 
       <PageHero

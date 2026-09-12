@@ -27,7 +27,7 @@ const BY_PROBLEM = [
 
 export default function SolutionsPage() {
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd data={breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Solutions", url: "https://mindlox.ai/solutions" }])} />
 
       <PageHero

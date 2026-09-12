@@ -24,7 +24,7 @@ const READ = [
 /** Self-serve value before any sales call. Lives under Resources; linked from the home page. */
 export default function CalculatorPage() {
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd data={breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Resources", url: "https://mindlox.ai/resources" }, { name: "Revenue Leakage Calculator", url: "https://mindlox.ai/revenue-leakage-calculator" }])} />
       <PageHero
         crumbs={[{ label: "Resources", href: "/resources" }, { label: "Revenue Leakage Calculator" }]}

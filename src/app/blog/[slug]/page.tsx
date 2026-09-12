@@ -63,7 +63,7 @@ export default async function BlogPostPage({ params }: Props) {
   const more = sortedPosts().filter((p) => p.slug !== post.slug).slice(0, 3);
 
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd
         data={[
           {

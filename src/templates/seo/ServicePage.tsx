@@ -106,7 +106,7 @@ export function ServicePage({ service }: { service: Service }) {
   const sigTone = c.visual === "journey" ? "default" : "muted";
 
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd
         data={[
           serviceLd(service.name, service.description, url),

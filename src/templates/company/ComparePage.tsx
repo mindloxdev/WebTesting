@@ -16,7 +16,7 @@ import { JsonLd, faqLd, breadcrumbLd } from "@/components/seo/JsonLd";
 export function ComparePageView({ data }: { data: CompareData }) {
   const url = `https://mindlox.ai/compare/${data.slug}`;
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd data={[faqLd(data.faq), breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Compare", url: "https://mindlox.ai/why-mindlox-ai" }, { name: data.title, url }])]} />
 
       <PageHero

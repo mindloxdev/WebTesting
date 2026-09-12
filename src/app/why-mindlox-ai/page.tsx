@@ -28,7 +28,7 @@ const GAPS = [
 
 export default function WhyPage() {
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd data={breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Why Mindlox AI", url: "https://mindlox.ai/why-mindlox-ai" }])} />
 
       <PageHero

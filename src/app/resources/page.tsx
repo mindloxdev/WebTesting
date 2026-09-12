@@ -26,7 +26,7 @@ export default function ResourcesPage() {
   const posts = sortedPosts().slice(0, 3);
 
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd data={breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Resources", url: "https://mindlox.ai/resources" }])} />
 
       <PageHero

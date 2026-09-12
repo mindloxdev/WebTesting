@@ -49,7 +49,7 @@ const TECH_FAQ = FAQ.filter((f) => /AI|patient information|Business Associate|EH
 
 export default function TechnologyPage() {
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd data={[faqLd(TECH_FAQ), breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Technology", url: "https://mindlox.ai/technology" }])]} />
 
       <PageHero

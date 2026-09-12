@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BRAND, CONTACT, CTA, FOOTER_COLUMNS } from "@/data/site";
+import { SocialLinks } from "@/components/ui/SocialLinks";
 import { Logo } from "@/components/ui/Logo";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
@@ -48,6 +49,7 @@ export function Footer() {
                 </dd>
               </div>
             </dl>
+            <SocialLinks size="sm" className="mt-7 gap-1.5" />
           </div>
 
           {FOOTER_COLUMNS.map((col) => (
@@ -75,9 +77,7 @@ export function Footer() {
               <Link href="/policies" className="hover:text-fg">
                 Policies
               </Link>
-
             </li>
-
             <li>
               <Link href="/privacy" className="hover:text-fg">
                 Privacy Policy

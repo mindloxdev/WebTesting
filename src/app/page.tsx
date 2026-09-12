@@ -16,7 +16,7 @@ export const metadata: Metadata = {
  */
 export default function Home() {
   return (
-    <Frame scheme="dark" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd data={ORGANIZATION_LD} />
       <HomePage />
     </Frame>

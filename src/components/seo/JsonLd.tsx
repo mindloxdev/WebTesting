@@ -1,5 +1,5 @@
 /** Schema.org JSON-LD. Only emit facts the site actually asserts — no fabricated ratings, addresses, or reviews. */
-import { CONTACT } from "@/data/site";
+import { CONTACT, SOCIAL } from "@/data/site";
 
 export function JsonLd({ data }: { data: Record<string, unknown> | Record<string, unknown>[] }) {
   return (
@@ -29,6 +29,7 @@ export const ORGANIZATION_LD = {
     postalCode: CONTACT.postalCode,
     addressCountry: "US",
   },
+  sameAs: SOCIAL.filter((s) => s.href.trim().length > 0).map((s) => s.href),
 };
 
 export const serviceLd = (name: string, description: string, url: string) => ({

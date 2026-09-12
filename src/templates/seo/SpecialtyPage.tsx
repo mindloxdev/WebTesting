@@ -107,7 +107,7 @@ export function SpecialtyPage({ specialty: s }: { specialty: Specialty }) {
   const others = SPECIALTIES.filter((x) => x.slug !== s.slug).slice(0, 8);
 
   return (
-    <Frame scheme="light" theme="theme-ultimate">
+    <Frame theme="theme-ultimate">
       <JsonLd
         data={[
           serviceLd(`${s.name} Medical Billing & Revenue Cycle Management`, `${s.tagline} Specialty-aligned medical billing, coding, denial management, and A/R recovery for ${name} practices.`, url),

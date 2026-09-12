@@ -25,7 +25,7 @@ const WHY = [
 
 export default function CareersPage() {
   return (
-    <Frame scheme="light" theme="theme-ultimate" ctaLabel="Apply by email" ctaHref={APPLY_HREF}>
+    <Frame theme="theme-ultimate" ctaLabel="Apply by email" ctaHref={APPLY_HREF}>
       <JsonLd data={[ORGANIZATION_LD, breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Careers", url: "https://mindlox.ai/careers" }])]} />
 
       <PageHero
