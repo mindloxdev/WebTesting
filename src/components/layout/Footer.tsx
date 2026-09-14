@@ -90,7 +90,7 @@ export function Footer() {
             </li>
             <li>
               <Link href="/security" className="hover:text-fg">
-                HIP / Security
+                HIPAA / Security
               </Link>
             </li>
           </ul>
