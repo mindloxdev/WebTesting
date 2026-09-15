@@ -202,9 +202,9 @@ export const CONTACT = {
  */
 export const SOCIAL = [
   { name: "LinkedIn", icon: "linkedin", href: "https://www.linkedin.com/company/mindloxai" },
-  { name: "Facebook", icon: "facebook", href: "https://www.facebook.com/mindloxai" },
+  { name: "Facebook", icon: "facebook", href: "https://www.facebook.com/share/1EeR7L7ryo/" },
   { name: "Instagram", icon: "instagram", href: "https://www.instagram.com/mindloxai" },
-  { name: "X", icon: "x", href: "https://x.com/mindloxai" },
-  { name: "TikTok", icon: "tiktok", href: "https://www.tiktok.com/@mindloxai" },
+  { name: "X", icon: "x", href: "https://x.com/mindloxxai" },
+  { name: "TikTok", icon: "tiktok", href: "https://www.tiktok.com/@mindlox.ai" },
   { name: "YouTube", icon: "youtube", href: "https://www.youtube.com/@mindloxai" },
 ] as const satisfies readonly { name: string; icon: SocialIconKey; href: string }[];
