@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Manrope } from "next/font/google";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
 
 const geistSans = Geist({
@@ -65,6 +66,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <Providers>{children}</Providers>
+        {/* Core Web Vitals from real visitors. Same-origin, so the strict CSP
+            in next.config.ts already permits it, and it no-ops off Vercel. */}
+        <SpeedInsights />
       </body>
     </html>
   );
