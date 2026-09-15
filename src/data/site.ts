@@ -201,7 +201,7 @@ export const CONTACT = {
  * so removing a network is a one-line change.
  */
 export const SOCIAL = [
-  { name: "LinkedIn", icon: "linkedin", href: "https://www.linkedin.com/company/mindloxai" },
+  { name: "LinkedIn", icon: "linkedin", href: "https://www.linkedin.com/company/mindlox-ai/" },
   { name: "Facebook", icon: "facebook", href: "https://www.facebook.com/share/1EeR7L7ryo/" },
   { name: "Instagram", icon: "instagram", href: "https://www.instagram.com/mindloxai" },
   { name: "X", icon: "x", href: "https://x.com/mindloxxai" },
