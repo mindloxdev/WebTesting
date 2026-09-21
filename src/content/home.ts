@@ -28,7 +28,7 @@ export type HomeSectionId =
   | "specialties" // featured specialties → /specialties
   | "comparison" // short comparison table → /why-mindlox-ai (off by default)
   | "process" // 5-step onboarding (off by default; lives on /services and /about)
-  | "calculator" // leakage calculator (off by default; lives on /revenue-leakage-calculator)
+  | "calculator" // leakage calculator (on: this is the only place it lives)
   | "integrations" // EHR ecosystem (off by default; lives on /technology)
   | "faq" // short FAQ → /resources#faq (off by default)
   | "cta"; // closing CTA with the lead form
@@ -75,10 +75,11 @@ export const HOME = {
   /** Order and visibility of the sections under the hero. Kept short on purpose — one scroll, one story. */
   sections: [
     { id: "trust", enabled: true },
-    { id: "problem", enabled: true, ctaHref: "/revenue-leakage-calculator" },
+    { id: "problem", enabled: true, ctaHref: "#calculator" },
     { id: "lifecycle", enabled: true, tone: "muted" },
     { id: "services", enabled: true, limit: 6, moreHref: "/services" },
     { id: "specialties", enabled: true, tone: "muted", limit: 4, moreHref: "/specialties" },
+    { id: "calculator", enabled: true },
     { id: "cta", enabled: true },
 
     // Available but off by default — flip `enabled` to bring one back to the home page.
@@ -88,7 +89,6 @@ export const HOME = {
     { id: "comparison", enabled: false, limit: 5, moreHref: "/why-mindlox-ai" },
     { id: "faq", enabled: false, tone: "muted", limit: 5, moreHref: "/resources#faq" },
     { id: "process", enabled: false },
-    { id: "calculator", enabled: false, tone: "muted" },
     { id: "integrations", enabled: false, tone: "muted" },
   ] satisfies HomeSection[],
 

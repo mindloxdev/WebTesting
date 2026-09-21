@@ -3,7 +3,6 @@ import { Geist, Geist_Mono, Manrope } from "next/font/google";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
-import { LiveChat } from "@/components/layout/LiveChat";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -70,9 +69,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* Core Web Vitals from real visitors. Same-origin, so the strict CSP
             in next.config.ts already permits it, and it no-ops off Vercel. */}
         <SpeedInsights />
-        {/* Tawk.to chat. Loads on browser idle; its hosts are allowed
-            explicitly in the CSP in next.config.ts. */}
-        <LiveChat />
       </body>
     </html>
   );

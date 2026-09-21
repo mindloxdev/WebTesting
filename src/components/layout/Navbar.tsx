@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CTA, NAV, type NavItem } from "@/data/site";
 import { EASE } from "@/lib/motion";
@@ -24,7 +24,7 @@ export function Navbar({ ctaLabel = CTA.primary, ctaHref = CTA.auditHref }: Prop
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState<string | null>(null);
   const [mobile, setMobile] = useState(false);
-  const closeTimer = useRef<number | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
 
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 24));
 
@@ -46,24 +46,37 @@ export function Navbar({ ctaLabel = CTA.primary, ctaHref = CTA.auditHref }: Prop
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const enter = useCallback((label: string) => {
-    if (closeTimer.current) window.clearTimeout(closeTimer.current);
-    setOpen(label);
+  /**
+   * Mega menus open on click, not on hover. Hover-opened panels fire on any
+   * pointer that crosses the trigger, which reads as the menu opening by
+   * itself; a click is always deliberate. It also gives touch and keyboard the
+   * same interaction the mouse gets, instead of a separate code path.
+   */
+  const toggle = useCallback((label: string) => {
+    setOpen((cur) => (cur === label ? null : label));
   }, []);
-  const leave = useCallback(() => {
-    closeTimer.current = window.setTimeout(() => setOpen(null), 120);
-  }, []);
+
+  // Anything outside the header dismisses an open panel. `pointerdown` rather
+  // than `click` so the panel is gone before the target handles the press.
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: PointerEvent) => {
+      if (!headerRef.current?.contains(e.target as Node)) setOpen(null);
+    };
+    window.addEventListener("pointerdown", onDown);
+    return () => window.removeEventListener("pointerdown", onDown);
+  }, [open]);
 
   const active = NAV.find((n) => n.label === open && n.mega);
 
   return (
     <>
       <header
+        ref={headerRef}
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ease-out-expo",
           scrolled || open ? "glass-strong border-b border-line" : "border-b border-transparent",
         )}
-        onMouseLeave={leave}
       >
         <div
           className={cn(
@@ -75,7 +88,13 @@ export function Navbar({ ctaLabel = CTA.primary, ctaHref = CTA.auditHref }: Prop
 
           <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
             {NAV.map((item) => (
-              <NavLink key={item.label} item={item} open={open === item.label} onEnter={enter} onLeave={leave} />
+              <NavLink
+                key={item.label}
+                item={item}
+                open={open === item.label}
+                onToggle={toggle}
+                onNavigate={() => setOpen(null)}
+              />
             ))}
           </nav>
 
@@ -106,9 +125,8 @@ export function Navbar({ ctaLabel = CTA.primary, ctaHref = CTA.auditHref }: Prop
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.28, ease: EASE }}
+              id={panelId(active.label)}
               className="absolute inset-x-0 top-full hidden border-b border-line glass-strong lg:block"
-              onMouseEnter={() => enter(active.label)}
-              onMouseLeave={leave}
             >
               <div className="container-x grid grid-cols-[1fr_1fr_minmax(0,0.9fr)] gap-10 py-8">
                 {active.mega.columns.map((col) => (
@@ -138,10 +156,19 @@ export function Navbar({ ctaLabel = CTA.primary, ctaHref = CTA.auditHref }: Prop
                   <p className="mt-2 text-sm text-fg-2">
                     A structured review of denials, A/R aging, coding, and underpayments — findings are yours to keep.
                   </p>
-                  <div className="mt-5">
+                  <div className="mt-5 flex flex-wrap items-center gap-4">
                     <MagneticButton href={ctaHref} size="sm" arrow magnetic={false}>
                       {CTA.primaryShort}
                     </MagneticButton>
+                    {/* The trigger no longer navigates, so the overview lives here. */}
+                    <Link
+                      href={active.href}
+                      onClick={() => setOpen(null)}
+                      className="group inline-flex items-center gap-1 text-sm font-medium text-fg-2 transition-colors hover:text-fg"
+                    >
+                      All {active.label.toLowerCase()}
+                      <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -190,41 +217,45 @@ export function Navbar({ ctaLabel = CTA.primary, ctaHref = CTA.auditHref }: Prop
 function NavLink({
   item,
   open,
-  onEnter,
-  onLeave,
+  onToggle,
+  onNavigate,
 }: {
   item: NavItem;
   open: boolean;
-  onEnter: (l: string) => void;
-  onLeave: () => void;
+  onToggle: (l: string) => void;
+  onNavigate: () => void;
 }) {
   const base =
     "inline-flex h-10 items-center gap-1 whitespace-nowrap rounded-full px-3 text-[14px] font-medium text-fg-2 transition-colors hover:text-fg";
   if (!item.mega) {
     return (
-      <Link href={item.href} className={base} onMouseEnter={() => onEnter("")}>
+      <Link href={item.href} className={base} onClick={onNavigate}>
         {item.label}
       </Link>
     );
   }
+  // A button, not a link: the trigger's job is to open the panel, so it must
+  // not also navigate. The panel carries its own link to the section overview.
   return (
-    <div onMouseEnter={() => onEnter(item.label)} onMouseLeave={onLeave} className="relative">
-      <Link
-        href={item.href}
-        className={cn(base, open && "text-fg")}
-        aria-haspopup="true"
-        aria-expanded={open}
-        onFocus={() => onEnter(item.label)}
-      >
-        {item.label}
-        <ChevronDown
-          className={cn("size-3.5 transition-transform duration-300", open && "rotate-180")}
-          aria-hidden
-        />
-      </Link>
-    </div>
+    <button
+      type="button"
+      className={cn(base, open && "text-fg")}
+      aria-haspopup="true"
+      aria-expanded={open}
+      aria-controls={panelId(item.label)}
+      onClick={() => onToggle(item.label)}
+    >
+      {item.label}
+      <ChevronDown
+        className={cn("size-3.5 transition-transform duration-300", open && "rotate-180")}
+        aria-hidden
+      />
+    </button>
   );
 }
+
+/** Ties each trigger to the panel it controls for assistive tech. */
+const panelId = (label: string) => `nav-panel-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
 
 function MobileItem({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
   const [expanded, setExpanded] = useState(false);
