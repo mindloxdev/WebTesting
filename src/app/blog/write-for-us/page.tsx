@@ -13,7 +13,7 @@ const SITE = "https://mindlox.ai";
 export const metadata: Metadata = {
   title: "Write for us",
   description:
-    "Pitch an article to the Mindlox AI blog. We publish practical writing on medical billing and revenue cycle management from people who work claims — with a byline, credentials, and an author page.",
+    "Pitch an article to the Mindlox AI blog, and attach a draft if you have one. We publish practical writing on medical billing and revenue cycle management from people who work claims — with a byline, credentials, and an author page.",
   alternates: { canonical: "/blog/write-for-us" },
 };
 
@@ -30,8 +30,8 @@ const STEPS = [
   },
   {
     n: "03",
-    title: "Send the draft by email",
-    body: "Once we have agreed the angle, email the draft as a Google Doc or .docx. Plain headings, bullets and paragraphs — no tracked changes or embedded images.",
+    title: "Send the draft",
+    body: "Attach it to the pitch if it is already written, or email it once we have agreed the angle. Plain headings, bullets and paragraphs — no tracked changes or embedded images.",
   },
   {
     n: "04",
@@ -151,7 +151,8 @@ export default function WriteForUsPage() {
               with &ldquo;Blog pitch&rdquo; in the subject line.
             </p>
             <p className="mt-4 text-sm text-fg-3">
-              We do not accept file uploads here — once we have agreed the angle, the draft comes by email.
+              You can attach a draft if you already have one. It is optional — a pitch on its own is enough, and we
+              are happy to shape the angle with you first.
             </p>
           </Reveal>
           <Reveal delay={0.1}>

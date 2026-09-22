@@ -9,7 +9,7 @@ import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
-type Answers = { org?: string; providers?: string; need?: string; name?: string; email?: string; organization?: string; phone?: string };
+type Answers = { org?: string; providers?: string; need?: string; name?: string; email?: string; organization?: string; phone?: string; message?: string };
 
 const STEPS = [
   { q: "What type of organization are you?", key: "org", options: ORG_TYPES },
@@ -32,6 +32,7 @@ function mailtoFor(a: Answers) {
       `Work email: ${a.email ?? ""}`,
       `Organization: ${a.organization ?? ""}`,
       `Phone: ${a.phone ?? ""}`,
+      ...(a.message ? ["", "Message:", a.message] : []),
       "",
       `Organization type: ${a.org ?? ""}`,
       `Providers: ${a.providers ?? ""}`,
@@ -194,7 +195,26 @@ export function LeadForm({ className, initialNeed, title = "Get your free revenu
                   <Field label="Full name" id="lf-name" required value={a.name ?? ""} onChange={(v) => setA((s) => ({ ...s, name: v }))} autoComplete="name" />
                   <Field label="Work email" id="lf-email" type="email" required value={a.email ?? ""} onChange={(v) => setA((s) => ({ ...s, email: v }))} autoComplete="email" />
                   <Field label="Organization" id="lf-org" required value={a.organization ?? ""} onChange={(v) => setA((s) => ({ ...s, organization: v }))} autoComplete="organization" />
-                  <Field label="Phone (optional)" id="lf-phone" type="tel" value={a.phone ?? ""} onChange={(v) => setA((s) => ({ ...s, phone: v }))} autoComplete="tel" />
+                  <Field
+                    label="Phone (optional)"
+                    id="lf-phone"
+                    type="tel"
+                    value={a.phone ?? ""}
+                    onChange={(v) => setA((s) => ({ ...s, phone: v }))}
+                    autoComplete="tel"
+                    // Country code shown in the placeholder: the rest of the form
+                    // assumes a US practice, and a number without one is useless
+                    // if the visitor is not in North America.
+                    placeholder="+1 817 555 0123"
+                  />
+                  <TextArea
+                    label="Anything else we should know? (optional)"
+                    id="lf-message"
+                    value={a.message ?? ""}
+                    onChange={(v) => setA((s) => ({ ...s, message: v }))}
+                    placeholder="Your payer mix, the systems you bill in, where the revenue is leaking, or anything the questions above did not cover. Write in whatever language you are comfortable in."
+                    className="sm:col-span-2"
+                  />
                   {/* Honeypot: hidden from people, filled by bots. */}
                   <div className="absolute -left-[9999px] top-0 h-px w-px overflow-hidden" aria-hidden>
                     <label htmlFor="lf-website">Website</label>
@@ -233,7 +253,7 @@ export function LeadForm({ className, initialNeed, title = "Get your free revenu
   );
 }
 
-function Field({ label, id, type = "text", required, value, onChange, autoComplete }: { label: string; id: string; type?: string; required?: boolean; value: string; onChange: (v: string) => void; autoComplete?: string }) {
+function Field({ label, id, type = "text", required, value, onChange, autoComplete, placeholder }: { label: string; id: string; type?: string; required?: boolean; value: string; onChange: (v: string) => void; autoComplete?: string; placeholder?: string }) {
   return (
     <div>
       <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-fg">
@@ -246,8 +266,54 @@ function Field({ label, id, type = "text", required, value, onChange, autoComple
         value={value}
         onChange={(e) => onChange(e.target.value)}
         autoComplete={autoComplete}
+        placeholder={placeholder}
         className="h-12 w-full rounded-xl border border-line bg-bg px-4 text-[15px] text-fg outline-none transition-colors placeholder:text-fg-3 focus:border-accent"
       />
+    </div>
+  );
+}
+
+/**
+ * Optional free-text note. Everything above it is a dropdown built around a
+ * US practice; this is the one place a visitor those options do not describe
+ * can tell us in their own words, so it spans the full width and is never
+ * required.
+ */
+function TextArea({
+  label,
+  id,
+  value,
+  onChange,
+  placeholder,
+  className,
+}: {
+  label: string;
+  id: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  className?: string;
+}) {
+  const MAX = 2000;
+  return (
+    <div className={className}>
+      <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-fg">
+        {label}
+      </label>
+      <textarea
+        id={id}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        rows={4}
+        maxLength={MAX}
+        className="w-full resize-y rounded-xl border border-line bg-bg px-4 py-3 text-[15px] leading-relaxed text-fg outline-none transition-colors placeholder:text-fg-3 focus:border-accent"
+      />
+      {value.length > MAX - 200 && (
+        <p className="mt-1.5 text-right font-mono text-[11px] text-fg-3">
+          {MAX - value.length} characters left
+        </p>
+      )}
     </div>
   );
 }
