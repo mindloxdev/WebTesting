@@ -10,8 +10,11 @@ import { NextResponse } from "next/server";
  * artifact behaves correctly in whichever environment it is serving.
  *
  * Static security headers stay in next.config.ts, where they cost nothing.
+ *
+ * Named `proxy` because Next 16 deprecated the `middleware` file convention;
+ * the behaviour is unchanged.
  */
-export function middleware() {
+export function proxy() {
   const res = NextResponse.next();
   if (process.env.VERCEL_ENV !== "production") {
     res.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
