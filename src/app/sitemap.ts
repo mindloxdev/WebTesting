@@ -2,7 +2,8 @@ import type { MetadataRoute } from "next";
 import { ROOT_SERVICES } from "@/data/services";
 import { SPECIALTIES } from "@/data/specialties";
 import { COMPARE_PAGES } from "@/data/compare";
-import { POSTS } from "@/data/blog";
+import { allPosts } from "@/data/blog";
+import { CONTRIBUTORS } from "@/data/authors";
 
 const BASE = "https://mindlox.ai";
 
@@ -28,7 +29,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("/technology", 0.7),
     entry("/resources", 0.6, "weekly"),
     entry("/blog", 0.7, "weekly"),
-    ...POSTS.map((p) => entry(`/blog/${p.slug}`, 0.6)),
+    ...allPosts().map((p) => entry(`/blog/${p.slug}`, 0.6)),
+    ...CONTRIBUTORS.map((a) => entry(`/blog/authors/${a.id}`, 0.4)),
     entry("/revenue-leakage-calculator", 0.7),
     entry("/about", 0.6),
     entry("/contact", 0.9),
