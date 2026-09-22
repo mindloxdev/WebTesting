@@ -107,26 +107,26 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
             </Reveal>
 
             <Reveal delay={0.9} className="mt-10">
-              <dl className="grid gap-2 rounded-2xl border border-line bg-bg-2/60 p-5 font-mono text-xs text-fg-3 sm:grid-cols-3">
+              <dl className="grid gap-5 rounded-2xl border border-line bg-bg-2/60 p-5 sm:grid-cols-3">
                 <div>
-                  <dt className="uppercase tracking-[0.12em]">Phone</dt>
-                  <dd className="mt-1 text-fg-2">
+                  <dt className="text-sm font-medium text-fg">Phone</dt>
+                  <dd className="mt-1.5 text-sm leading-relaxed text-fg-2">
                     <a href={CONTACT.phoneHref} className="transition-colors hover:text-fg">
                       {CONTACT.phone}
                     </a>
                   </dd>
                 </div>
                 <div>
-                  <dt className="uppercase tracking-[0.12em]">Email</dt>
-                  <dd className="mt-1 text-fg-2">
+                  <dt className="text-sm font-medium text-fg">Email</dt>
+                  <dd className="mt-1.5 text-sm leading-relaxed text-fg-2">
                     <a href={CONTACT.emailHref} className="transition-colors hover:text-fg">
                       {CONTACT.email}
                     </a>
                   </dd>
                 </div>
                 <div>
-                  <dt className="uppercase tracking-[0.12em]">Address</dt>
-                  <dd className="mt-1 text-fg-2">
+                  <dt className="text-sm font-medium text-fg">Address</dt>
+                  <dd className="mt-1.5 text-sm leading-relaxed text-fg-2">
                     {CONTACT.street}
                     <br />
                     {CONTACT.locality}, {CONTACT.region} {CONTACT.postalCode}

@@ -41,6 +41,8 @@ export function FinalCTA({
       {accent && (
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_60%_at_80%_20%,rgba(255,255,255,0.18),transparent_60%)]" aria-hidden />
       )}
+      {/* The one deliberately centred block on the site: the closing CTA band.
+          Section headings are all left-aligned — this is the exception. */}
       <div className={cn("container-x relative", form ? "grid gap-12 lg:grid-cols-2 lg:items-center" : "text-center")}>
         <div className={cn(!form && "mx-auto max-w-3xl")}>
           <TextReveal

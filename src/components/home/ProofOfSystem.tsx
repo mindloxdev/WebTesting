@@ -44,7 +44,6 @@ export function ProofOfSystem() {
         title="One intelligent system. Three kinds of strength."
         highlight="One intelligent system."
         description="Not software you have to learn. Not an agency you have to chase. Experienced billing humans, modern technology, and AI-assisted intelligence — working as one accountable partner."
-        align="center"
       />
 
       <div className="relative mt-14">

@@ -121,7 +121,6 @@ export default function ServicesPage() {
           title="A billing department that assembles around your practice."
           highlight="around your practice."
           description="Coders, billers, A/R and denial specialists, credentialing experts, an account manager, and AI automation — one team, already aligned to your specialty."
-          align="center"
         />
       </Section>
       <TeamAssembly />

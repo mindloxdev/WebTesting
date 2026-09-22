@@ -16,8 +16,9 @@ export function CalculatorSection({ className, tone = "default", id = "calculato
         eyebrow="Revenue leakage calculator"
         title="How much revenue are you losing?"
         highlight="losing?"
-        description="Start from a specialty benchmark, then move the sliders or type your own figures. The estimate updates in real time — an illustrative model with every assumption shown, not a guarantee."
-        align="center"
+        // The "illustrative estimate, see assumptions" caveat lives on the
+        // calculator itself, next to the figures — it does not need repeating here.
+        description="Test different scenarios in real time, and see exactly how every dollar is calculated."
       />
       <Reveal className="mt-12" delay={0.1}>
         <LeakageCalculator detailed />

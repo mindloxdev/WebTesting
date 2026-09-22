@@ -15,7 +15,6 @@ export function ProcessSection({ className, tone = "muted", id = "process" }: Pr
         title="From first call to continuous optimization."
         highlight="continuous optimization."
         description="A transition designed so your revenue never pauses — with a parallel-run option and dashboards on from day one."
-        align="center"
       />
       <Reveal className="mx-auto mt-12 max-w-5xl" delay={0.1}>
         <ProcessTimeline />

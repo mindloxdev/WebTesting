@@ -22,7 +22,6 @@ export function DashboardSection({ className, tone = "default", id = "dashboard"
         title="See where every dollar is. Without asking."
         highlight="every dollar"
         description="Claims, payments, denials, A/R, collections, payer and provider performance — living dashboards with recommendations attached, not a monthly PDF."
-        align="center"
       />
       <Reveal className="mt-12" delay={0.1} y={40}>
         <CommandCenter variant={compact ? "hero" : "full"} />

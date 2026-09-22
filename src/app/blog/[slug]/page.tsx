@@ -73,35 +73,37 @@ export default async function BlogPostPage({ params }: Props) {
       />
 
       <article>
-        <header className="relative overflow-hidden pt-32 pb-12 lg:pt-44 lg:pb-16">
+        <header className="relative overflow-hidden pt-32 pb-16 lg:pt-44 lg:pb-24">
           <div className="pointer-events-none absolute inset-0 mesh-bg opacity-70" aria-hidden />
-          <div className="container-x relative max-w-3xl">
-            <Reveal y={8} className="mb-6">
-              <Breadcrumbs items={[{ label: "Blog", href: "/blog" }, { label: post.category }]} />
-            </Reveal>
-            <Reveal y={10} className="mb-5">
-              <Eyebrow>{post.category}</Eyebrow>
-            </Reveal>
-            <TextReveal as="h1" text={post.title} immediate delay={0.1} className="text-display-lg font-bold text-fg" />
-            <Reveal delay={0.5} className="mt-6">
-              <p className="text-lg leading-relaxed text-fg-2 lg:text-xl">{post.excerpt}</p>
-            </Reveal>
-            <Reveal delay={0.6} className="mt-6">
-              <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-fg-3">
-                {post.author === "mindlox-team" ? (
-                  post.authorRef.name
-                ) : (
-                  <Link href={`/blog/authors/${post.author}`} className="text-fg-2 hover:text-accent">
-                    {post.authorRef.name}
-                  </Link>
-                )}{" "}
-                · {formatDate(post.date)} · {readingTime(post)} min read
-              </p>
-            </Reveal>
+          <div className="container-x relative">
+            <div className="max-w-3xl">
+              <Reveal y={8} className="mb-6">
+                <Breadcrumbs items={[{ label: "Blog", href: "/blog" }, { label: post.category }]} />
+              </Reveal>
+              <Reveal y={10} className="mb-5">
+                <Eyebrow>{post.category}</Eyebrow>
+              </Reveal>
+              <TextReveal as="h1" text={post.title} immediate delay={0.1} className="text-display-lg font-bold text-fg" />
+              <Reveal delay={0.5} className="mt-6">
+                <p className="text-lg leading-relaxed text-fg-2 lg:text-xl">{post.excerpt}</p>
+              </Reveal>
+              <Reveal delay={0.6} className="mt-6">
+                <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-fg-3">
+                  {post.author === "mindlox-team" ? (
+                    post.authorRef.name
+                  ) : (
+                    <Link href={`/blog/authors/${post.author}`} className="text-fg-2 hover:text-accent">
+                      {post.authorRef.name}
+                    </Link>
+                  )}{" "}
+                  · {formatDate(post.date)} · {readingTime(post)} min read
+                </p>
+              </Reveal>
+            </div>
           </div>
         </header>
 
-        <div className="container-x pb-20 lg:pb-28">
+        <div className="container-x pb-20 lg:pb-32">
           <Reveal delay={0.1} className="max-w-3xl">
             <Prose blocks={post.body} />
           </Reveal>
@@ -123,7 +125,7 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </article>
 
-      <section className="border-t border-line bg-bg-2 py-16 lg:py-20" aria-label="More articles">
+      <section className="border-t border-line bg-bg-2 py-14 lg:py-20" aria-label="More articles">
         <div className="container-x">
           <div className="flex items-end justify-between gap-6">
             <p className="eyebrow">More from the blog</p>

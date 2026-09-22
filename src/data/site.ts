@@ -103,15 +103,17 @@ export const NAV: NavItem[] = [
           title: "Learn",
           links: [
             { label: "Blog", href: "/blog", description: "Practical articles on clean claims, denials, A/R, and the front end." },
-            { label: "Revenue Leakage Calculator", href: "/#calculator", description: "Estimate what denials and aging A/R cost you." },
+            { label: "Revenue Leakage Calculator", href: "/calculator", description: "Estimate what denials and aging A/R cost you." },
             { label: "Denial Reason Explorer", href: "/revenue-leakage-calculator", description: "The codes you actually see, and what stops each one." },
+            { label: "Where Revenue Leaks", href: "/where-revenue-leaks", description: "Seven ways revenue leaves a practice, and what recovers it." },
             { label: "FAQ", href: "/resources#faq", description: "Straight answers on onboarding, pricing, and security." },
           ],
         },
         {
           title: "Company",
           links: [
-            { label: "About", href: "/about", description: "Who we are and what we believe." },
+            // About is a top-level nav item; listing it here as well only
+            // duplicated it inside the expanded Resources menu.
             { label: "Careers", href: "/careers", description: "Roles we hire for and how to apply." },
             { label: "Policies", href: "/policies", description: "Privacy, terms, HIPAA and security, accessibility." },
           ],
@@ -164,8 +166,9 @@ export const FOOTER_COLUMNS: { title: string; links: NavLink[] }[] = [
       { label: "Technology", href: "/technology" },
       { label: "Resources", href: "/resources" },
       { label: "Blog", href: "/blog" },
-      { label: "Revenue Leakage Calculator", href: "/#calculator" },
+      { label: "Revenue Leakage Calculator", href: "/calculator" },
       { label: "Denial Reason Explorer", href: "/revenue-leakage-calculator" },
+      { label: "Where Revenue Leaks", href: "/where-revenue-leaks" },
       { label: "About", href: "/about" },
       { label: "Careers", href: "/careers" },
       { label: "Contact", href: "/contact" },
@@ -189,12 +192,12 @@ export const CONTACT = {
   phoneHref: "tel:+18172564378",
   email: "info@mindlox.ai",
   emailHref: "mailto:info@mindlox.ai",
-  street: "9474 Valley Ranch Pkwy E, Apt 1062",
+  street: "Ranch Valley",
   locality: "Irving",
   region: "TX",
   postalCode: "75063",
   /** One-line address for inline copy. */
-  address: "9474 Valley Ranch Pkwy E, Apt 1062, Irving, TX 75063",
+  address: "Ranch Valley, Irving, TX 75063",
 } as const;
 
 /**

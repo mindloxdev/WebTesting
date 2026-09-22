@@ -23,9 +23,9 @@ export function Footer() {
                 {CTA.primaryShort}
               </MagneticButton>
             </div>
-            <dl className="mt-8 space-y-1.5 font-mono text-xs text-fg-3">
+            <dl className="mt-8 space-y-3 text-sm text-fg-2">
               <div className="flex gap-2">
-                <dt className="w-16 shrink-0">Address</dt>
+                <dt className="w-20 shrink-0 text-sm font-medium text-fg">Address</dt>
                 <dd>
                   {CONTACT.street}
                   <br />
@@ -33,7 +33,7 @@ export function Footer() {
                 </dd>
               </div>
               <div className="flex gap-2">
-                <dt className="w-16 shrink-0">Phone</dt>
+                <dt className="w-20 shrink-0 text-sm font-medium text-fg">Phone</dt>
                 <dd>
                   <a href={CONTACT.phoneHref} className="transition-colors hover:text-fg">
                     {CONTACT.phone}
@@ -41,7 +41,7 @@ export function Footer() {
                 </dd>
               </div>
               <div className="flex gap-2">
-                <dt className="w-16 shrink-0">Email</dt>
+                <dt className="w-20 shrink-0 text-sm font-medium text-fg">Email</dt>
                 <dd>
                   <a href={CONTACT.emailHref} className="transition-colors hover:text-fg">
                     {CONTACT.email}

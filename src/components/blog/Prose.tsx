@@ -33,7 +33,7 @@ const Runs = ({ nodes }: { nodes: Inline[] }) => (
 
 function Item({ nodes, marker }: { nodes: Inline[]; marker: React.ReactNode }) {
   return (
-    <li className="flex gap-3 text-[16px] leading-relaxed text-fg-2">
+    <li className="flex gap-2.5 text-[15px] leading-relaxed text-fg-2">
       {marker}
       <span>
         <Runs nodes={nodes} />
@@ -55,7 +55,7 @@ function Block({ b }: { b: BlogBlock }) {
     return (
       <ul className="mt-4 space-y-2.5">
         {b.items.map((it, i) => (
-          <Item key={i} nodes={it} marker={<span className="mt-[11px] size-1.5 shrink-0 rounded-full bg-accent" aria-hidden />} />
+          <Item key={i} nodes={it} marker={<span className="mt-[9px] size-1.5 shrink-0 rounded-full bg-accent" aria-hidden />} />
         ))}
       </ul>
     );
@@ -66,19 +66,23 @@ function Block({ b }: { b: BlogBlock }) {
           <Item
             key={i}
             nodes={it}
-            marker={<span className="mt-px w-4 shrink-0 font-mono text-sm tabular text-accent">{i + 1}.</span>}
+            marker={<span className="w-4 shrink-0 font-mono text-[13px] tabular text-accent">{i + 1}.</span>}
           />
         ))}
       </ol>
     );
   return (
-    <p className="mt-4 text-[16px] leading-relaxed text-fg-2">
+    <p className="mt-4 text-[15px] leading-relaxed text-fg-2">
       <Runs nodes={b.content} />
     </p>
   );
 }
 
-/** Renders a parsed post body through the site's own typography. */
+/**
+ * Renders a parsed post body through the site's own typography — the same
+ * faces and sizes as the long-form pages in src/templates/company/LegalPage,
+ * so an article does not read as a different system from the rest of the site.
+ */
 export function Prose({ blocks }: { blocks: BlogBlock[] }) {
   return (
     <>

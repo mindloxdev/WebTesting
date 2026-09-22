@@ -70,7 +70,6 @@ export default function TechnologyPage() {
           title="Every detection is handed to a person."
           highlight="handed to a person."
           description="Detections stream in from claims, denials, A/R, payments, eligibility, coding, and credentialing. A named specialist reviews each one, decides, and closes it — nothing is auto-submitted."
-          align="center"
         />
         <Reveal className="mt-12" delay={0.1}>
           <Handoff />
@@ -80,7 +79,7 @@ export default function TechnologyPage() {
       <AISection feed={false} tone="muted" />
 
       <Section id="does-doesnt">
-        <SectionHeading eyebrow="Responsible by design" title="What the AI does — and doesn't." highlight="and doesn't." description="Clear boundaries make the intelligence trustworthy. It finds patterns at a scale no team can. People decide." align="center" />
+        <SectionHeading eyebrow="Responsible by design" title="What the AI does — and doesn't." highlight="and doesn't." description="Clear boundaries make the intelligence trustworthy. It finds patterns at a scale no team can. People decide." />
         <div className="mx-auto mt-12 grid max-w-5xl gap-4 lg:grid-cols-2">
           <Reveal>
             <div className="h-full rounded-[22px] border border-positive/30 bg-positive/5 p-6 lg:p-8">

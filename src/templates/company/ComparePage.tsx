@@ -81,7 +81,7 @@ export function ComparePageView({ data }: { data: CompareData }) {
 
       {/* Table */}
       <Section id="table" tone="muted">
-        <SectionHeading eyebrow="Side by side" title="How they differ in practice." highlight="in practice." description={`${data.columnLabel} versus Mindlox AI across the dimensions that decide net collections.`} align="center" />
+        <SectionHeading eyebrow="Side by side" title="How they differ in practice." highlight="in practice." description={`${data.columnLabel} versus Mindlox AI across the dimensions that decide net collections.`} />
         <Reveal className="mt-12" delay={0.1}>
           <ComparisonTable rows={data.rows} />
         </Reveal>

@@ -19,8 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPage() {
+  // Newest first, every post in one grid. sortedPosts() does the ordering.
   const posts = sortedPosts();
-  const [featured, ...rest] = posts;
 
   return (
     <Frame theme="theme-ultimate">
@@ -36,32 +36,10 @@ export default function BlogPage() {
         secondary={{ label: CTA.secondary }}
       />
 
-      <Section id="featured" tone="muted" tight>
-        <RevealGroup staggerChildren={0.08}>
-          <RevealItem>
-            <Card padding="lg" className="lg:grid lg:grid-cols-[1fr_1.2fr] lg:gap-12">
-              <Link href={`/blog/${featured.slug}`} className="block after:absolute after:inset-0" aria-label={featured.title}>
-                <div className="flex items-center gap-3">
-                  <span className="rounded-full bg-accent-soft px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-accent">Latest</span>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-fg-3">{featured.category}</span>
-                </div>
-                <h2 className="mt-5 font-display text-display-sm font-semibold text-fg">{featured.title}</h2>
-              </Link>
-              <div className="mt-6 lg:mt-0">
-                <p className="text-lg leading-relaxed text-fg-2">{featured.excerpt}</p>
-                <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.12em] text-fg-3">
-                  {formatDate(featured.date)} · {readingTime(featured)} min read
-                </p>
-              </div>
-            </Card>
-          </RevealItem>
-        </RevealGroup>
-      </Section>
-
       <Section id="all">
         <SectionHeading eyebrow="All articles" size="md" title="Read by topic." description="Metrics, denials, A/R, the front end, and out-of-network claims." />
         <RevealGroup className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3" staggerChildren={0.06}>
-          {rest.map((p) => (
+          {posts.map((p) => (
             <RevealItem key={p.slug}>
               <Card className="h-full" padding="md">
                 <Link href={`/blog/${p.slug}`} className="block after:absolute after:inset-0" aria-label={p.title}>

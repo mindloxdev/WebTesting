@@ -169,7 +169,7 @@ export function LeakageCalculator({ className, compact, detailed }: Props) {
     <div className={cn("overflow-hidden rounded-[22px] border border-line bg-bg shadow-e3", className)}>
       <div className={cn("grid", compact ? "lg:grid-cols-[1fr_1fr]" : "lg:grid-cols-[1.1fr_1fr]")}>
         {/* Inputs */}
-        <div className="border-b border-line p-6 lg:border-b-0 lg:border-r lg:p-8">
+        <div className="flex flex-col border-b border-line p-6 lg:border-b-0 lg:border-r lg:p-8">
           <div className="mb-6 flex items-center justify-between">
             <p className="eyebrow">Your practice</p>
             <DemoBadge label="Illustrative estimate" />
@@ -212,7 +212,7 @@ export function LeakageCalculator({ className, compact, detailed }: Props) {
             </div>
           </div>
 
-          <div className="space-y-5">
+          <div className="flex flex-1 flex-col justify-between gap-5">
             {FIELDS.map((f) => (
               <div key={f.key}>
                 <div className="mb-2 flex items-baseline justify-between gap-3">
@@ -312,6 +312,11 @@ export function LeakageCalculator({ className, compact, detailed }: Props) {
                 <li>Specialty benchmarks are illustrative starting points, not published averages.</li>
               </ul>
             )}
+
+            {/* Fills the space left under the CTA: the outputs column is shorter
+                than the inputs column, and the projection belongs beside the
+                figures it projects rather than in a band further down. */}
+            {detailed && <Projection result={r} />}
           </div>
         </div>
       </div>
@@ -367,7 +372,7 @@ function ValueInput({ field, value, onCommit }: { field: Field; value: number; o
 
 type Part = { label: string; value: number; color: string; formula: string; fix: string };
 
-/** Full-width band under the card: what each leak is, and what waiting costs. */
+/** Full-width band under the card: what each leak is, and how to fix it. */
 function DetailBand({ parts, result }: { parts: Part[]; result: ReturnType<typeof computeLeakage> }) {
   return (
     <div className="border-t border-line bg-bg-2/50">
@@ -389,12 +394,15 @@ function DetailBand({ parts, result }: { parts: Part[]; result: ReturnType<typeo
           </div>
         ))}
       </div>
-      <Projection result={result} />
     </div>
   );
 }
 
-/** Twelve bars. Full height is what leaks if nothing changes; the fill is what a program targets back. */
+/**
+ * Twelve bars, kept deliberately short so the band reads as a footnote to the
+ * figures above rather than a second chart competing with them. Full height is
+ * what leaks if nothing changes; the fill is what a program targets back.
+ */
 function Projection({ result }: { result: ReturnType<typeof computeLeakage> }) {
   const reduce = useReducedMotion();
   const data = useMemo(() => project(result), [result]);
@@ -402,19 +410,12 @@ function Projection({ result }: { result: ReturnType<typeof computeLeakage> }) {
   const final = data[data.length - 1];
 
   return (
-    <div className="border-t border-line bg-bg p-6 lg:p-8">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="eyebrow">The cost of waiting</p>
-          <p className="mt-2 max-w-lg text-sm leading-relaxed text-fg-2">
-            Leakage compounds every month it goes unaddressed. The bars show it accumulating; the filled portion is
-            what a structured program targets back over the same twelve months.
-          </p>
-        </div>
-        <div className="flex gap-6">
-          <Legend swatch="color-mix(in oklab, var(--negative) 22%, transparent)" label="Leaked, cumulative" value={final.leaked} />
-          <Legend swatch="var(--accent)" label="Recovered, cumulative" value={final.recovered} />
-        </div>
+    <div className="mt-8 border-t border-line pt-6">
+      <p className="eyebrow">The cost of waiting</p>
+      <p className="mt-2 text-sm leading-relaxed text-fg-2">Leakage compounds every month it goes unaddressed.</p>
+      <div className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
+        <Legend swatch="color-mix(in oklab, var(--negative) 22%, transparent)" label="Leaked, cumulative" value={final.leaked} />
+        <Legend swatch="var(--accent)" label="Recovered, cumulative" value={final.recovered} />
       </div>
 
       {/*
@@ -424,7 +425,7 @@ function Projection({ result }: { result: ReturnType<typeof computeLeakage> }) {
         its percentage against an auto height and collapse to nothing.
       */}
       <div
-        className="mt-7 flex h-44 gap-1.5 sm:gap-2.5"
+        className="mt-5 flex h-24 gap-1 sm:gap-1.5"
         role="img"
         aria-label={`Twelve-month projection: ${currency(final.leaked)} leaked cumulatively, ${currency(final.recovered)} potentially recovered.`}
       >
@@ -445,11 +446,10 @@ function Projection({ result }: { result: ReturnType<typeof computeLeakage> }) {
                 />
               </motion.div>
             </div>
-            <span className="mt-2 text-center font-mono text-[10px] text-fg-3">{d.month}</span>
+            <span className="mt-1.5 text-center font-mono text-[10px] text-fg-3">{d.month}</span>
           </div>
         ))}
       </div>
-      <p className="mt-2 text-center font-mono text-[10px] uppercase tracking-[0.12em] text-fg-3">Month</p>
     </div>
   );
 }

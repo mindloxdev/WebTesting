@@ -5,7 +5,6 @@ import { Section, SectionHeading } from "@/components/ui/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { DenialExplorer, DenialStages } from "@/components/visuals/DenialExplorer";
-import { LeakReveal } from "@/components/visuals/LeakReveal";
 import { GrowthField } from "@/components/visuals/GrowthField";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
 
@@ -87,24 +86,12 @@ export default function DenialExplorerPage() {
                   practice each month — with a cause breakdown and a twelve-month projection.
                 </p>
               </div>
-              <MagneticButton href="/#calculator" size="lg" arrow hoverLabel="Run the Numbers">
+              <MagneticButton href="/calculator" size="lg" arrow hoverLabel="Run the Numbers">
                 Open the calculator
               </MagneticButton>
             </div>
           </div>
         </Reveal>
-      </Section>
-
-      <Section id="where-it-goes" bleed ariaLabel="Where revenue goes">
-        <div className="container-x">
-          <SectionHeading
-            eyebrow="Where it goes"
-            title="Seven ways revenue leaks. One way to get it back."
-            highlight="One way to get it back."
-            description="Scroll through the causes. The bar on the left shows what a practice keeps as each one takes its share — and what comes back once they are found, fixed, and recovered."
-          />
-        </div>
-        <LeakReveal className="mt-10" />
       </Section>
 
       <LifecycleSection tone="muted" />
