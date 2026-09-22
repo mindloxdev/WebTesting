@@ -57,7 +57,7 @@ export default function ResourcesPage() {
         <RevealGroup className="mt-10 grid gap-4 md:grid-cols-3" staggerChildren={0.06}>
           <RevealItem>
             <Card className="h-full" padding="md">
-              <Link href="/calculator" className="block after:absolute after:inset-0" aria-label="Open the Revenue Leakage Calculator">
+              <Link href="/revenue-leakage-calculator" className="block after:absolute after:inset-0" aria-label="Open the Revenue Leakage Calculator">
                 <div className="flex items-center justify-between">
                   <span className="inline-flex size-9 items-center justify-center rounded-lg bg-accent-soft text-accent">
                     <Calculator className="size-4" aria-hidden />
@@ -72,7 +72,7 @@ export default function ResourcesPage() {
           </RevealItem>
           <RevealItem>
             <Card className="h-full" padding="md">
-              <Link href="/revenue-leakage-calculator" className="block after:absolute after:inset-0" aria-label="Open the Denial Reason Explorer">
+              <Link href="/denial-reason-explorer" className="block after:absolute after:inset-0" aria-label="Open the Denial Reason Explorer">
                 <div className="flex items-center justify-between">
                   <span className="inline-flex size-9 items-center justify-center rounded-lg bg-accent-soft text-accent">
                     <FileSearch className="size-4" aria-hidden />

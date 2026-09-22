@@ -87,6 +87,17 @@ const nextConfig: NextConfig = {
   /** Do not advertise the framework. */
   poweredByHeader: false,
 
+  /**
+   * The calculator briefly lived at /calculator, and the denial explorer at
+   * /revenue-leakage-calculator — a slug that described the other tool. Each
+   * page now sits at the URL that names it; these keep the old paths alive.
+   */
+  async redirects() {
+    return [
+      { source: "/calculator", destination: "/revenue-leakage-calculator", permanent: true },
+    ];
+  },
+
   async headers() {
     // Static for every environment. The per-environment noindex header is set
     // at request time in src/proxy.ts so that promoting a preview build

@@ -287,7 +287,7 @@ export function DenialExplorer({ className }: Props) {
               </p>
 
               <div className="mt-6">
-                <MagneticButton href="/calculator" size="sm" arrow magnetic={false}>
+                <MagneticButton href="/revenue-leakage-calculator" size="sm" arrow magnetic={false}>
                   Estimate what denials cost you
                 </MagneticButton>
               </div>

@@ -97,7 +97,7 @@ export default function WhereRevenueLeaksPage() {
                   practice each month — with a cause breakdown and a twelve-month projection.
                 </p>
               </div>
-              <MagneticButton href="/calculator" size="lg" arrow hoverLabel="Run the Numbers">
+              <MagneticButton href="/revenue-leakage-calculator" size="lg" arrow hoverLabel="Run the Numbers">
                 Open the calculator
               </MagneticButton>
             </div>
