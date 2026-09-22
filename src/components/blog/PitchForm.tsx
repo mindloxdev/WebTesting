@@ -1,9 +1,10 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, Mail } from "lucide-react";
+import { Check, Mail, Paperclip, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { CONTACT } from "@/data/site";
+import { ACCEPT_ATTR, ALLOWED_LABEL, MAX_FILE_BYTES } from "@/lib/attachment";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { MagneticButton } from "@/components/ui/MagneticButton";
@@ -51,8 +52,9 @@ const field =
  * motivated — the multi-step treatment the lead form uses would be friction
  * here, not reassurance.
  *
- * No file input: the draft comes by email once we have said yes. That keeps
- * uploads, scanning and storage out of the site entirely.
+ * One optional document attachment. The file is posted as multipart and goes
+ * straight into the notification email — it is never stored, so there is no
+ * uploaded object on the site for anyone to reach.
  */
 export function PitchForm({ className }: { className?: string }) {
   const [a, setA] = useState<Answers>(EMPTY);
@@ -61,6 +63,9 @@ export function PitchForm({ className }: { className?: string }) {
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [done, setDone] = useState<Delivery | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [sentWithFile, setSentWithFile] = useState(false);
+  const fileInput = useRef<HTMLInputElement>(null);
 
   // Stamped on mount, not during render: feeds the server's minimum fill-time check.
   const openedAt = useRef(0);
@@ -71,6 +76,12 @@ export function PitchForm({ className }: { className?: string }) {
   const set = (key: keyof Answers) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setA((s) => ({ ...s, [key]: e.target.value }));
 
+  const clearFile = () => {
+    setFile(null);
+    // Reset the input too, or picking the same file again fires no change event.
+    if (fileInput.current) fileInput.current.value = "";
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (sending) return;
@@ -78,12 +89,17 @@ export function PitchForm({ className }: { className?: string }) {
     setError(null);
     setFieldErrors({});
     try {
-      const res = await fetch("/api/pitch", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...a, website, elapsedMs: Date.now() - openedAt.current }),
-      });
+      // multipart, not JSON: the attachment rides along with the fields.
+      // The browser sets Content-Type (with the boundary) itself.
+      const payload = new FormData();
+      for (const [k, v] of Object.entries(a)) payload.append(k, v);
+      payload.append("website", website);
+      payload.append("elapsedMs", String(Date.now() - openedAt.current));
+      if (file) payload.append("file", file);
+
+      const res = await fetch("/api/pitch", { method: "POST", body: payload });
       if (res.ok) {
+        setSentWithFile(file !== null);
         setDone("sent");
         return;
       }
@@ -130,16 +146,19 @@ export function PitchForm({ className }: { className?: string }) {
               <p className="mt-3 text-fg-2">
                 {done === "sent" ? (
                   <>
-                    A specialist reads every pitch and replies either way, usually within a few working days. If we say
-                    yes, send the draft as a Google Doc or .docx to{" "}
-                    <a href={CONTACT.emailHref} className="font-medium text-accent underline underline-offset-[3px]">
-                      {CONTACT.email}
-                    </a>{" "}
-                    and we will edit, fact-check, and publish it under your byline.
+                    A specialist reads every pitch and replies either way, usually within a few working days.{" "}
+                    {sentWithFile ? "Your file came through with it." : "If we say yes, send the draft to"}{" "}
+                    {!sentWithFile && (
+                      <a href={CONTACT.emailHref} className="font-medium text-accent underline underline-offset-[3px]">
+                        {CONTACT.email}
+                      </a>
+                    )}{" "}
+                    We edit, fact-check, and publish under your byline.
                   </>
                 ) : (
                   <>
                     We opened your email app with the pitch filled in — press send and it reaches us the same way.
+                    {file ? " Attach the file there as well: a mail link cannot carry it across." : ""}
                   </>
                 )}
               </p>
@@ -240,6 +259,51 @@ export function PitchForm({ className }: { className?: string }) {
                   maxLength={300}
                 />
                 <FieldError message={fieldErrors.samples} />
+              </div>
+
+              <div>
+                <span className={label}>
+                  Attach your draft <span className="normal-case tracking-normal">(optional)</span>
+                </span>
+                <input
+                  ref={fileInput}
+                  id="p-file"
+                  type="file"
+                  accept={ACCEPT_ATTR}
+                  className="sr-only"
+                  onChange={(e) => {
+                    setFieldErrors((f) => ({ ...f, file: "" }));
+                    setFile(e.target.files?.[0] ?? null);
+                  }}
+                />
+                {file ? (
+                  <div className="mt-2 flex items-center gap-3 rounded-xl border border-line bg-bg-2/60 px-4 py-3">
+                    <Paperclip className="size-4 shrink-0 text-accent" aria-hidden />
+                    <span className="min-w-0 flex-1 truncate text-[15px] text-fg">{file.name}</span>
+                    <span className="shrink-0 font-mono text-[11px] text-fg-3">{Math.max(1, Math.round(file.size / 1024))} KB</span>
+                    <button
+                      type="button"
+                      onClick={clearFile}
+                      className="shrink-0 rounded-full p-1 text-fg-3 transition-colors hover:bg-fg/8 hover:text-fg"
+                      aria-label={`Remove ${file.name}`}
+                    >
+                      <X className="size-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <label
+                    htmlFor="p-file"
+                    className="mt-2 flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-line bg-bg px-4 py-3 text-[15px] text-fg-3 transition-colors hover:border-accent hover:text-fg"
+                  >
+                    <Paperclip className="size-4 shrink-0" aria-hidden />
+                    <span>Choose a file</span>
+                  </label>
+                )}
+                <p className="mt-1.5 text-[13px] text-fg-3">
+                  {ALLOWED_LABEL}, up to {Math.round(MAX_FILE_BYTES / (1024 * 1024))} MB. Optional — you can send the
+                  draft later instead.
+                </p>
+                <FieldError message={fieldErrors.file} />
               </div>
 
               {/* Honeypot: hidden from people, irresistible to bots. */}

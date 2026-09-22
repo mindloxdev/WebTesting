@@ -1,8 +1,8 @@
 import nodemailer from "nodemailer";
 import { z } from "zod";
 import { CONTACT } from "@/data/site";
+import { ALLOWED_LABEL, MAX_FILE_BYTES, checkFile } from "@/lib/attachment";
 import {
-  MAX_BODY_BYTES,
   MIN_FILL_MS,
   clientIp,
   createRateLimiter,
@@ -17,10 +17,13 @@ import {
 /**
  * Contributor pitch endpoint — "Write for us" on the blog.
  *
- * Deliberately does not accept file uploads. A pitch is a few hundred words
- * of plain text; the draft itself arrives by email afterwards, which keeps
- * this route free of upload storage, virus scanning, and a much larger attack
- * surface for the sake of a step that happens a handful of times a month.
+ * Accepts multipart/form-data with one optional document attachment, so a
+ * writer can send a draft with the pitch rather than in a second email.
+ *
+ * The file is never written to disk and never served back: it is validated,
+ * streamed into the notification email, and forgotten. There is no stored
+ * object for anyone to fetch later, which is what keeps a public upload path
+ * on a marketing site defensible. See src/lib/attachment.ts for the limits.
  *
  * Server-only. Secrets are read from process.env inside the handler and never
  * imported into a client component. Reuses the lead form's SMTP account:
@@ -38,6 +41,9 @@ export const dynamic = "force-dynamic";
 /** Tighter than the lead form: a pitch is a considered action, not a repeat one. */
 const rateLimited = createRateLimiter({ windowMs: 10 * 60 * 1000, max: 5 });
 
+/** Text fields plus one attachment, with headroom for multipart framing. */
+const MAX_REQUEST_BYTES = MAX_FILE_BYTES + 64 * 1024;
+
 const PitchSchema = z.object({
   name: singleLine(120).pipe(z.string().min(1, "Your name is required.")),
   email: singleLine(254).pipe(z.email("Enter a valid email address.")),
@@ -54,25 +60,40 @@ const PitchSchema = z.object({
 });
 
 export async function POST(req: Request) {
-  // 1. Body size cap, before any parsing.
+  // 1. Size cap, before reading anything.
   const declared = Number(req.headers.get("content-length") ?? 0);
-  if (declared > MAX_BODY_BYTES) return json({ ok: false, error: "Request too large." }, 413);
-
-  const raw = await req.text();
-  if (raw.length > MAX_BODY_BYTES) return json({ ok: false, error: "Request too large." }, 413);
+  if (declared > MAX_REQUEST_BYTES) {
+    return json({ ok: false, error: "That upload is too large.", fields: { file: `Keep the file under ${Math.round(MAX_FILE_BYTES / (1024 * 1024))} MB.` } }, 413);
+  }
 
   // 2. Rate limit per IP.
   if (rateLimited(clientIp(req))) {
     return json({ ok: false, error: "Too many pitches from this connection. Please try again later." }, 429);
   }
 
-  // 3. Parse.
-  let parsedJson: unknown;
+  // 3. Parse the multipart body.
+  let form: FormData;
   try {
-    parsedJson = JSON.parse(raw);
+    form = await req.formData();
   } catch {
     return json({ ok: false, error: "Invalid request." }, 400);
   }
+
+  const text = (key: string) => {
+    const v = form.get(key);
+    return typeof v === "string" ? v : "";
+  };
+
+  const parsedJson = {
+    name: text("name"),
+    email: text("email"),
+    role: text("role"),
+    topic: text("topic"),
+    outline: text("outline"),
+    samples: text("samples"),
+    website: text("website"),
+    elapsedMs: Number(text("elapsedMs")) || 0,
+  };
 
   // 4. Validate.
   const result = PitchSchema.safeParse(parsedJson);
@@ -85,7 +106,24 @@ export async function POST(req: Request) {
   if (pitch.website.trim()) return json({ ok: true }, 200);
   if (pitch.elapsedMs > 0 && pitch.elapsedMs < MIN_FILL_MS) return json({ ok: true }, 200);
 
-  // 6. Delivery.
+  // 6. Attachment, if one came with the pitch.
+  const upload = form.get("file");
+  let attachment: { filename: string; content: Buffer } | null = null;
+
+  if (upload && typeof upload !== "string" && upload.size > 0) {
+    const verdict = checkFile({ name: upload.name, type: upload.type, size: upload.size });
+    if (!verdict.ok) {
+      return json({ ok: false, error: verdict.error, fields: { file: verdict.error } }, 400);
+    }
+    const bytes = Buffer.from(await upload.arrayBuffer());
+    // Re-check after reading: `size` is client-reported until this point.
+    if (bytes.byteLength > MAX_FILE_BYTES) {
+      return json({ ok: false, error: "That upload is too large.", fields: { file: `Keep the file under ${Math.round(MAX_FILE_BYTES / (1024 * 1024))} MB.` } }, 413);
+    }
+    attachment = { filename: verdict.filename, content: bytes };
+  }
+
+  // 7. Delivery.
   const host = process.env.LEAD_SMTP_HOST;
   const user = process.env.LEAD_SMTP_USER;
   const pass = process.env.LEAD_SMTP_PASS;
@@ -105,6 +143,7 @@ export async function POST(req: Request) {
     `Email:     ${pitch.email}`,
     `Role:      ${pitch.role}`,
     `Samples:   ${pitch.samples || "—"}`,
+    `Attached:  ${attachment ? `${attachment.filename} (${Math.round(attachment.content.byteLength / 1024)} KB)` : "no file"}`,
     "",
     `Proposed topic: ${pitch.topic}`,
     "",
@@ -114,8 +153,10 @@ export async function POST(req: Request) {
     "",
     `Received: ${new Date().toISOString()}`,
     "",
-    "Reply to this email to accept or decline. If accepting, ask for the draft",
-    "as a Google Doc or .docx and point them at CONTRIBUTING-BLOG.md.",
+    `Reply to this email to accept or decline.${attachment ? " The draft is attached." : " If accepting, ask for the draft as a Google Doc or .docx."}`,
+    "House rules for contributors are in CONTRIBUTING-BLOG.md.",
+    "",
+    `Attachments come from the public form: treat as untrusted (${ALLOWED_LABEL} only, scanned by your mail provider).`,
   ].join("\n");
 
   try {
@@ -132,6 +173,7 @@ export async function POST(req: Request) {
       // Static subject: no user input reaches a mail header.
       subject: "New blog contribution pitch — Mindlox AI website",
       text: body,
+      ...(attachment ? { attachments: [attachment] } : {}),
     });
     return json({ ok: true }, 200);
   } catch (err) {
