@@ -32,6 +32,21 @@ const csp = [
   "upgrade-insecure-requests",
 ].join("; ");
 
+/**
+ * Keystatic's editor is a self-hosted React app, so it stays same-origin for
+ * scripts and styles — but in GitHub storage mode the browser talks to the
+ * GitHub API directly and renders contributor avatars from its CDN. Those two
+ * origins are the whole difference from the site policy above.
+ *
+ * This is a separate header rather than a loosening of `csp`, and the site
+ * rule below explicitly does not match /keystatic: two Content-Security-Policy
+ * headers on one response are intersected by the browser, so an admin screen
+ * that inherited both would silently fail to load.
+ */
+const keystaticCsp = csp
+  .replace("connect-src 'self'", "connect-src 'self' https://api.github.com https://github.com")
+  .replace("img-src 'self' data: blob:", "img-src 'self' data: blob: https://avatars.githubusercontent.com");
+
 const securityHeaders = [
   { key: "Content-Security-Policy", value: csp },
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
@@ -56,14 +71,40 @@ const nextConfig: NextConfig = {
   /** Never ship browser source maps: they hand readers the unminified app. */
   productionBrowserSourceMaps: false,
 
+  /**
+   * src/data/blog.ts reads the posts off disk at module load. Today every
+   * route that imports it prerenders, so nothing touches the filesystem at
+   * request time and this is belt-and-braces. It is here because the tracer
+   * cannot see through a runtime `path.join` to know the .md files are
+   * needed: the day one of these routes turns dynamic, it would 500 in
+   * production and build clean locally. Cheaper to name the files now.
+   */
+  outputFileTracingIncludes: {
+    "/sitemap.xml": ["./src/content/blog/**/*.md"],
+    "/blog/**": ["./src/content/blog/**/*.md"],
+  },
+
   /** Do not advertise the framework. */
   poweredByHeader: false,
 
   async headers() {
     // Static for every environment. The per-environment noindex header is set
-    // at request time in src/middleware.ts so that promoting a preview build
+    // at request time in src/proxy.ts so that promoting a preview build
     // to production cannot carry a stale noindex with it.
-    return [{ source: "/:path*", headers: securityHeaders }];
+    const keystatic = [
+      { key: "Content-Security-Policy", value: keystaticCsp },
+      // Never index the editor, and never let it be framed.
+      { key: "X-Robots-Tag", value: "noindex, nofollow" },
+      ...securityHeaders.filter((h) => h.key !== "Content-Security-Policy"),
+    ];
+
+    return [
+      { source: "/keystatic/:path*", headers: keystatic },
+      { source: "/keystatic", headers: keystatic },
+      { source: "/api/keystatic/:path*", headers: keystatic },
+      // Everything that is not the editor gets the strict site policy.
+      { source: "/((?!keystatic|api/keystatic).*)", headers: securityHeaders },
+    ];
   },
 };
 

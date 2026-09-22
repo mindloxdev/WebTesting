@@ -3,6 +3,7 @@ import nodemailer from "nodemailer";
 import { z } from "zod";
 import { NEEDS, ORG_TYPES, PROVIDER_COUNTS } from "@/data/content";
 import { CONTACT } from "@/data/site";
+import { MIN_FILL_MS, clientIp, createRateLimiter, fieldErrors, json, methodNotAllowed, singleLine } from "@/lib/form-guard";
 
 /**
  * Lead form endpoint — the only write path on the site.
@@ -27,53 +28,17 @@ export const dynamic = "force-dynamic";
 /** Reject anything larger than this before parsing. A real submission is well under 2 KB. */
 const MAX_BODY_BYTES = 8 * 1024;
 
-/** Forms completed faster than this are automated. */
-const MIN_FILL_MS = 3000;
+/**
+ * Generous enough for a clinic behind one NAT address, tight enough to stop
+ * scripted abuse. Its own bucket, separate from the contributor pitch form.
+ */
+const rateLimited = createRateLimiter({ windowMs: 10 * 60 * 1000, max: 10 });
 
-/** Generous enough for a clinic behind one NAT address, tight enough to stop scripted abuse. */
-const RATE_LIMIT = { windowMs: 10 * 60 * 1000, max: 10 };
-
-/* ------------------------------------------------------------------ */
-/*  Rate limiting                                                      */
-/*                                                                      */
-/*  In-memory, per serverless instance. It stops casual scripted abuse  */
-/*  but resets on cold start and is not shared across regions. For a    */
-/*  durable limit, swap the two marked lines for Upstash Redis — see    */
-/*  the note in README under "Lead form".                              */
-/* ------------------------------------------------------------------ */
-const hits = new Map<string, number[]>();
-
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  const cutoff = now - RATE_LIMIT.windowMs;
-  const recent = (hits.get(ip) ?? []).filter((t) => t > cutoff);
-  // Bound memory on long-lived instances.
-  if (hits.size > 5000) hits.clear();
-  if (recent.length >= RATE_LIMIT.max) {
-    hits.set(ip, recent);
-    return true;
-  }
-  recent.push(now);
-  hits.set(ip, recent);
-  return false;
-}
-
-function clientIp(req: Request): string {
-  const fwd = req.headers.get("x-forwarded-for");
-  if (fwd) return fwd.split(",")[0].trim();
-  return req.headers.get("x-real-ip")?.trim() || "unknown";
-}
+const RETRY_AFTER_SECONDS = 600;
 
 /* ------------------------------------------------------------------ */
 /*  Validation                                                         */
 /* ------------------------------------------------------------------ */
-
-/** Strips CR and LF so no field can inject an extra mail header. */
-const singleLine = (max: number) =>
-  z
-    .string()
-    .max(max, `Keep this under ${max} characters.`)
-    .transform((s) => s.replace(/[\r\n]+/g, " ").trim());
 
 const oneOf = (values: readonly string[], label: string) =>
   singleLine(80).refine((v) => values.includes(v), { message: `Choose a valid ${label}.` });
@@ -97,8 +62,6 @@ const LeadSchema = z.object({
 /*  Handler                                                            */
 /* ------------------------------------------------------------------ */
 
-const json = (body: unknown, status: number) => NextResponse.json(body, { status });
-
 export async function POST(req: Request) {
   // 1. Body size cap, before any parsing.
   const declared = Number(req.headers.get("content-length") ?? 0);
@@ -111,7 +74,7 @@ export async function POST(req: Request) {
   if (rateLimited(clientIp(req))) {
     return NextResponse.json(
       { ok: false, error: "Too many requests. Please try again in a few minutes." },
-      { status: 429, headers: { "Retry-After": String(RATE_LIMIT.windowMs / 1000) } },
+      { status: 429, headers: { "Retry-After": String(RETRY_AFTER_SECONDS) } },
     );
   }
 
@@ -126,12 +89,7 @@ export async function POST(req: Request) {
   // 4. Validate.
   const result = LeadSchema.safeParse(parsedJson);
   if (!result.success) {
-    const fields: Record<string, string> = {};
-    for (const issue of result.error.issues) {
-      const key = String(issue.path[0] ?? "form");
-      if (!fields[key]) fields[key] = issue.message;
-    }
-    return json({ ok: false, error: "Please check the highlighted fields.", fields }, 400);
+    return json({ ok: false, error: "Please check the highlighted fields.", fields: fieldErrors(result.error.issues) }, 400);
   }
   const lead = result.data;
 
@@ -193,9 +151,6 @@ export async function POST(req: Request) {
 }
 
 /* Method restriction. No CORS headers are set, so browsers keep this same-origin. */
-const methodNotAllowed = () =>
-  NextResponse.json({ ok: false, error: "Method not allowed." }, { status: 405, headers: { Allow: "POST" } });
-
 export const GET = methodNotAllowed;
 export const PUT = methodNotAllowed;
 export const PATCH = methodNotAllowed;

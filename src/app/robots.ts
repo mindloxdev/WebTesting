@@ -17,7 +17,7 @@ export default function robots(): MetadataRoute.Robots {
   }
 
   return {
-    rules: [{ userAgent: "*", allow: "/", disallow: "/api/" }],
+    rules: [{ userAgent: "*", allow: "/", disallow: ["/api/", "/keystatic"] }],
     sitemap: "https://mindlox.ai/sitemap.xml",
     host: "https://mindlox.ai",
   };

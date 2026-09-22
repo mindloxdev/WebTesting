@@ -10,14 +10,16 @@ import { TextReveal } from "@/components/ui/TextReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
 import { CTA } from "@/data/site";
-import { POSTS, formatDate, getPost, readingTime, sortedPosts, type BlogBlock } from "@/data/blog";
+import { allPosts, formatDate, getPost, readingTime, sortedPosts } from "@/data/blog";
+import { Prose } from "@/components/blog/Prose";
+import { AuthorCard } from "@/components/blog/AuthorCard";
 
 const SITE = "https://mindlox.ai";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return POSTS.map((p) => ({ slug: p.slug }));
+  return allPosts().map((p) => ({ slug: p.slug }));
 }
 
 type Props = { params: Promise<{ slug: string }> };
@@ -32,26 +34,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: { type: "article", title: post.title, description: post.excerpt, publishedTime: post.date },
   };
-}
-
-function Block({ b }: { b: BlogBlock }) {
-  if (b.type === "h2") return <h2 className="mt-10 font-display text-2xl font-semibold text-fg">{b.text}</h2>;
-  if (b.type === "quote")
-    return (
-      <blockquote className="my-8 border-l-2 border-accent pl-5 font-display text-xl font-medium leading-snug text-fg">{b.text}</blockquote>
-    );
-  if (b.type === "ul")
-    return (
-      <ul className="mt-4 space-y-2.5">
-        {b.items.map((it) => (
-          <li key={it} className="flex gap-3 text-[16px] leading-relaxed text-fg-2">
-            <span className="mt-[11px] size-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
-            <span>{it}</span>
-          </li>
-        ))}
-      </ul>
-    );
-  return <p className="mt-4 text-[16px] leading-relaxed text-fg-2">{b.text}</p>;
 }
 
 export default async function BlogPostPage({ params }: Props) {
@@ -72,7 +54,13 @@ export default async function BlogPostPage({ params }: Props) {
             headline: post.title,
             description: post.excerpt,
             datePublished: post.date,
-            author: { "@type": "Organization", name: "Mindlox AI", url: SITE },
+            author: {
+              "@type": post.authorRef.staff && post.author === "mindlox-team" ? "Organization" : "Person",
+              name: post.authorRef.name,
+              ...(post.authorRef.role ? { jobTitle: post.authorRef.role } : {}),
+              ...(post.authorRef.url ? { sameAs: [post.authorRef.url] } : {}),
+              ...(post.author === "mindlox-team" ? { url: SITE } : { url: `${SITE}/blog/authors/${post.author}` }),
+            },
             publisher: { "@type": "Organization", name: "Mindlox AI", url: SITE },
             mainEntityOfPage: url,
           },
@@ -100,7 +88,14 @@ export default async function BlogPostPage({ params }: Props) {
             </Reveal>
             <Reveal delay={0.6} className="mt-6">
               <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-fg-3">
-                {post.author} · {formatDate(post.date)} · {readingTime(post)} min read
+                {post.author === "mindlox-team" ? (
+                  post.authorRef.name
+                ) : (
+                  <Link href={`/blog/authors/${post.author}`} className="text-fg-2 hover:text-accent">
+                    {post.authorRef.name}
+                  </Link>
+                )}{" "}
+                · {formatDate(post.date)} · {readingTime(post)} min read
               </p>
             </Reveal>
           </div>
@@ -108,12 +103,14 @@ export default async function BlogPostPage({ params }: Props) {
 
         <div className="container-x pb-20 lg:pb-28">
           <Reveal delay={0.1} className="max-w-3xl">
-            {post.body.map((b, i) => (
-              <Block key={i} b={b} />
-            ))}
+            <Prose blocks={post.body} />
           </Reveal>
 
-          <Reveal className="mt-14 max-w-3xl rounded-[22px] border border-line bg-bg-2/60 p-6 lg:p-8">
+          <Reveal className="mt-14 max-w-3xl">
+            <AuthorCard author={post.authorRef} />
+          </Reveal>
+
+          <Reveal className="mt-8 max-w-3xl rounded-[22px] border border-line bg-bg-2/60 p-6 lg:p-8">
             <p className="eyebrow mb-3">Put this to work</p>
             <p className="font-display text-xl font-semibold text-fg">See how these numbers look in your own practice.</p>
             <p className="mt-2 text-fg-2">A free revenue audit reviews your denials, A/R aging, coding patterns, and underpayments. The findings are yours to keep.</p>

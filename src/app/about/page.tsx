@@ -48,7 +48,7 @@ export default function AboutPage() {
               We combine experienced billing professionals with modern automation and AI-assisted intelligence to help providers get paid faster, reduce denials, recover lost revenue, and see exactly where their money is.
             </p>
             <p className="mt-6 max-w-2xl text-lg text-fg-2">
-              We don't join the medical billing market as one more vendor. We reframe it: transparent by default, specialty-deep, intelligent at scale, and accountable to a named team you can actually reach.
+              We don&apos;t join the medical billing market as one more vendor. We reframe it: transparent by default, specialty-deep, intelligent at scale, and accountable to a named team you can actually reach.
             </p>
           </Reveal>
         </div>
@@ -80,7 +80,7 @@ export default function AboutPage() {
             <div className="max-w-2xl">
               <p className="eyebrow mb-3">Careers</p>
               <h2 className="font-display text-display-sm font-semibold text-fg">Coders, billers, A/R strategists, and engineers who think revenue should be visible.</h2>
-              <p className="mt-3 text-fg-2">If you've ever wanted to fix the revenue cycle instead of just working it, we'd like to talk.</p>
+              <p className="mt-3 text-fg-2">If you&apos;ve ever wanted to fix the revenue cycle instead of just working it, we&apos;d like to talk.</p>
             </div>
             <MagneticButton href="/careers" arrow variant="outline" hoverLabel="Introduce Yourself">
               See careers

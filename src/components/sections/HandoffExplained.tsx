@@ -63,7 +63,7 @@ export function HandoffExplained() {
       <Reveal className="mt-6">
         <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-bg px-5 py-4 text-sm text-fg-2">
           <ShieldCheck className="size-4 shrink-0 text-positive" />
-          Responsible by design: AI assists and prioritizes. Humans decide. Every action carries an audit trail. No claim is submitted or appealed without a specialist's review.
+          Responsible by design: AI assists and prioritizes. Humans decide. Every action carries an audit trail. No claim is submitted or appealed without a specialist&apos;s review.
         </div>
       </Reveal>
     </Section>

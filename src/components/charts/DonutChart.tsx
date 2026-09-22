@@ -24,6 +24,17 @@ const PALETTE = [
   "color-mix(in oklab, var(--fg) 20%, transparent)",
 ];
 
+/** Each slice paired with its fraction of the whole and its cumulative start offset. */
+function toArcs(data: Slice[], total: number) {
+  let offset = 0;
+  return data.map((d) => {
+    const frac = d.value / total;
+    const start = offset;
+    offset += frac;
+    return { ...d, frac, start };
+  });
+}
+
 /** Arcs sweep in sequence on entry. */
 export function DonutChart({
   data,
@@ -38,17 +49,15 @@ export function DonutChart({
   const total = data.reduce((a, b) => a + b.value, 0) || 1;
   const r = (size - thickness) / 2;
   const c = 2 * Math.PI * r;
-  let offset = 0;
+  const arcs = toArcs(data, total);
 
   return (
     <div className={cn("flex items-center gap-6", className)}>
       <div className="relative shrink-0" style={{ width: size, height: size }}>
         <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90" role="img" aria-label="Donut chart">
           <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--line)" strokeWidth={thickness} />
-          {data.map((d, i) => {
-            const frac = d.value / total;
-            const start = offset;
-            offset += frac;
+          {arcs.map((d, i) => {
+            const { frac, start } = d;
             return (
               <motion.circle
                 key={d.label}

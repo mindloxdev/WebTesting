@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 /** Progressive substring of `text`, typed at `cps` characters/second once `start` is true. */
 export function useTyping(text: string, start: boolean, cps = 38, delayMs = 0) {
   const [count, setCount] = useState(0);
   useEffect(() => {
     if (!start) return;
-    setCount(0);
     let raf = 0;
+    // No reset here: the first frame below always resolves to 0, which keeps
+    // the restart inside the animation callback rather than the effect body.
     let t0: number | null = null;
     const step = (t: number) => {
       if (t0 === null) t0 = t + delayMs;
@@ -51,9 +52,9 @@ export function useMedia(query: string) {
 
 export const useIsDesktop = () => useMedia("(min-width: 1024px) and (pointer: fine)");
 
+const noopSubscribe = () => () => {};
+
 /** True after first client render — for gating cursor-aware effects. */
 export function useMounted() {
-  const [m, setM] = useState(false);
-  useEffect(() => setM(true), []);
-  return m;
+  return useSyncExternalStore(noopSubscribe, () => true, () => false);
 }

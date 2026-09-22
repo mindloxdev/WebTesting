@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, Check, Lock, Mail } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NEEDS, ORG_TYPES, PROVIDER_COUNTS } from "@/data/content";
 import { CONTACT } from "@/data/site";
 import { EASE } from "@/lib/motion";
@@ -54,7 +54,12 @@ export function LeadForm({ className, initialNeed, title = "Get your free revenu
   const [dir, setDir] = useState(1);
   const [a, setA] = useState<Answers>({ need: initialNeed });
   const [website, setWebsite] = useState(""); // honeypot
-  const openedAt = useRef(Date.now()); // used for the server-side minimum fill-time check
+  // Stamped on mount, not during render: used for the server-side minimum
+  // fill-time check.
+  const openedAt = useRef(0);
+  useEffect(() => {
+    openedAt.current = Date.now();
+  }, []);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<Delivery | null>(null);
