@@ -46,8 +46,16 @@ Until that is configured, use the route below.
 
 ## For outside writers, without any setup
 
-You do **not** need a GitHub account or any code setup. Write the post in whatever
-you normally use — Google Docs, Word, Notion — and send it with:
+**Point them at [/blog/write-for-us](https://mindlox.ai/blog/write-for-us).** The
+page explains what gets published and what gets declined, and the form emails the
+pitch straight to the inbox set by `PITCH_TO`. No account, no GitHub, no upload.
+
+Pitch first, draft second — deliberately. It costs a writer two minutes to propose
+an angle, and it saves both sides a rejected 1,200-word draft on a topic already
+covered.
+
+Once a pitch is accepted, ask for the draft by email as a Google Doc or .docx,
+then paste it into a `.md` file using the format below. What to ask for:
 
 1. **Title** — under 120 characters.
 2. **Excerpt** — one or two sentences, under 320 characters. This is the text that

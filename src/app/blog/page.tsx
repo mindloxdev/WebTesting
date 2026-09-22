@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, PenLine } from "lucide-react";
 import { Frame } from "@/components/layout/Frame";
 import { PageHero, FinalCTA } from "@/components/sections";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
-import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { MagneticButton } from "@/components/ui/MagneticButton";
+import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
 import { CTA } from "@/data/site";
 import { formatDate, readingTime, sortedPosts } from "@/data/blog";
@@ -78,6 +79,32 @@ export default function BlogPage() {
             </RevealItem>
           ))}
         </RevealGroup>
+      </Section>
+
+      <Section id="write-for-us" tone="muted" tight>
+        <Reveal>
+          {/* Card renders its children inside its own wrapper, so the row layout
+              belongs here rather than on the Card itself. */}
+          <Card padding="lg">
+            <div className="lg:flex lg:items-center lg:justify-between lg:gap-10">
+              <div className="max-w-2xl">
+                <span className="inline-flex size-11 items-center justify-center rounded-full bg-accent-soft text-accent">
+                  <PenLine className="size-5" />
+                </span>
+                <h2 className="mt-5 font-display text-display-sm font-semibold text-fg">Write for us.</h2>
+                <p className="mt-3 text-lg leading-relaxed text-fg-2">
+                  We publish billers, coders, and practice managers who have worked the problem they are writing about.
+                  You get a byline, your credentials, and an author page. Pitch the idea first — the draft comes later.
+                </p>
+              </div>
+              <div className="mt-7 shrink-0 lg:mt-0">
+                <MagneticButton href="/blog/write-for-us" size="lg" arrow>
+                  Pitch an article
+                </MagneticButton>
+              </div>
+            </div>
+          </Card>
+        </Reveal>
       </Section>
 
       <FinalCTA />
