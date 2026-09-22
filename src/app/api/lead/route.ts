@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 import { z } from "zod";
 import { NEEDS, ORG_TYPES, PROVIDER_COUNTS } from "@/data/content";
 import { CONTACT } from "@/data/site";
-import { MIN_FILL_MS, clientIp, createRateLimiter, fieldErrors, json, methodNotAllowed, singleLine } from "@/lib/form-guard";
+import { MIN_FILL_MS, clientIp, createRateLimiter, fieldErrors, json, methodNotAllowed, multiLine, singleLine } from "@/lib/form-guard";
 
 /**
  * Lead form endpoint — the only write path on the site.
@@ -48,6 +48,12 @@ const LeadSchema = z.object({
   email: singleLine(254).pipe(z.email("Enter a valid work email address.")),
   organization: singleLine(160).pipe(z.string().min(1, "Your organization is required.")),
   phone: singleLine(40).optional().default(""),
+  /**
+   * Optional free text. The dropdowns above assume a US practice; this is
+   * where anyone they do not describe — an international group, a billing
+   * company, an unusual payer mix — can say so in their own words.
+   */
+  message: multiLine(2000).optional().default(""),
   org: oneOf(ORG_TYPES, "organization type"),
   providers: oneOf(PROVIDER_COUNTS, "provider count"),
   need: oneOf(NEEDS, "service"),
@@ -122,6 +128,7 @@ export async function POST(req: Request) {
     `Providers:         ${lead.providers}`,
     `Needs help with:   ${lead.need}`,
     "",
+    ...(lead.message ? ["Message", "-------", lead.message, ""] : []),
     `Submitted from: ${lead.page || "—"}`,
     `Received:       ${new Date().toISOString()}`,
   ].join("\n");
