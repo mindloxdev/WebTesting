@@ -10,8 +10,7 @@ import {
   useTime,
   useTransform,
 } from "framer-motion";
-import { useMemo, useRef, useState } from "react";
-import { useInterval } from "@/lib/hooks";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -92,7 +91,7 @@ export function Ecosystem({ className }: Props) {
   const [active, setActive] = useState<string | null>(null);
   const [signals, setSignals] = useState<Signal[]>([]);
   const seq = useRef(0);
-  const { nodes, links } = useMemo(buildGraph, []);
+  const { nodes, links } = useMemo(() => buildGraph(), []);
 
   // Orbital drift — the whole system rotates, labels counter-rotate.
   const time = useTime();
@@ -106,13 +105,28 @@ export function Ecosystem({ className }: Props) {
   const glow = useTransform(scrollYProgress, [0, 0.6], [0.45, 1]);
   const sys = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
 
+  // Fire a signal down a random link every 1.5s. Inlined as an effect rather
+  // than useInterval so the random pick sits inside the effect, where impure
+  // calls belong.
   const play = inView && !reduce;
-  useInterval(() => {
-    const l = links[Math.floor(Math.random() * links.length)];
-    const key = seq.current++;
-    setSignals((s) => [...s.slice(-5), { key, d: l.d }]);
-    window.setTimeout(() => setSignals((s) => s.filter((x) => x.key !== key)), 1700);
-  }, play ? 1500 : null);
+  useEffect(() => {
+    if (!play) return;
+    const timeouts = new Set<number>();
+    const id = window.setInterval(() => {
+      const l = links[Math.floor(Math.random() * links.length)];
+      const key = seq.current++;
+      setSignals((s) => [...s.slice(-5), { key, d: l.d }]);
+      const t = window.setTimeout(() => {
+        timeouts.delete(t);
+        setSignals((s) => s.filter((x) => x.key !== key));
+      }, 1700);
+      timeouts.add(t);
+    }, 1500);
+    return () => {
+      window.clearInterval(id);
+      timeouts.forEach((t) => window.clearTimeout(t));
+    };
+  }, [play, links]);
 
   const activeNode = nodes.find((n) => n.id === active) ?? null;
   const hot = (l: Link) => !!active && (l.a === active || l.b === active);

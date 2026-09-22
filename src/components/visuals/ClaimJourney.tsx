@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { Check } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { CLAIM_ID, CLAIM_JOURNEY } from "@/data/dashboard";
 import { useInterval } from "@/lib/hooks";
 import { EASE } from "@/lib/motion";
@@ -32,10 +32,14 @@ export function ClaimJourney({ className, autoplay = true, intervalMs = 3200 }: 
     autoplay && inView && !touched ? intervalMs : null,
   );
 
-  useEffect(() => {
-    if (!inView) return;
-    setActive(0);
-  }, [inView]);
+  // Rewind to the first stage each time the stepper scrolls back into view.
+  // Adjusted during render rather than in an effect, so no extra paint shows
+  // the stale stage.
+  const [wasInView, setWasInView] = useState(inView);
+  if (inView !== wasInView) {
+    setWasInView(inView);
+    if (inView) setActive(0);
+  }
 
   const select = (i: number) => {
     setTouched(true);

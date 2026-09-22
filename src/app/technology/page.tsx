@@ -99,7 +99,7 @@ export default function TechnologyPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <div className="h-full rounded-[22px] border border-line bg-bg-2/60 p-6 lg:p-8">
-              <p className="eyebrow mb-5 !text-fg-3">It doesn't</p>
+              <p className="eyebrow mb-5 !text-fg-3">It doesn&apos;t</p>
               <ul className="space-y-3">
                 {DOESNT.map((d) => (
                   <li key={d} className="flex items-start gap-3 text-[15px] text-fg">
@@ -110,7 +110,7 @@ export default function TechnologyPage() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 font-mono text-[11px] text-fg-3">Language rule: AI-assisted, intelligent automation, decision support, pattern detection. Never "guarantees zero denials."</p>
+              <p className="mt-6 font-mono text-[11px] text-fg-3">Language rule: AI-assisted, intelligent automation, decision support, pattern detection. Never &quot;guarantees zero denials.&quot;</p>
             </div>
           </Reveal>
         </div>

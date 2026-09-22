@@ -33,6 +33,21 @@ type Props = {
 };
 
 /**
+ * Splits `text` into lines of words, recording where each word starts in the
+ * original string so the highlight range can be matched against it.
+ */
+function toLines(text: string) {
+  let cursor = 0;
+  return text.split("\n").map((line) =>
+    line.split(" ").map((word) => {
+      const start = cursor;
+      cursor += word.length + 1; // the trailing space, or the newline on the last word
+      return { word, start };
+    }),
+  );
+}
+
+/**
  * Masked word-by-word reveal. Each word rises from beneath a clip mask —
  * the "expensive" text reveal used in the heroes.
  */
@@ -64,8 +79,7 @@ export function TextReveal({
   const hStart = highlight ? text.indexOf(highlight) : -1;
   const hEnd = hStart >= 0 && highlight ? hStart + highlight.length : -1;
 
-  const lines = text.split("\n");
-  let cursor = 0;
+  const lines = toLines(text);
 
   return (
     <Comp
@@ -76,11 +90,8 @@ export function TextReveal({
       initial="hidden"
       {...(immediate ? { animate: "show" } : { whileInView: "show", viewport: { once, amount: 0.5 } })}
     >
-      {lines.map((line, li) => {
-        const words = line.split(" ");
-        const nodes = words.map((w, wi) => {
-          const start = cursor;
-          cursor += w.length + 1;
+      {lines.map((words, li) => {
+        const nodes = words.map(({ word: w, start }, wi) => {
           const hl = hStart >= 0 && start >= hStart && start < hEnd;
           return (
             <span key={`${li}-${wi}`} aria-hidden>
@@ -93,7 +104,6 @@ export function TextReveal({
             </span>
           );
         });
-        if (li < lines.length - 1) cursor += 0;
         return (
           <span key={li} className="block">
             {nodes}

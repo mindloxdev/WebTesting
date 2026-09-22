@@ -55,9 +55,10 @@ export function AnimatedNumber({
       return;
     }
     if (startOnView && !inView) return;
+    // Reduced motion renders `value` straight from the props below, so the
+    // effect only has to keep the baseline in sync.
     if (reduce) {
       prev.current = value;
-      setDisplay(value);
       return;
     }
     const first = !started.current;
@@ -74,7 +75,7 @@ export function AnimatedNumber({
 
   return (
     <span ref={ref} className={cn("tabular", className)}>
-      {format(display)}
+      {format(reduce ? value : display)}
     </span>
   );
 }
