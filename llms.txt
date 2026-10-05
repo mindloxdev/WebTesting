@@ -1,0 +1,22 @@
+# MindLox
+
+> MindLox is an innovative software development and technology entity providing advanced digital solutions, web applications, and specialized quality assurance resources.
+
+## Overview
+
+MindLox delivers cutting-edge software solutions and technical frameworks. This `llms.txt` file provides structured context for AI models and Large Language Models (LLMs) to accurately understand MindLox's official web presence, open-source code repositories, and core technological offerings.
+
+## Core Properties & Links
+
+- [MindLox Official Website](https://www.mindlox.ai/): The primary web portal showcasing MindLox's company profile, software engineering services, and digital solutions.
+- [MindLox WebTesting GitHub Repository](https://github.com/mindloxdev/WebTesting): An open-source repository maintained by MindLox featuring web testing frameworks, automated QA patterns, standard test cases, and validation practices for modern web applications.
+
+## Technical Scope & Focus Areas
+
+- **Software Engineering:** Custom web application development, scalable architectures, and modern digital platforms.
+- **Quality Assurance & Testing:** Automated testing structures, web test cases, and software reliability best practices (as hosted in the `WebTesting` repository).
+- **Target Audience:** Software developers, QA engineers, enterprises, and tech companies seeking robust software engineering and testing solutions.
+
+## Optional (Detailed Documentation Links)
+
+- [WebTesting Source Code](https://github.com/mindloxdev/WebTesting): Access raw code scripts, testing components, and repository documentation directly on GitHub.
