@@ -1,0 +1,41 @@
+# Mindlox AI
+
+> Mindlox AI provides AI-powered Revenue Cycle Management (RCM) and autonomous medical billing automation designed to eliminate revenue leakage, accelerate claims processing, and optimize financial performance for healthcare organizations.
+
+## Core Platform & Technology
+- [Why Mindlox AI](https://www.mindlox.ai/why-mindlox-ai): Overview of autonomous RCM, AI workflow automation, and practice ROI.
+- [Technology](https://www.mindlox.ai/technology): AI engine architecture, claim scrubbing automation, and integration models.
+- [Solutions](https://www.mindlox.ai/solutions): Tailored RCM solutions for medical groups, specialty practices, and billing organizations.
+- [Services Overview](https://www.mindlox.ai/services): Comprehensive list of end-to-end medical billing and RCM services.
+
+## Interactive Demos & ROI Calculators
+- [Revenue Leakage Calculator](https://www.mindlox.ai/revenue-leakage-calculator): Interactive tool to estimate practice revenue loss and recovery potential.
+- [AI vs Human RCM Demo](https://www.mindlox.ai/demos/ai-human): Side-by-side comparison of AI automation vs traditional manual billing.
+- [Command Center Demo](https://www.mindlox.ai/demos/command-center): Real-time analytics, claim monitoring, and operational dashboard demo.
+- [Revenue Engine Demo](https://www.mindlox.ai/demos/revenue-engine): Automated claim lifecycle engine from generation to clearinghouse.
+- [Billing Department Demo](https://www.mindlox.ai/demos/billing-department): Overview of full-service autonomous billing department execution.
+- [Revenue Leakage Demo](https://www.mindlox.ai/demos/revenue-leakage): Interactive analysis of common leakage points in healthcare RCM.
+
+## Key RCM Services
+- [AR Recovery & Denial Management](https://www.mindlox.ai/ar-recovery): Automated follow-ups, denial appeals, and aged AR resolution.
+- [AI Medical Coding](https://www.mindlox.ai/medical-coding): Autonomous CPT, ICD-10, and HCPCS coding and compliance verification.
+- [Provider Credentialing](https://www.mindlox.ai/credentialing): Provider enrollment, payer re-credentialing, and contracting management.
+- [Payment Posting](https://www.mindlox.ai/payment-posting): Automated ERA/EOB posting, denial detection, and patient balance allocation.
+
+## Specialty Solutions
+- [Cardiology Billing](https://www.mindlox.ai/specialties/cardiology): Specialty-specific coding and billing workflows for cardiology practices.
+- [Dermatology Billing](https://www.mindlox.ai/specialties/dermatology): Specialized billing for diagnostic procedures, path labs, and cosmetic modifiers.
+- [Orthopedics Billing](https://www.mindlox.ai/specialties/orthopedics): Surgical coding automation and global period tracking for orthopedic practices.
+- [Anesthesiology Billing](https://www.mindlox.ai/specialties/anesthesiology): Base/time unit calculation, concurrency management, and claim scrubbing.
+
+## Comparisons
+- [Vendor Comparison Hub](https://www.mindlox.ai/compare): Comparative breakdown of Mindlox AI vs. traditional billing companies, in-house teams, and EHR bundled billing.
+
+## Company & Compliance
+- [About Mindlox AI](https://www.mindlox.ai/about): Our mission, leadership, and vision for AI in healthcare finance.
+- [Switching to Mindlox AI](https://www.mindlox.ai/switch): Seamless migration process from existing billing vendors or in-house setups.
+- [Resources & Guides](https://www.mindlox.ai/resources): RCM industry guides, whitepapers, and case studies.
+- [Contact Us](https://www.mindlox.ai/contact): Schedule a personalized demo or consult with an RCM strategist.
+- [Privacy Policy](https://www.mindlox.ai/privacy): Data privacy policies and terms.
+- [Terms of Service](https://www.mindlox.ai/terms): Platform usage terms and legal agreements.
+- [Security & HIPAA Compliance](https://www.mindlox.ai/security): Information on HIPAA compliance, SOC 2 alignment, data encryption, and safeguards.
