@@ -31,6 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("/blog", 0.7, "weekly"),
     ...allPosts().map((p) => entry(`/blog/${p.slug}`, 0.6)),
     ...CONTRIBUTORS.map((a) => entry(`/blog/authors/${a.id}`, 0.4)),
+    entry("/blog/write-for-us", 0.5),
     entry("/revenue-leakage-calculator", 0.7),
     entry("/denial-reason-explorer", 0.7),
     entry("/where-revenue-leaks", 0.6),
@@ -38,5 +39,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("/contact", 0.9),
     entry("/careers", 0.5),
     entry("/policies", 0.4),
+    // Linked from the footer and self-canonical, so Google finds them either
+    // way — declared here so they are not left to discovery alone.
+    entry("/privacy", 0.3, "yearly"),
+    entry("/terms", 0.3, "yearly"),
+    entry("/security", 0.3, "yearly"),
   ];
 }
