@@ -91,10 +91,17 @@ const nextConfig: NextConfig = {
    * The calculator briefly lived at /calculator, and the denial explorer at
    * /revenue-leakage-calculator — a slug that described the other tool. Each
    * page now sits at the URL that names it; these keep the old paths alive.
+   *
+   * /demos held ten competing homepage concepts while the design was being
+   * chosen. Google indexed them before they were deleted, so Search Console
+   * still reports them as 404s; the concept that won *is* the homepage, which
+   * makes `/` the honest destination rather than a soft 404.
    */
   async redirects() {
     return [
       { source: "/calculator", destination: "/revenue-leakage-calculator", permanent: true },
+      { source: "/demos", destination: "/", permanent: true },
+      { source: "/demos/:path*", destination: "/", permanent: true },
     ];
   },
 
