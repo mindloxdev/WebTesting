@@ -5,6 +5,7 @@ import { COMPARE_PAGES } from "@/data/compare";
 import { allPosts } from "@/data/blog";
 import { CONTRIBUTORS } from "@/data/authors";
 import { SITE_URL } from "@/data/site";
+import { denialCodes, HAS_LIBRARY } from "@/data/denial-codes";
 
 const BASE = SITE_URL;
 
@@ -34,7 +35,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...CONTRIBUTORS.map((a) => entry(`/blog/authors/${a.id}`, 0.4)),
     entry("/blog/write-for-us", 0.5),
     entry("/revenue-leakage-calculator", 0.7),
-    entry("/denial-reason-explorer", 0.7),
+    // The denial-code library replaces /denial-reason-explorer, which is a
+    // permanent redirect once the library exists and so must not be declared.
+    ...(HAS_LIBRARY
+      ? [entry("/denial-codes", 0.8, "weekly"), ...denialCodes().map((c) => entry(`/denial-codes/${c.slug}`, 0.7))]
+      : [entry("/denial-reason-explorer", 0.7)]),
     entry("/where-revenue-leaks", 0.6),
     entry("/about", 0.6),
     entry("/contact", 0.9),

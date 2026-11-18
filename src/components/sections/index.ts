@@ -20,3 +20,4 @@ export { SpecialtyDepth } from "./SpecialtyDepth";
 export { PromisesStrip, TrustArchitecture } from "./TrustArchitecture";
 export { HandoffExplained } from "./HandoffExplained";
 export { Department } from "./Department";
+export { DenialOrigins, DenialHowToRead, DenialCalculatorCTA } from "./DenialReference";

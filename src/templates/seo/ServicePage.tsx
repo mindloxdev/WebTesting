@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check, Sparkles } from "lucide-react";
+import { ArrowRight, Check, Sparkles } from "lucide-react";
 import { DETECTIONS, type Detection } from "@/data/dashboard";
 import { LIFECYCLE } from "@/data/lifecycle";
 import { SERVICES, SERVICE_CATEGORIES, type Service } from "@/data/services";
@@ -291,6 +291,29 @@ export function ServicePage({ service }: { service: Service }) {
           ))}
         </RevealGroup>
       </Section>
+
+      {c.relatedReading && c.relatedReading.length > 0 && (
+        <Section id="related-reading">
+          <SectionHeading eyebrow="Related reading" title="Go deeper." size="md" />
+          <RevealGroup className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3" staggerChildren={0.06}>
+            {c.relatedReading.map((r) => (
+              <RevealItem key={r.href}>
+                <Link
+                  href={r.href}
+                  className="group/read flex h-full flex-col rounded-2xl border border-line bg-bg-2/50 p-6 transition-colors hover:border-line-strong"
+                >
+                  <h3 className="font-display text-lg font-semibold leading-snug text-fg">{r.label}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-fg-2">{r.detail}</p>
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent">
+                    Read it
+                    <ArrowRight className="size-4 transition-transform group-hover/read:translate-x-0.5" aria-hidden />
+                  </span>
+                </Link>
+              </RevealItem>
+            ))}
+          </RevealGroup>
+        </Section>
+      )}
 
       <Section id="faq" tone="muted">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr]">

@@ -3,6 +3,8 @@
 /*  Domain-accurate, no fabricated statistics.                         */
 /* ------------------------------------------------------------------ */
 
+import { DENIAL_CODES_HREF, DENIAL_CODES_LABEL } from "@/data/denial-codes-flag";
+
 export type ServiceStep = { title: string; detail: string };
 export type ServiceContent = {
   h1: string;
@@ -20,6 +22,8 @@ export type ServiceContent = {
   visual: "journey" | "feed" | "card";
   /** Optional signature section: the 8-stage revenue engine, the live claim status board, or the AI-to-specialist handoff. */
   signature?: "engine" | "status-board" | "handoff";
+  /** Reference pages and articles that go deeper on this service. Nothing renders when absent. */
+  relatedReading?: { label: string; href: string; detail: string }[];
 };
 
 export const SERVICE_CONTENT: Record<string, ServiceContent> = {
@@ -145,6 +149,13 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     stages: [10, 12],
     visual: "feed",
     signature: "handoff",
+    relatedReading: [
+      {
+        label: DENIAL_CODES_LABEL,
+        href: DENIAL_CODES_HREF,
+        detail: "Every code a practice actually sees, with what it means, what causes it, and the control that prevents it.",
+      },
+    ],
   },
   "ar-recovery": {
     h1: "Aging A/R, worked by strategy instead of by queue.",

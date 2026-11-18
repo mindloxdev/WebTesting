@@ -1,0 +1,62 @@
+{
+  "_README": [
+    "This is the template for the denial-code library at /denial-codes.",
+    "",
+    "To turn the library on: fill this in, save it as src/content/denial-codes.json",
+    "(drop the _README key), and restart the build. The hub, one page per code, the",
+    "sitemap entries, the footer and Resources links and the permanent redirect from",
+    "/denial-reason-explorer all switch on together. Nothing else needs editing.",
+    "",
+    "Every field is validated by src/data/denial-codes.ts and a bad entry fails the",
+    "build rather than shipping a broken page. The prose fields (intro, meaning,",
+    "whoPays, group meaning) take either one string or an array of strings, one per",
+    "paragraph. commonCauses, howToFix and howToPrevent are arrays of bullets and",
+    "need at least one item each. relatedReading may be omitted or left empty.",
+    "",
+    "The example entry below is structure only. Replace every TODO with real copy;",
+    "do not publish the placeholders.",
+    "",
+    "Field limits: title <= 160, metaDescription <= 320, h1 <= 160, slug lowercase",
+    "and hyphenated, relatedService must be a path on this site starting with /."
+  ],
+
+  "hub": {
+    "title": "TODO hub <title>, ending in | Mindlox AI",
+    "metaDescription": "TODO hub meta description, up to 320 characters.",
+    "h1": "TODO hub H1.",
+    "intro": [
+      "TODO first intro paragraph. The hero shows this one.",
+      "TODO optional second paragraph. Any paragraphs after the first render below the hero. Delete this line if one is enough."
+    ],
+    "groupCodes": [
+      { "code": "CO", "name": "TODO name", "meaning": "TODO what this group code means and who absorbs the balance." },
+      { "code": "PR", "name": "TODO name", "meaning": "TODO what this group code means and who absorbs the balance." },
+      { "code": "OA", "name": "TODO name", "meaning": "TODO what this group code means and who absorbs the balance." },
+      { "code": "PI", "name": "TODO name", "meaning": "TODO what this group code means and who absorbs the balance." }
+    ]
+  },
+
+  "codes": [
+    {
+      "slug": "co-197-prior-authorization",
+      "code": "CO-197",
+      "title": "TODO <title> for this code, ending in | Mindlox AI",
+      "metaDescription": "TODO meta description for this code.",
+      "h1": "TODO H1 for this code.",
+      "meaning": "TODO what the code means in plain terms. The first sentence is reused on the hub list and in the hero, so lead with the definition.",
+      "whoPays": "TODO who absorbs the balance under this code, and whether it can be billed to the patient.",
+      "commonCauses": ["TODO cause", "TODO cause", "TODO cause"],
+      "howToFix": ["TODO step to work the denial once it has landed", "TODO step"],
+      "howToPrevent": ["TODO the upstream control that stops it recurring", "TODO control"],
+      "appealNote": "TODO one or two sentences on appealing this code: the window, what the packet needs, and whether it is realistically recoverable.",
+      "relatedService": "/prior-authorization",
+      "relatedReading": [
+        { "label": "TODO article title", "href": "/blog/prior-authorization-denials" }
+      ]
+    }
+  ],
+
+  "backlogNoindexUntilWritten": [
+    "TODO: slugs listed here get no page and stay out of the sitemap. Remove a slug once its entry above is written."
+  ]
+}

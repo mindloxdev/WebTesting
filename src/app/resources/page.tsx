@@ -8,6 +8,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
 import { formatDate, readingTime, sortedPosts } from "@/data/blog";
 import { pageMetadata } from "@/lib/seo";
+import { DENIAL_CODES_HREF, DENIAL_CODES_LABEL } from "@/data/denial-codes-flag";
 import { SITE_URL } from "@/data/site";
 
 export const metadata = pageMetadata({
@@ -73,14 +74,14 @@ export default function ResourcesPage() {
           </RevealItem>
           <RevealItem>
             <Card className="h-full" padding="md">
-              <Link href="/denial-reason-explorer" className="block after:absolute after:inset-0" aria-label="Open the Denial Reason Explorer">
+              <Link href={DENIAL_CODES_HREF} className="block after:absolute after:inset-0" aria-label={`Open the ${DENIAL_CODES_LABEL}`}>
                 <div className="flex items-center justify-between">
                   <span className="inline-flex size-9 items-center justify-center rounded-lg bg-accent-soft text-accent">
                     <FileSearch className="size-4" aria-hidden />
                   </span>
                   <ArrowUpRight className="size-4 text-fg-3 transition-all duration-500 ease-out-expo group-hover/card:-translate-y-0.5 group-hover/card:translate-x-0.5 group-hover/card:text-accent" />
                 </div>
-                <h3 className="mt-5 font-display text-lg font-semibold text-fg">Denial Reason Explorer</h3>
+                <h3 className="mt-5 font-display text-lg font-semibold text-fg">{DENIAL_CODES_LABEL}</h3>
                 <p className="mt-2 text-sm text-fg-2">The codes you actually see — CO-197, CO-16, CO-11 — sorted by where each is created, with the control that prevents it.</p>
                 <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-fg-3">Interactive · 3 min</p>
               </Link>

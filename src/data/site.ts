@@ -1,4 +1,5 @@
 import type { SocialIconKey } from "@/components/ui/SocialIcons";
+import { DENIAL_CODES_HREF, DENIAL_CODES_LABEL } from "@/data/denial-codes-flag";
 
 /**
  * The site's one address. No www: www.mindlox.ai redirects to the apex in
@@ -111,7 +112,7 @@ export const NAV: NavItem[] = [
           links: [
             { label: "Blog", href: "/blog", description: "Practical articles on clean claims, denials, A/R, and the front end." },
             { label: "Revenue Leakage Calculator", href: "/revenue-leakage-calculator", description: "Estimate what denials and aging A/R cost you." },
-            { label: "Denial Reason Explorer", href: "/denial-reason-explorer", description: "The codes you actually see, and what stops each one." },
+            { label: DENIAL_CODES_LABEL, href: DENIAL_CODES_HREF, description: "The codes you actually see, and what stops each one." },
             { label: "Where Revenue Leaks", href: "/where-revenue-leaks", description: "Seven ways revenue leaves a practice, and what recovers it." },
             { label: "FAQ", href: "/resources#faq", description: "Straight answers on onboarding, pricing, and security." },
           ],
@@ -174,7 +175,7 @@ export const FOOTER_COLUMNS: { title: string; links: NavLink[] }[] = [
       { label: "Resources", href: "/resources" },
       { label: "Blog", href: "/blog" },
       { label: "Revenue Leakage Calculator", href: "/revenue-leakage-calculator" },
-      { label: "Denial Reason Explorer", href: "/denial-reason-explorer" },
+      { label: DENIAL_CODES_LABEL, href: DENIAL_CODES_HREF },
       { label: "Where Revenue Leaks", href: "/where-revenue-leaks" },
       { label: "About", href: "/about" },
       { label: "Careers", href: "/careers" },

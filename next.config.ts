@@ -1,4 +1,13 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { NextConfig } from "next";
+
+/**
+ * Whether the denial-code library has its source data yet. The hub only
+ * exists when the file does, so the redirect below has to switch with it:
+ * sending /denial-reason-explorer to a 404 would be worse than leaving it.
+ */
+const HAS_DENIAL_LIBRARY = fs.existsSync(path.join(process.cwd(), "src", "content", "denial-codes.json"));
 
 /**
  * Content-Security-Policy built from what this site actually loads.
@@ -68,6 +77,12 @@ const nextConfig: NextConfig = {
    */
   images: { qualities: [75, 95] },
 
+  /**
+   * Inlined so client components can decide where the denial-code links point
+   * without importing the loader, which reads the file off disk.
+   */
+  env: { NEXT_PUBLIC_HAS_DENIAL_LIBRARY: HAS_DENIAL_LIBRARY ? "1" : "" },
+
   /** Never ship browser source maps: they hand readers the unminified app. */
   productionBrowserSourceMaps: false,
 
@@ -80,8 +95,9 @@ const nextConfig: NextConfig = {
    * production and build clean locally. Cheaper to name the files now.
    */
   outputFileTracingIncludes: {
-    "/sitemap.xml": ["./src/content/blog/**/*.md"],
+    "/sitemap.xml": ["./src/content/blog/**/*.md", "./src/content/denial-codes.json"],
     "/blog/**": ["./src/content/blog/**/*.md"],
+    "/denial-codes/**": ["./src/content/denial-codes.json"],
   },
 
   /** Do not advertise the framework. */
@@ -100,6 +116,10 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/calculator", destination: "/revenue-leakage-calculator", permanent: true },
+      // The denial explorer is now the denial-code library's hub.
+      ...(HAS_DENIAL_LIBRARY
+        ? [{ source: "/denial-reason-explorer", destination: "/denial-codes", permanent: true }]
+        : []),
       { source: "/demos", destination: "/", permanent: true },
       { source: "/demos/:path*", destination: "/", permanent: true },
     ];
