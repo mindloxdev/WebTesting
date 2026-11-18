@@ -1,18 +1,19 @@
-import type { Metadata } from "next";
 import { Frame } from "@/components/layout/Frame";
 import { PageHero, TrustStrip, FinalCTA } from "@/components/sections";
 import { CAREER_ROLES, CareersApply, APPLY_HREF } from "@/components/sections/CareersApply";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { JsonLd, ORGANIZATION_LD, breadcrumbLd } from "@/components/seo/JsonLd";
+import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
+import { pageMetadata, withSuffix } from "@/lib/seo";
+import { SITE_URL } from "@/data/site";
 
-export const metadata: Metadata = {
-  title: "Careers",
+export const metadata = pageMetadata({
+  title: withSuffix("Careers"),
   description:
     "Join Mindlox AI: certified coders, billers, A/R and denial specialists, credentialing specialists, account managers, and engineers who believe revenue should be visible.",
-  alternates: { canonical: "/careers" },
-};
+  path: "/careers",
+});
 
 const WHY = [
   { title: "Fix the cycle, not just work it", detail: "Every denial you resolve feeds a prevention loop. The job is to make the same problem not happen next week." },
@@ -26,7 +27,7 @@ const WHY = [
 export default function CareersPage() {
   return (
     <Frame theme="theme-ultimate" ctaLabel="Apply by email" ctaHref={APPLY_HREF}>
-      <JsonLd data={[ORGANIZATION_LD, breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Careers", url: "https://mindlox.ai/careers" }])]} />
+      <JsonLd data={breadcrumbLd([{ name: "Home", url: SITE_URL }, { name: "Careers", url: `${SITE_URL}/careers` }])} />
 
       <PageHero
         crumbs={[{ label: "Careers" }]}

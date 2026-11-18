@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, PenLine } from "lucide-react";
 import { Frame } from "@/components/layout/Frame";
@@ -8,15 +7,16 @@ import { Card } from "@/components/ui/Card";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
-import { CTA } from "@/data/site";
+import { CTA, SITE_URL } from "@/data/site";
 import { formatDate, readingTime, sortedPosts } from "@/data/blog";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Blog",
+export const metadata = pageMetadata({
+  title: "Medical Billing & RCM Blog | Mindlox AI",
   description:
     "Practical articles on medical billing and revenue cycle management from the Mindlox AI team: clean claims, denials, timely filing, eligibility, and out-of-network claims.",
-  alternates: { canonical: "/blog" },
-};
+  path: "/blog",
+});
 
 export default function BlogPage() {
   // Newest first, every post in one grid. sortedPosts() does the ordering.
@@ -24,7 +24,7 @@ export default function BlogPage() {
 
   return (
     <Frame theme="theme-ultimate">
-      <JsonLd data={breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Blog", url: "https://mindlox.ai/blog" }])} />
+      <JsonLd data={breadcrumbLd([{ name: "Home", url: SITE_URL }, { name: "Blog", url: `${SITE_URL}/blog` }])} />
 
       <PageHero
         crumbs={[{ label: "Blog" }]}

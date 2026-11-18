@@ -1,19 +1,19 @@
-import type { Metadata } from "next";
 import { Frame } from "@/components/layout/Frame";
 import { PageHero, TrustStrip, FinalCTA, ProcessSection } from "@/components/sections";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { JsonLd, ORGANIZATION_LD, breadcrumbLd } from "@/components/seo/JsonLd";
-import { CTA } from "@/data/site";
+import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
+import { CTA, SITE_URL } from "@/data/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "About",
+export const metadata = pageMetadata({
+  title: "About Mindlox AI | Medical Billing & RCM Company",
   description:
     "Mindlox AI is a medical billing and healthcare revenue-cycle management company serving providers across the United States — experienced billing specialists, modern automation, and AI-assisted intelligence.",
-  alternates: { canonical: "/about" },
-};
+  path: "/about",
+});
 
 const BELIEFS = [
   { n: "01", title: "Transparency is the product", detail: "If you have to call to find out where a claim is, the system has already failed. Every dollar should be visible without asking." },
@@ -26,7 +26,7 @@ const BELIEFS = [
 export default function AboutPage() {
   return (
     <Frame theme="theme-ultimate">
-      <JsonLd data={[ORGANIZATION_LD, breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "About", url: "https://mindlox.ai/about" }])]} />
+      <JsonLd data={breadcrumbLd([{ name: "Home", url: SITE_URL }, { name: "About", url: SITE_URL + "/about" }])} />
 
       <PageHero
         crumbs={[{ label: "About" }]}

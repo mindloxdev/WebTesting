@@ -1,16 +1,18 @@
-import type { Metadata } from "next";
 import { LegalPage } from "@/templates/company/LegalPage";
 import { CONTACT } from "@/data/site";
+import { pageMetadata, withSuffix } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Terms of Service",
-  description: "The terms that govern use of the Mindlox AI website.",
-  alternates: { canonical: "/terms" },
-};
+export const metadata = pageMetadata({
+  title: withSuffix("Terms of Service"),
+  description:
+    "The terms that govern use of the Mindlox AI website.",
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (
     <LegalPage
+      path="/terms"
       crumb="Terms"
       eyebrow="Legal"
       title="Terms of Service"

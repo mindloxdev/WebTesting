@@ -1,31 +1,28 @@
-import type { Metadata } from "next";
-import { CTA, SPECIALTY_COUNT } from "@/data/site";
+import { CTA, SITE_URL, SPECIALTY_COUNT } from "@/data/site";
 import { Frame } from "@/components/layout/Frame";
 import { ComparisonSection, FinalCTA, PageHero, SpecialtyDepth, SpecialtyGrid } from "@/components/sections";
 import { SpecialtyConstellation } from "@/components/visuals/SpecialtyConstellation";
-import { JsonLd, ORGANIZATION_LD, breadcrumbLd } from "@/components/seo/JsonLd";
+import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { SpecialtyMorph } from "@/components/visuals/SpecialtyMorph";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Specialties",
+export const metadata = pageMetadata({
+  title: "Specialty Medical Billing Services | Mindlox AI",
   description:
     "Specialty-first medical billing and revenue cycle management for 30+ specialties — primary care, cardiology, orthopedics, behavioral health, dermatology, radiology, oncology, physical therapy, DME, laboratory, telehealth, and more.",
-  alternates: { canonical: "/specialties" },
-};
+  path: "/specialties",
+});
 
 export default function SpecialtiesPage() {
   return (
     <Frame theme="theme-ultimate">
       <JsonLd
-        data={[
-          ORGANIZATION_LD,
-          breadcrumbLd([
-            { name: "Home", url: "https://mindlox.ai" },
-            { name: "Specialties", url: "https://mindlox.ai/specialties" },
-          ]),
-        ]}
+        data={breadcrumbLd([
+          { name: "Home", url: SITE_URL },
+          { name: "Specialties", url: SITE_URL + "/specialties" },
+        ])}
       />
 
       <PageHero

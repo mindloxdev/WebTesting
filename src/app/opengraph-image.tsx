@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { BRAND } from "@/data/site";
+import { OG_IMAGE } from "@/lib/seo";
 
 /**
  * Social share card, generated at build time and served from /opengraph-image.
@@ -8,9 +9,9 @@ import { BRAND } from "@/data/site";
  * exports below, so nothing needs adding to the `metadata` object in layout.
  * Colours mirror `.theme-ultimate` in globals.css.
  */
-export const alt = `${BRAND.name} — ${BRAND.tagline}`;
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const alt = OG_IMAGE.alt;
+export const size = { width: OG_IMAGE.width, height: OG_IMAGE.height };
+export const contentType = OG_IMAGE.type;
 
 const ACCENT = "#2b6bff";
 const ACCENT_2 = "#38d6f5";

@@ -1,16 +1,18 @@
-import type { Metadata } from "next";
 import { LegalPage } from "@/templates/company/LegalPage";
 import { CONTACT } from "@/data/site";
+import { pageMetadata, withSuffix } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "HIPAA & Security",
-  description: "How Mindlox AI handles protected health information as a business associate: HIPAA-conscious workflows, access control, audit logging, and data protection.",
-  alternates: { canonical: "/security" },
-};
+export const metadata = pageMetadata({
+  title: withSuffix("HIPAA & Security"),
+  description:
+    "How Mindlox AI handles protected health information as a business associate: HIPAA-conscious workflows, access control, audit logging, and data protection.",
+  path: "/security",
+});
 
 export default function SecurityPage() {
   return (
     <LegalPage
+      path="/security"
       crumb="HIPAA / Security"
       eyebrow="Security"
       title="HIPAA & Security"

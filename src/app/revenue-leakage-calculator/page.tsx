@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Frame } from "@/components/layout/Frame";
 import { PageHero, FinalCTA } from "@/components/sections";
 import { Section, SectionHeading } from "@/components/ui/Section";
@@ -6,16 +5,17 @@ import { Card } from "@/components/ui/Card";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { LeakageCalculator } from "@/components/visuals/LeakageCalculator";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
-import { CTA } from "@/data/site";
+import { CTA, SITE_URL } from "@/data/site";
+import { pageMetadata } from "@/lib/seo";
 
-const SITE = "https://mindlox.ai";
+const SITE = SITE_URL;
 
-export const metadata: Metadata = {
-  title: "Revenue Leakage Calculator",
+export const metadata = pageMetadata({
+  title: "Medical Billing Revenue Leakage Calculator | Mindlox AI",
   description:
     "Estimate what denials, aging A/R, and underpayments cost your practice each month. Start from a specialty benchmark or enter your own figures — every assumption is shown.",
-  alternates: { canonical: "/revenue-leakage-calculator" },
-};
+  path: "/revenue-leakage-calculator",
+});
 
 const MEASURES = [
   {

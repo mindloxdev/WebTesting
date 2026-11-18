@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/data/site";
 
 /** Evaluated per request so a promoted preview build serves the right rules. */
 export const dynamic = "force-dynamic";
@@ -18,7 +19,7 @@ export default function robots(): MetadataRoute.Robots {
 
   return {
     rules: [{ userAgent: "*", allow: "/", disallow: ["/api/", "/keystatic"] }],
-    sitemap: "https://mindlox.ai/sitemap.xml",
-    host: "https://mindlox.ai",
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }

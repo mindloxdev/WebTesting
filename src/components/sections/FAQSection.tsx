@@ -1,4 +1,5 @@
 import { FAQ } from "@/data/content";
+import { JsonLd, faqLd } from "@/components/seo/JsonLd";
 import { Accordion } from "@/components/ui/Accordion";
 import { ArrowLink } from "@/components/ui/MagneticButton";
 import { Reveal } from "@/components/ui/Reveal";
@@ -17,6 +18,9 @@ export function FAQSection({ className, tone = "default", id = "faq", limit, mor
   const items = limit ? FAQ.slice(0, limit) : FAQ;
   return (
     <Section id={id} tone={tone} className={className}>
+      {/* The FAQPage data is built from the same `items` the accordion renders,
+          so every answer Google reads is an answer that is on the page. */}
+      <JsonLd data={faqLd(items)} />
       <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr]">
         <SectionHeading eyebrow="FAQ" title="Straight answers." description="Onboarding, pricing, security, specialties, and how we actually use AI. If it's not here, ask an RCM specialist." size="md" />
         <Reveal delay={0.1}>

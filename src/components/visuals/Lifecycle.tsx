@@ -1,8 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Sparkles } from "lucide-react";
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { LIFECYCLE, PHASE_LABELS } from "@/data/lifecycle";
 import { useInterval } from "@/lib/hooks";
 import { EASE } from "@/lib/motion";
@@ -20,6 +20,7 @@ export function Lifecycle({ className, autoplay = true }: Props) {
   const [active, setActive] = useState(0);
   const [touched, setTouched] = useState(false);
   const scroller = useRef<HTMLDivElement>(null);
+  const uid = useId();
 
   useInterval(
     () => {
@@ -49,8 +50,6 @@ export function Lifecycle({ className, autoplay = true }: Props) {
     scrollTo(i);
   };
 
-  const s = LIFECYCLE[active];
-
   return (
     <div ref={ref} className={cn("relative", className)}>
       <div ref={scroller} className="no-scrollbar -mx-5 overflow-x-auto px-5 pb-4 sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
@@ -76,6 +75,7 @@ export function Lifecycle({ className, autoplay = true }: Props) {
                   type="button"
                   role="tab"
                   aria-selected={cur}
+                  aria-controls={`${uid}-${i}`}
                   onClick={() => select(i)}
                   className="group flex w-full flex-col items-center pt-3"
                 >
@@ -101,33 +101,47 @@ export function Lifecycle({ className, autoplay = true }: Props) {
         </ol>
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={s.id}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.35, ease: EASE }}
-          className="mt-4 grid gap-4 rounded-2xl border border-line bg-bg-2/70 p-6 lg:grid-cols-[auto_1fr_1fr] lg:gap-8 lg:p-7"
-        >
-          <div className="flex items-center gap-3 lg:flex-col lg:items-start">
-            <span className="font-display text-5xl font-bold tracking-tight text-accent">{pad2(s.id)}</span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-fg-3">
-              {PHASE_LABELS[s.phase]} · of 14
-            </span>
+      {/*
+        All fourteen stage panels are in the server HTML; the inactive ones
+        carry the `hidden` attribute instead of being mounted on click, so a
+        crawler reads every stage without interacting. The enter animation is
+        CSS (animate-panel-in) because it has to replay when `hidden` comes
+        off, and there is no mount to hang a JS animation off any more.
+      */}
+      {LIFECYCLE.map((st, i) => {
+        const cur = i === active;
+        return (
+          <div
+            key={st.id}
+            id={`${uid}-${i}`}
+            role="tabpanel"
+            aria-label={st.name}
+            hidden={!cur}
+            inert={!cur}
+            className={cn(
+              "mt-4 grid gap-4 rounded-2xl border border-line bg-bg-2/70 p-6 lg:grid-cols-[auto_1fr_1fr] lg:gap-8 lg:p-7",
+              cur && "animate-panel-in",
+            )}
+          >
+            <div className="flex items-center gap-3 lg:flex-col lg:items-start">
+              <span className="font-display text-5xl font-bold tracking-tight text-accent">{pad2(st.id)}</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-fg-3">
+                {PHASE_LABELS[st.phase]} · of 14
+              </span>
+            </div>
+            <div>
+              <h3 className="font-display text-xl font-semibold text-fg">{st.name}</h3>
+              <p className="mt-2 text-fg-2">{st.action}</p>
+            </div>
+            <div className="flex items-start gap-3 rounded-xl bg-bg p-4">
+              <span className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent">
+                <Sparkles className="size-3.5" aria-hidden />
+              </span>
+              <p className="text-sm text-fg-2">{st.ai}</p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-display text-xl font-semibold text-fg">{s.name}</h3>
-            <p className="mt-2 text-fg-2">{s.action}</p>
-          </div>
-          <div className="flex items-start gap-3 rounded-xl bg-bg p-4">
-            <span className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent">
-              <Sparkles className="size-3.5" aria-hidden />
-            </span>
-            <p className="text-sm text-fg-2">{s.ai}</p>
-          </div>
-        </motion.div>
-      </AnimatePresence>
+        );
+      })}
     </div>
   );
 }

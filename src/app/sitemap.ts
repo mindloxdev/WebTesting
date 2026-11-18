@@ -4,8 +4,9 @@ import { SPECIALTIES } from "@/data/specialties";
 import { COMPARE_PAGES } from "@/data/compare";
 import { allPosts } from "@/data/blog";
 import { CONTRIBUTORS } from "@/data/authors";
+import { SITE_URL } from "@/data/site";
 
-const BASE = "https://mindlox.ai";
+const BASE = SITE_URL;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

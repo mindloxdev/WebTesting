@@ -1,16 +1,18 @@
-import type { Metadata } from "next";
 import { LegalPage } from "@/templates/company/LegalPage";
 import { CONTACT } from "@/data/site";
+import { pageMetadata, withSuffix } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: "How Mindlox AI collects, uses, shares, and protects information on this website and in the course of its services.",
-  alternates: { canonical: "/privacy" },
-};
+export const metadata = pageMetadata({
+  title: withSuffix("Privacy Policy"),
+  description:
+    "How Mindlox AI collects, uses, shares, and protects information on this website and in the course of its services.",
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (
     <LegalPage
+      path="/privacy"
       crumb="Privacy Policy"
       eyebrow="Legal"
       title="Privacy Policy"

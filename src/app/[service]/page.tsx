@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ROOT_SERVICES, getService } from "@/data/services";
 import { ServicePage } from "@/templates/seo/ServicePage";
+import { pageMetadata, withSuffix } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -15,12 +16,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { service } = await params;
   const s = getService(service);
   if (!s || !s.root) return {};
-  return {
-    title: `${s.name} Services for U.S. Healthcare Providers`,
+  return pageMetadata({
+    title: withSuffix(`${s.name} Services for U.S. Healthcare Providers`),
     description: s.description,
-    alternates: { canonical: `/${s.slug}` },
-    openGraph: { title: `${s.name} — Mindlox AI`, description: s.description },
-  };
+    path: `/${s.slug}`,
+  });
 }
 
 export default async function ServiceRoute({ params }: Props) {

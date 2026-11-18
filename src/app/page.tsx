@@ -1,14 +1,13 @@
-import type { Metadata } from "next";
 import { Frame } from "@/components/layout/Frame";
 import { HomePage } from "@/components/home/HomePage";
-import { JsonLd, ORGANIZATION_LD } from "@/components/seo/JsonLd";
 import { HOME } from "@/content/home";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: { absolute: HOME.seo.title },
+export const metadata = pageMetadata({
+  title: "Mindlox AI | AI-Assisted Medical Billing & RCM Company",
   description: HOME.seo.description,
-  alternates: { canonical: "/" },
-};
+  path: "/",
+});
 
 /**
  * Home / landing page. Composition and copy live in src/content/home.ts —
@@ -17,7 +16,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <Frame theme="theme-ultimate">
-      <JsonLd data={ORGANIZATION_LD} />
+      {/* Organization and WebSite are declared once, in the root layout. */}
       <HomePage />
     </Frame>
   );

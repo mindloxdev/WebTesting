@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Eye, Sparkles, Stethoscope, Timer, MonitorSmartphone, Handshake } from "lucide-react";
 import { Frame } from "@/components/layout/Frame";
@@ -8,14 +7,15 @@ import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
-import { CTA } from "@/data/site";
+import { CTA, SITE_URL } from "@/data/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Why Mindlox AI",
+export const metadata = pageMetadata({
+  title: "Why Practices Choose Mindlox AI for Medical Billing",
   description:
     "Transparency, AI + human expertise, specialty depth, speed to value, a modern experience, and partnership over vendor — the six gaps Mindlox AI owns in medical billing and RCM.",
-  alternates: { canonical: "/why-mindlox-ai" },
-};
+  path: "/why-mindlox-ai",
+});
 
 const GAPS = [
   { icon: Eye, title: "Transparency", proof: "Claim-level dashboards, not monthly PDFs.", detail: "See where every dollar is. The clickable claim journey and live dashboards are proof, not promises.", href: "/technology#status", link: "See a claim's status" },
@@ -29,7 +29,7 @@ const GAPS = [
 export default function WhyPage() {
   return (
     <Frame theme="theme-ultimate">
-      <JsonLd data={breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Why Mindlox AI", url: "https://mindlox.ai/why-mindlox-ai" }])} />
+      <JsonLd data={breadcrumbLd([{ name: "Home", url: SITE_URL }, { name: "Why Mindlox AI", url: `${SITE_URL}/why-mindlox-ai` }])} />
 
       <PageHero
         crumbs={[{ label: "Why Mindlox AI" }]}

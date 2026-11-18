@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
 import { SERVICES } from "@/data/services";
-import { CTA } from "@/data/site";
+import { CTA, SITE_URL } from "@/data/site";
 import { SPECIALTIES, type Specialty } from "@/data/specialties";
 import { cn } from "@/lib/utils";
 import { Frame } from "@/components/layout/Frame";
@@ -13,7 +13,7 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Section, SectionHeading } from "@/components/ui/Section";
 
-const SITE = "https://mindlox.ai";
+const SITE = SITE_URL;
 
 /** Names that should not be lowercased in running copy. */
 const KEEP_CASE = new Set(["OB/GYN", "ENT", "DME"]);

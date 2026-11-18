@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Scale } from "lucide-react";
 import type { ComparePage as CompareData } from "@/data/compare";
-import { CTA } from "@/data/site";
+import { CTA, SITE_URL } from "@/data/site";
 import { Frame } from "@/components/layout/Frame";
 import { PageHero, FinalCTA } from "@/components/sections";
 import { Section, SectionHeading } from "@/components/ui/Section";
@@ -17,7 +17,7 @@ export function ComparePageView({ data }: { data: CompareData }) {
   const url = `https://mindlox.ai/compare/${data.slug}`;
   return (
     <Frame theme="theme-ultimate">
-      <JsonLd data={[faqLd(data.faq), breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Compare", url: "https://mindlox.ai/why-mindlox-ai" }, { name: data.title, url }])]} />
+      <JsonLd data={[faqLd(data.faq), breadcrumbLd([{ name: "Home", url: SITE_URL }, { name: "Compare", url: `${SITE_URL}/why-mindlox-ai` }, { name: data.title, url }])]} />
 
       <PageHero
         crumbs={[{ label: "Compare", href: "/why-mindlox-ai" }, { label: data.title }]}

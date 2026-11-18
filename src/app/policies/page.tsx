@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, FileText, ShieldCheck, Scale, Accessibility, Cookie, Sparkles } from "lucide-react";
 import { Frame } from "@/components/layout/Frame";
@@ -7,14 +6,16 @@ import { Section, SectionHeading } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
-import { CONTACT } from "@/data/site";
+import { CONTACT, SITE_URL } from "@/data/site";
 import { LEGAL_UPDATED } from "@/templates/company/LegalPage";
+import { pageMetadata, withSuffix } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Policies",
-  description: "Mindlox AI policies: privacy policy, terms of service, HIPAA and security practices, accessibility statement, cookie notice, and responsible AI principles.",
-  alternates: { canonical: "/policies" },
-};
+export const metadata = pageMetadata({
+  title: withSuffix("Policies"),
+  description:
+    "Mindlox AI policies: privacy policy, terms of service, HIPAA and security practices, accessibility statement, cookie notice, and responsible AI principles.",
+  path: "/policies",
+});
 
 const DOCS = [
   { icon: FileText, title: "Privacy Policy", detail: "What information this website and our services collect, how it is used, and the choices you have.", href: "/privacy" },
@@ -55,7 +56,7 @@ const STATEMENTS = [
 export default function PoliciesPage() {
   return (
     <Frame theme="theme-ultimate">
-      <JsonLd data={breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Policies", url: "https://mindlox.ai/policies" }])} />
+      <JsonLd data={breadcrumbLd([{ name: "Home", url: SITE_URL }, { name: "Policies", url: `${SITE_URL}/policies` }])} />
 
       <PageHero
         crumbs={[{ label: "Policies" }]}

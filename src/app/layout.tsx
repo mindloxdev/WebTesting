@@ -3,6 +3,9 @@ import { Geist, Geist_Mono, Manrope } from "next/font/google";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "./providers";
+import { JsonLd, ORGANIZATION_LD, WEBSITE_LD } from "@/components/seo/JsonLd";
+import { BRAND, SITE_URL } from "@/data/site";
+import { OG_IMAGE, TITLE_SUFFIX } from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,31 +27,27 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mindlox.ai"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Mindlox AI — Medical Billing & Revenue Cycle Intelligence",
-    template: "%s · Mindlox AI",
+    default: `${BRAND.name} | AI-Assisted Medical Billing & RCM Company`,
+    // Any page that does not go through pageMetadata() still ends up with the
+    // one suffix. Keywords are gone on purpose: no search engine has used the
+    // meta keywords tag for ranking in over a decade.
+    template: `%s${TITLE_SUFFIX}`,
   },
   description:
     "Mindlox AI combines experienced medical billing specialists, intelligent automation, and AI-assisted revenue-cycle intelligence to help U.S. healthcare organizations get paid faster, reduce denials, and recover lost revenue.",
-  applicationName: "Mindlox AI",
-  keywords: [
-    "medical billing",
-    "revenue cycle management",
-    "RCM",
-    "denial management",
-    "medical coding",
-    "A/R recovery",
-    "credentialing",
-    "healthcare billing company",
-  ],
+  applicationName: BRAND.name,
   openGraph: {
     type: "website",
-    siteName: "Mindlox AI",
-    title: "Mindlox AI — Medical Billing & Revenue Cycle Intelligence",
+    siteName: BRAND.name,
+    url: SITE_URL,
+    title: `${BRAND.name} | AI-Assisted Medical Billing & RCM Company`,
     description:
-      "Experienced billing humans + modern technology + AI-assisted intelligence. Built for U.S. healthcare organizations.",
+      "Mindlox AI combines experienced medical billing specialists, intelligent automation, and AI-assisted revenue-cycle intelligence to help U.S. healthcare organizations get paid faster, reduce denials, and recover lost revenue.",
+    images: [OG_IMAGE],
   },
+  twitter: { card: "summary_large_image", images: [OG_IMAGE] },
   robots: { index: true, follow: true },
 };
 
@@ -65,6 +64,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} ${manrope.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        {/* Organization and WebSite are sitewide facts, so they are declared
+            once here. Pages add only what is theirs: breadcrumbs, Service,
+            Article, FAQPage. */}
+        <JsonLd data={[ORGANIZATION_LD, WEBSITE_LD]} />
         <Providers>{children}</Providers>
         {/* Core Web Vitals from real visitors. Same-origin, so the strict CSP
             in next.config.ts already permits it, and it no-ops off Vercel. */}

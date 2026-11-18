@@ -1,10 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { TARGET_ORGS } from "@/data/content";
 import { CTA } from "@/data/site";
-import { EASE } from "@/lib/motion";
 import { cn, pad2 } from "@/lib/utils";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
@@ -69,11 +67,16 @@ const COLUMNS: { key: keyof Brief; label: string }[] = [
   { key: "deployed", label: "How Mindlox AI is deployed" },
 ];
 
-/** Organization-type selector: selecting one morphs a three-column brief in place. */
+/**
+ * Organization-type selector: selecting one morphs a three-column brief in
+ * place. Every organization's brief is in the server HTML — the inactive ones
+ * carry the `hidden` attribute rather than being mounted on click — so a
+ * crawler reads all ten without pressing a tab.
+ */
 export function OrgSelector({ className }: { className?: string }) {
   const [active, setActive] = useState<string>(TARGET_ORGS[0]);
-  const brief = BRIEFS[active] ?? BRIEFS["Physician Groups"];
   const idx = TARGET_ORGS.indexOf(active);
+  const uid = useId();
 
   return (
     <div className={cn("border border-line bg-bg", className)}>
@@ -85,6 +88,7 @@ export function OrgSelector({ className }: { className?: string }) {
               key={o}
               role="tab"
               aria-selected={on}
+              aria-controls={`${uid}-${i}`}
               onClick={() => setActive(o)}
               className={cn(
                 "relative shrink-0 border-r border-line px-4 py-3.5 text-left text-sm font-medium transition-colors duration-300 last:border-r-0",
@@ -98,41 +102,42 @@ export function OrgSelector({ className }: { className?: string }) {
         })}
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={active}
-          initial="hidden"
-          animate="show"
-          exit="exit"
-          variants={{ show: { transition: { staggerChildren: 0.06 } }, exit: { transition: { staggerChildren: 0.02, staggerDirection: -1 } } }}
-          className="grid divide-line md:grid-cols-3 md:divide-x"
-        >
-          {COLUMNS.map((c, ci) => (
-            <motion.div
-              key={c.key}
-              variants={{
-                hidden: { opacity: 0, y: 10 },
-                show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
-                exit: { opacity: 0, y: -6, transition: { duration: 0.2 } },
-              }}
-              className={cn("p-6 lg:p-8", ci === 2 && "bg-bg-2")}
-            >
-              <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.14em] text-fg-3">
-                <span className="mr-2 text-accent">{pad2(ci + 1)}</span>
-                {c.label}
-              </p>
-              <ul className="space-y-3">
-                {brief[c.key].map((item) => (
-                  <li key={item} className="flex gap-3 text-[15px] leading-snug text-fg">
-                    <span className={cn("mt-2 size-1.5 shrink-0 rounded-full", ci === 1 ? "bg-fg/40" : "bg-accent")} aria-hidden />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
+      {TARGET_ORGS.map((o, i) => {
+        const on = o === active;
+        const brief = BRIEFS[o] ?? BRIEFS["Physician Groups"];
+        return (
+          <div
+            key={o}
+            id={`${uid}-${i}`}
+            role="tabpanel"
+            aria-label={o}
+            hidden={!on}
+            inert={!on}
+            className="grid divide-line md:grid-cols-3 md:divide-x"
+          >
+            {COLUMNS.map((c, ci) => (
+              <div
+                key={c.key}
+                className={cn("p-6 lg:p-8", ci === 2 && "bg-bg-2", on && "animate-panel-in")}
+                style={on ? { animationDelay: `${ci * 60}ms` } : undefined}
+              >
+                <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.14em] text-fg-3">
+                  <span className="mr-2 text-accent">{pad2(ci + 1)}</span>
+                  {c.label}
+                </p>
+                <ul className="space-y-3">
+                  {brief[c.key].map((item) => (
+                    <li key={item} className="flex gap-3 text-[15px] leading-snug text-fg">
+                      <span className={cn("mt-2 size-1.5 shrink-0 rounded-full", ci === 1 ? "bg-fg/40" : "bg-accent")} aria-hidden />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        );
+      })}
 
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line px-6 py-4 lg:px-8">
         <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-fg-3">

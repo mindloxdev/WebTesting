@@ -3,7 +3,7 @@ import { Check, Sparkles } from "lucide-react";
 import { DETECTIONS, type Detection } from "@/data/dashboard";
 import { LIFECYCLE } from "@/data/lifecycle";
 import { SERVICES, SERVICE_CATEGORIES, type Service } from "@/data/services";
-import { CTA, SPECIALTY_COUNT } from "@/data/site";
+import { CTA, SITE_URL, SPECIALTY_COUNT } from "@/data/site";
 import { FEATURED_SPECIALTIES, SPECIALTIES } from "@/data/specialties";
 import { cn, pad2 } from "@/lib/utils";
 import { Frame } from "@/components/layout/Frame";
@@ -21,7 +21,7 @@ import { RevenueEngine } from "@/components/visuals/RevenueEngine";
 import { StatusTimeline } from "@/components/visuals/StatusTimeline";
 import { getServiceContent } from "./service-content";
 
-const SITE = "https://mindlox.ai";
+const SITE = SITE_URL;
 
 const FEED_FILTER: Record<string, Detection["type"][]> = {
   "denial-management": ["denial-risk", "appeal", "high-risk", "coding"],

@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { useId, useState } from "react";
 import { EASE } from "@/lib/motion";
@@ -10,6 +10,13 @@ type Item = { q: string; a: string };
 
 type Props = { items: Item[]; className?: string; defaultOpen?: number | null };
 
+/**
+ * Every answer is in the server HTML, collapsed to height 0 rather than
+ * mounted on click — a crawler that never clicks still reads all of them, and
+ * the FAQPage structured data on these pages matches text that is actually
+ * rendered. Closed panels are `inert`, so they stay out of the tab order and
+ * the accessibility tree.
+ */
 export function Accordion({ items, className, defaultOpen = 0 }: Props) {
   const [open, setOpen] = useState<number | null>(defaultOpen);
   const id = useId();
@@ -33,20 +40,16 @@ export function Accordion({ items, className, defaultOpen = 0 }: Props) {
                 </span>
               </button>
             </h3>
-            <AnimatePresence initial={false}>
-              {on && (
-                <motion.div
-                  id={`${id}-${i}`}
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.4, ease: EASE }}
-                  className="overflow-hidden"
-                >
-                  <p className="max-w-3xl pb-6 text-[15px] leading-relaxed text-fg-2">{it.a}</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <motion.div
+              id={`${id}-${i}`}
+              initial={false}
+              animate={on ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: EASE }}
+              className="overflow-hidden"
+              inert={!on}
+            >
+              <p className="max-w-3xl pb-6 text-[15px] leading-relaxed text-fg-2">{it.a}</p>
+            </motion.div>
           </div>
         );
       })}

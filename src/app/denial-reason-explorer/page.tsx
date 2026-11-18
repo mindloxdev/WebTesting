@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Frame } from "@/components/layout/Frame";
 import { PageHero, FinalCTA, LifecycleSection } from "@/components/sections";
 import { Section, SectionHeading } from "@/components/ui/Section";
@@ -7,13 +6,15 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 import { DenialExplorer, DenialStages } from "@/components/visuals/DenialExplorer";
 import { GrowthField } from "@/components/visuals/GrowthField";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
+import { pageMetadata, withSuffix } from "@/lib/seo";
+import { SITE_URL } from "@/data/site";
 
-export const metadata: Metadata = {
-  title: "Denial Reason Explorer",
+export const metadata = pageMetadata({
+  title: withSuffix("Denial Reason Explorer"),
   description:
     "The denial codes a practice actually sees — CO-197, CO-16, CO-11 and the rest — sorted by where each one is created, what it means, and what stops it from coming back.",
-  alternates: { canonical: "/denial-reason-explorer" },
-};
+  path: "/denial-reason-explorer",
+});
 
 const READ = [
   { title: "Sorted by origin, not by owner", detail: "A denial is almost never created by the team that receives it. Filter by stage to see which codes are born at the front desk, in coding, in the claim itself, or in the contract." },
@@ -29,7 +30,7 @@ const READ = [
 export default function DenialExplorerPage() {
   return (
     <Frame theme="theme-ultimate">
-      <JsonLd data={breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Resources", url: "https://mindlox.ai/resources" }, { name: "Denial Reason Explorer", url: "https://mindlox.ai/denial-reason-explorer" }])} />
+      <JsonLd data={breadcrumbLd([{ name: "Home", url: SITE_URL }, { name: "Resources", url: `${SITE_URL}/resources` }, { name: "Denial Reason Explorer", url: `${SITE_URL}/denial-reason-explorer` }])} />
       <PageHero
         crumbs={[{ label: "Resources", href: "/resources" }, { label: "Denial Reason Explorer" }]}
         eyebrow="Free tool"

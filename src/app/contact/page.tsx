@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Check } from "lucide-react";
 import { CareersApply } from "@/components/sections/CareersApply";
 import { Frame } from "@/components/layout/Frame";
@@ -6,15 +5,17 @@ import { Eyebrow } from "@/components/ui/Section";
 import { TextReveal } from "@/components/ui/TextReveal";
 import { Reveal } from "@/components/ui/Reveal";
 import { LeadForm } from "@/components/visuals/LeadForm";
-import { JsonLd, ORGANIZATION_LD, breadcrumbLd } from "@/components/seo/JsonLd";
+import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/sections";
-import { CONTACT } from "@/data/site";
+import { CONTACT, SITE_URL } from "@/data/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Get a free revenue audit or talk to a Mindlox AI RCM specialist. No patient information requested. Findings are yours to keep.",
-  alternates: { canonical: "/contact" },
-};
+export const metadata = pageMetadata({
+  title: "Free Revenue Audit for Your Practice | Mindlox AI",
+  description:
+    "Request a free revenue audit. A Mindlox AI specialist reviews your denials, A/R aging, coding and underpayments, and the findings are yours to keep.",
+  path: "/contact",
+});
 
 type Intent = "specialist" | "careers" | undefined;
 
@@ -56,7 +57,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
 
   return (
     <Frame theme="theme-ultimate" noMobileCta>
-      <JsonLd data={[ORGANIZATION_LD, breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Contact", url: "https://mindlox.ai/contact" }])]} />
+      <JsonLd data={breadcrumbLd([{ name: "Home", url: SITE_URL }, { name: "Contact", url: SITE_URL + "/contact" }])} />
 
       <section className="relative overflow-hidden pt-32 pb-20 lg:pt-44 lg:pb-28">
         <div className="pointer-events-none absolute inset-0 mesh-bg opacity-70" aria-hidden />

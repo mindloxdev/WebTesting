@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Check, Lock, X } from "lucide-react";
 import { Frame } from "@/components/layout/Frame";
 import { PageHero, AISection, DashboardSection, IntegrationsSection, FinalCTA, KpiDeepDive, AssistantShowcase } from "@/components/sections";
@@ -11,14 +10,15 @@ import { MetricStrip } from "@/components/visuals/MetricStrip";
 import { StatusTimeline } from "@/components/visuals/StatusTimeline";
 import { JsonLd, breadcrumbLd, faqLd } from "@/components/seo/JsonLd";
 import { FAQ } from "@/data/content";
-import { CTA } from "@/data/site";
+import { CTA, SITE_URL } from "@/data/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Technology",
+export const metadata = pageMetadata({
+  title: "AI Medical Billing and RCM Technology | Mindlox AI",
   description:
     "The Mindlox AI intelligence layer: denial-risk scoring, underpayment detection, eligibility mismatch detection, A/R prioritization, payer-pattern analysis — inside the systems you already use, with billing specialists making every call.",
-  alternates: { canonical: "/technology" },
-};
+  path: "/technology",
+});
 
 const DOES = [
   "Scores denial risk on every claim before submission",
@@ -45,12 +45,14 @@ const SECURITY = [
   { title: "Secure payer connectivity", detail: "Clearinghouse, ERA, and EFT exchange through established secure channels." },
 ];
 
-const TECH_FAQ = FAQ.filter((f) => /AI|patient information|Business Associate|EHR|claim volume/i.test(f.q));
+/** Only the questions this page actually shows — the FAQPage data is built
+ *  from the same array, so it can never assert an answer that is not here. */
+const TECH_FAQ = FAQ.filter((f) => /AI|patient information|Business Associate|EHR|claim volume/i.test(f.q)).slice(0, 5);
 
 export default function TechnologyPage() {
   return (
     <Frame theme="theme-ultimate">
-      <JsonLd data={[faqLd(TECH_FAQ), breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Technology", url: "https://mindlox.ai/technology" }])]} />
+      <JsonLd data={[faqLd(TECH_FAQ), breadcrumbLd([{ name: "Home", url: SITE_URL }, { name: "Technology", url: `${SITE_URL}/technology` }])]} />
 
       <PageHero
         crumbs={[{ label: "Technology" }]}
@@ -109,7 +111,6 @@ export default function TechnologyPage() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 font-mono text-[11px] text-fg-3">Language rule: AI-assisted, intelligent automation, decision support, pattern detection. Never &quot;guarantees zero denials.&quot;</p>
             </div>
           </Reveal>
         </div>
@@ -165,7 +166,7 @@ export default function TechnologyPage() {
         <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr]">
           <SectionHeading eyebrow="FAQ" size="md" title="How we use AI, and how we protect data." description={`Straight answers. For anything else, ${CTA.secondary.toLowerCase()}.`} />
           <Reveal delay={0.1}>
-            <Accordion items={TECH_FAQ.slice(0, 5)} />
+            <Accordion items={TECH_FAQ} />
           </Reveal>
         </div>
       </Section>

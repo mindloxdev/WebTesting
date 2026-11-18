@@ -163,7 +163,6 @@ export function DenialExplorer({ className }: Props) {
   // longer offers, so fall back to the first row still on screen.
   const active = visible.find((d) => d.code === selected) ?? visible[0];
   const filteredShare = visible.reduce((s, d) => s + d.share, 0);
-  const StageIcon = STAGES[active.stage].icon;
 
   return (
     <div className={cn("overflow-hidden rounded-[22px] border border-line bg-bg shadow-e3", className)}>
@@ -243,55 +242,62 @@ export function DenialExplorer({ className }: Props) {
 
         {/* Detail */}
         {/*
-          Keyed remount with no exit animation, deliberately. An
-          AnimatePresence `mode="wait"` here would leave this column empty for a
-          frame between codes; the card would collapse to the list's height, the
-          document would shorten, and the browser would yank the scroll position.
-          Mounting the new panel in the same commit keeps the height continuous.
+          Every code's panel is in the server HTML, with the inactive ones
+          carrying the `hidden` attribute rather than being mounted on click —
+          so a crawler reads all eight explanations without touching the list,
+          and the page can assert them in structured data. `hidden` also keeps
+          the height continuous: the chosen panel is swapped in within the same
+          commit, so the column never collapses and the browser never yanks the
+          scroll position.
         */}
         <div className="relative p-6 lg:p-8">
           <div className="pointer-events-none absolute inset-0 mesh-bg opacity-60" aria-hidden />
           <div className="lg:min-h-[30rem]">
-            <motion.div
-              key={active.code}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25, ease: EASE }}
-              className="relative"
-            >
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-md border border-line bg-bg px-2 py-1 font-mono text-[12px] font-semibold text-fg">
-                  {active.code}
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-bg px-2.5 py-1 text-[11px] font-medium text-fg-2">
-                  <StageIcon className="size-3.5" aria-hidden />
-                  {STAGES[active.stage].label}
-                </span>
-                <span className={cn("rounded-full border px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.1em]", RECOVERY_STYLE[active.recovery])}>
-                  {active.recovery} recovery
-                </span>
-              </div>
+            {DENIALS.map((d) => {
+              const on = d.code === active.code;
+              const StageIcon = STAGES[d.stage].icon;
+              return (
+                <div
+                  key={d.code}
+                  hidden={!on}
+                  inert={!on}
+                  className={cn("relative", on && "animate-panel-in")}
+                >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="rounded-md border border-line bg-bg px-2 py-1 font-mono text-[12px] font-semibold text-fg">
+                      {d.code}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-bg px-2.5 py-1 text-[11px] font-medium text-fg-2">
+                      <StageIcon className="size-3.5" aria-hidden />
+                      {STAGES[d.stage].label}
+                    </span>
+                    <span className={cn("rounded-full border px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.1em]", RECOVERY_STYLE[d.recovery])}>
+                      {d.recovery} recovery
+                    </span>
+                  </div>
 
-              <h3 className="mt-4 font-display text-2xl font-semibold tracking-tight text-fg lg:text-3xl">
-                {active.title}
-              </h3>
-              <p className="mt-2 text-sm italic leading-relaxed text-fg-3">&ldquo;{active.means}&rdquo;</p>
+                  <h3 className="mt-4 font-display text-2xl font-semibold tracking-tight text-fg lg:text-3xl">
+                    {d.title}
+                  </h3>
+                  <p className="mt-2 text-sm italic leading-relaxed text-fg-3">&ldquo;{d.means}&rdquo;</p>
 
-              <Block label="Why it happens" body={active.why} />
-              <Block label="What stops it" body={active.prevent} accent />
+                  <Block label="Why it happens" body={d.why} />
+                  <Block label="What stops it" body={d.prevent} accent />
 
-              <p className="mt-6 border-t border-line pt-4 text-xs leading-relaxed text-fg-3">
-                {RECOVERY_NOTE[active.recovery]} Roughly{" "}
-                <span className="font-mono font-semibold text-fg-2">{active.share}%</span> of denied claims in a typical
-                practice carry this code.
-              </p>
+                  <p className="mt-6 border-t border-line pt-4 text-xs leading-relaxed text-fg-3">
+                    {RECOVERY_NOTE[d.recovery]} Roughly{" "}
+                    <span className="font-mono font-semibold text-fg-2">{d.share}%</span> of denied claims in a typical
+                    practice carry this code.
+                  </p>
 
-              <div className="mt-6">
-                <MagneticButton href="/revenue-leakage-calculator" size="sm" arrow magnetic={false}>
-                  Estimate what denials cost you
-                </MagneticButton>
-              </div>
-            </motion.div>
+                  <div className="mt-6">
+                    <MagneticButton href="/revenue-leakage-calculator" size="sm" arrow magnetic={false}>
+                      Estimate what denials cost you
+                    </MagneticButton>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

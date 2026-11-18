@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Frame } from "@/components/layout/Frame";
@@ -8,14 +7,15 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { OrgSelector } from "@/components/visuals/OrgSelector";
 import { Ecosystem } from "@/components/home/Ecosystem";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
-import { CTA } from "@/data/site";
+import { CTA, SITE_URL } from "@/data/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Solutions",
+export const metadata = pageMetadata({
+  title: "Medical Billing for Physician Groups, Hospitals & ASCs | Mindlox AI",
   description:
     "Mindlox AI revenue cycle solutions for physician groups, multi-specialty practices, hospitals, ASCs, urgent care, behavioral health, specialty clinics, laboratories, DME suppliers, and telehealth organizations.",
-  alternates: { canonical: "/solutions" },
-};
+  path: "/solutions",
+});
 
 const BY_PROBLEM = [
   { title: "Denials", detail: "Prevent, prioritize, appeal, and learn — root-cause taxonomy with a prevention loop.", href: "/denial-management" },
@@ -28,7 +28,7 @@ const BY_PROBLEM = [
 export default function SolutionsPage() {
   return (
     <Frame theme="theme-ultimate">
-      <JsonLd data={breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Solutions", url: "https://mindlox.ai/solutions" }])} />
+      <JsonLd data={breadcrumbLd([{ name: "Home", url: SITE_URL }, { name: "Solutions", url: `${SITE_URL}/solutions` }])} />
 
       <PageHero
         crumbs={[{ label: "Solutions" }]}

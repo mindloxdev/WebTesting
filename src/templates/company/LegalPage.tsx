@@ -1,5 +1,7 @@
 import { Frame } from "@/components/layout/Frame";
 import { PageHero, FinalCTA } from "@/components/sections";
+import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
+import { SITE_URL } from "@/data/site";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -14,14 +16,23 @@ type Props = {
   highlight?: string;
   description: string;
   crumb: string;
+  /** Route path, for the BreadcrumbList that matches the visible crumb. */
+  path: string;
   sections: LegalSection[];
   updated?: string;
 };
 
 /** Long-form policy document with a sticky on-page outline. */
-export function LegalPage({ eyebrow, title, highlight, description, crumb, sections, updated = LEGAL_UPDATED }: Props) {
+export function LegalPage({ eyebrow, title, highlight, description, crumb, path, sections, updated = LEGAL_UPDATED }: Props) {
   return (
     <Frame theme="theme-ultimate">
+      <JsonLd
+        data={breadcrumbLd([
+          { name: "Home", url: SITE_URL },
+          { name: "Policies", url: `${SITE_URL}/policies` },
+          { name: crumb, url: `${SITE_URL}${path}` },
+        ])}
+      />
       <PageHero crumbs={[{ label: "Policies", href: "/policies" }, { label: crumb }]} eyebrow={eyebrow} title={title} highlight={highlight} description={description} size="lg" />
       <Section tight>
         <div className="grid gap-12 lg:grid-cols-[220px_1fr]">

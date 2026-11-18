@@ -8,11 +8,12 @@ import { Section } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
-import { CTA } from "@/data/site";
+import { CTA, SITE_URL } from "@/data/site";
 import { CONTRIBUTORS, getAuthor } from "@/data/authors";
 import { formatDate, postsByAuthor, readingTime } from "@/data/blog";
+import { pageMetadata, withSuffix } from "@/lib/seo";
 
-const SITE = "https://mindlox.ai";
+const SITE = SITE_URL;
 
 export const dynamicParams = false;
 
@@ -26,11 +27,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const author = getAuthor(slug);
   if (!author) return {};
-  return {
-    title: `${author.name} — ${author.role}`,
+  return pageMetadata({
+    title: withSuffix(`${author.name} — ${author.role}`),
     description: author.bio,
-    alternates: { canonical: `/blog/authors/${author.id}` },
-  };
+    path: `/blog/authors/${author.id}`,
+  });
 }
 
 export default async function AuthorPage({ params }: Props) {

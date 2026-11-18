@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { COMPARE_PAGES, getComparePage } from "@/data/compare";
 import { ComparePageView } from "@/templates/company/ComparePage";
+import { pageMetadata, withSuffix } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -13,11 +14,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const page = getComparePage(slug);
   if (!page) return {};
-  return {
-    title: page.metaTitle,
+  return pageMetadata({
+    title: withSuffix(page.metaTitle),
     description: page.metaDescription,
-    alternates: { canonical: `/compare/${page.slug}` },
-  };
+    path: `/compare/${page.slug}`,
+  });
 }
 
 export default async function ComparePage({ params }: { params: Promise<{ slug: string }> }) {

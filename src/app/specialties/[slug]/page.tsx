@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SPECIALTIES, getSpecialty } from "@/data/specialties";
 import { SpecialtyPage } from "@/templates/seo/SpecialtyPage";
+import { pageMetadata, withSuffix } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -16,12 +17,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const s = getSpecialty(slug);
   if (!s) return {};
   const description = `${s.tagline} Specialty-aligned medical billing, coding, denial management, and A/R recovery for ${s.name} practices from Mindlox AI.`;
-  return {
-    title: `${s.name} Medical Billing & RCM Services`,
+  return pageMetadata({
+    title: withSuffix(`${s.name} Medical Billing & RCM Services`),
     description,
-    alternates: { canonical: `/specialties/${s.slug}` },
-    openGraph: { title: `${s.name} Medical Billing — Mindlox AI`, description },
-  };
+    path: `/specialties/${s.slug}`,
+  });
 }
 
 export default async function SpecialtyRoute({ params }: Props) {

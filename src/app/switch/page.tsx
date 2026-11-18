@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Check, ShieldCheck } from "lucide-react";
 import { Frame } from "@/components/layout/Frame";
 import { PageHero, IntegrationsSection, ComparisonSection, FinalCTA } from "@/components/sections";
@@ -9,22 +8,23 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { JsonLd, faqLd, breadcrumbLd } from "@/components/seo/JsonLd";
 import { WHY_SWITCH } from "@/data/content";
-import { CTA } from "@/data/site";
+import { CTA, SITE_URL } from "@/data/site";
 import { SWITCH_OBJECTIONS, WHAT_YOU_KEEP } from "@/data/compare";
 import { SwitchTimeline } from "@/templates/company/SwitchTimeline";
 import { BeforeAfter } from "@/components/visuals/BeforeAfter";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Switch to Mindlox AI",
+export const metadata = pageMetadata({
+  title: "Switch Medical Billing Companies Without Losing Revenue | Mindlox AI",
   description:
     "A calm, no-disruption transition to Mindlox AI: parallel-run planning, legacy A/R strategy, payer connectivity review, and dashboards on from day one. Your revenue never pauses.",
-  alternates: { canonical: "/switch" },
-};
+  path: "/switch",
+});
 
 export default function SwitchPage() {
   return (
     <Frame theme="theme-ultimate">
-      <JsonLd data={[faqLd(SWITCH_OBJECTIONS), breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Switch to Mindlox AI", url: "https://mindlox.ai/switch" }])]} />
+      <JsonLd data={[faqLd(SWITCH_OBJECTIONS), breadcrumbLd([{ name: "Home", url: SITE_URL }, { name: "Switch to Mindlox AI", url: `${SITE_URL}/switch` }])]} />
 
       <PageHero
         crumbs={[{ label: "Switch to Mindlox AI" }]}

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Frame } from "@/components/layout/Frame";
 import { PageHero, FinalCTA } from "@/components/sections";
 import { Section, SectionHeading } from "@/components/ui/Section";
@@ -6,16 +5,17 @@ import { Card } from "@/components/ui/Card";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
 import { PitchForm } from "@/components/blog/PitchForm";
-import { CONTACT } from "@/data/site";
+import { CONTACT, SITE_URL } from "@/data/site";
+import { pageMetadata, withSuffix } from "@/lib/seo";
 
-const SITE = "https://mindlox.ai";
+const SITE = SITE_URL;
 
-export const metadata: Metadata = {
-  title: "Write for us",
+export const metadata = pageMetadata({
+  title: withSuffix("Write for us"),
   description:
     "Pitch an article to the Mindlox AI blog, and attach a draft if you have one. We publish practical writing on medical billing and revenue cycle management from people who work claims — with a byline, credentials, and an author page.",
-  alternates: { canonical: "/blog/write-for-us" },
-};
+  path: "/blog/write-for-us",
+});
 
 const STEPS = [
   {

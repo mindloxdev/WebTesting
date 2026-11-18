@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Frame } from "@/components/layout/Frame";
 import { PageHero, FinalCTA, LifecycleSection } from "@/components/sections";
 import { Section, SectionHeading } from "@/components/ui/Section";
@@ -7,15 +6,17 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { LeakReveal } from "@/components/visuals/LeakReveal";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
+import { pageMetadata, withSuffix } from "@/lib/seo";
+import { SITE_URL } from "@/data/site";
 
-const SITE = "https://mindlox.ai";
+const SITE = SITE_URL;
 
-export const metadata: Metadata = {
-  title: "Where revenue leaks",
+export const metadata = pageMetadata({
+  title: withSuffix("Where revenue leaks"),
   description:
     "Seven ways revenue leaves a practice — denials, underpayments, aging A/R, eligibility, coding, credentialing, and patient balances — and what it takes to recover each one.",
-  alternates: { canonical: "/where-revenue-leaks" },
-};
+  path: "/where-revenue-leaks",
+});
 
 const READ = [
   {

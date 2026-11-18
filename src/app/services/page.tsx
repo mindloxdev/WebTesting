@@ -1,22 +1,22 @@
-import type { Metadata } from "next";
 import { Check } from "lucide-react";
 import { SERVICES, SERVICE_CATEGORIES, type ServiceCategory } from "@/data/services";
-import { CTA } from "@/data/site";
+import { CTA, SITE_URL } from "@/data/site";
 import { pad2 } from "@/lib/utils";
 import { Frame } from "@/components/layout/Frame";
 import { Department, FinalCTA, LifecycleSection, PageHero, ProcessSection, ServiceCard } from "@/components/sections";
 import { TeamAssembly } from "@/components/visuals/TeamAssembly";
-import { JsonLd, ORGANIZATION_LD, breadcrumbLd } from "@/components/seo/JsonLd";
+import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { Tag } from "@/components/ui/Tag";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Services",
+export const metadata = pageMetadata({
+  title: "Medical Billing & RCM Services for U.S. Practices | Mindlox AI",
   description:
     "Twenty-five medical billing and revenue cycle management services — billing, coding, denial management, A/R recovery, credentialing, eligibility, authorization, posting, patient billing, and more — from one accountable partner.",
-  alternates: { canonical: "/services" },
-};
+  path: "/services",
+});
 
 const CATEGORY_INTRO: Record<ServiceCategory, string> = {
   core: "The claim itself — captured, coded, scrubbed, submitted, and followed through until it pays.",
@@ -32,13 +32,10 @@ export default function ServicesPage() {
   return (
     <Frame theme="theme-ultimate">
       <JsonLd
-        data={[
-          ORGANIZATION_LD,
-          breadcrumbLd([
-            { name: "Home", url: "https://mindlox.ai" },
-            { name: "Services", url: "https://mindlox.ai/services" },
-          ]),
-        ]}
+        data={breadcrumbLd([
+          { name: "Home", url: SITE_URL },
+          { name: "Services", url: SITE_URL + "/services" },
+        ])}
       />
 
       <PageHero

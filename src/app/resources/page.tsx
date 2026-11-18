@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Calculator, FileSearch } from "lucide-react";
 import { Frame } from "@/components/layout/Frame";
@@ -8,12 +7,14 @@ import { Card } from "@/components/ui/Card";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { JsonLd, breadcrumbLd } from "@/components/seo/JsonLd";
 import { formatDate, readingTime, sortedPosts } from "@/data/blog";
+import { pageMetadata } from "@/lib/seo";
+import { SITE_URL } from "@/data/site";
 
-export const metadata: Metadata = {
-  title: "Resources",
+export const metadata = pageMetadata({
+  title: "Free Medical Billing Tools & Resources | Mindlox AI",
   description: "Free tools, practical articles, and straight answers on medical billing and revenue cycle management from Mindlox AI.",
-  alternates: { canonical: "/resources" },
-};
+  path: "/resources",
+});
 
 const JUMP = [
   { label: "Revenue Leakage Calculator", href: "#tools" },
@@ -27,7 +28,7 @@ export default function ResourcesPage() {
 
   return (
     <Frame theme="theme-ultimate">
-      <JsonLd data={breadcrumbLd([{ name: "Home", url: "https://mindlox.ai/" }, { name: "Resources", url: "https://mindlox.ai/resources" }])} />
+      <JsonLd data={breadcrumbLd([{ name: "Home", url: SITE_URL }, { name: "Resources", url: `${SITE_URL}/resources` }])} />
 
       <PageHero
         crumbs={[{ label: "Resources" }]}

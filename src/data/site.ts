@@ -1,5 +1,12 @@
 import type { SocialIconKey } from "@/components/ui/SocialIcons";
 
+/**
+ * The site's one address. No www: www.mindlox.ai redirects to the apex in
+ * Vercel, so every canonical, OG URL, sitemap URL and JSON-LD URL has to be
+ * built from this.
+ */
+export const SITE_URL = "https://mindlox.ai";
+
 /** Specialty count used in marketing copy site-wide. */
 export const SPECIALTY_COUNT = "30+";
 
@@ -190,6 +197,8 @@ export const TRUST_PILLARS = [
 export const CONTACT = {
   phone: "817-256-4378",
   phoneHref: "tel:+18172564378",
+  /** Dialable form with the country code, for schema.org `telephone`. */
+  telephone: "+1-817-256-4378",
   email: "info@mindlox.ai",
   emailHref: "mailto:info@mindlox.ai",
   street: "Ranch Valley",
