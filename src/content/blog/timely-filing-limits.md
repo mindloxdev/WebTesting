@@ -31,4 +31,6 @@ When a payer denies for timely filing but the practice submitted in time, the cl
 - Sort the A/R work queue by days-to-deadline as well as by balance, so claims approaching a limit are touched first.
 - Archive acceptance reports and remittances where they can be retrieved for an appeal.
 
+Sorting the queue by deadline rather than by balance is the difference between [A/R recovery](/ar-recovery) and A/R reporting.
+
 > Timely filing denials are the only category where the money was earned, the claim was valid, and the practice still gets nothing. They deserve zero tolerance.

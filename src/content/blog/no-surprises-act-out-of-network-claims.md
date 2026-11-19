@@ -29,6 +29,6 @@ After receiving a clean claim for a covered out-of-network service, the plan is 
 
 ## Where negotiation still happens outside the Act
 
-Many out-of-network claims are not covered by the No Surprises Act, for example elective care a patient knowingly chose out of network. For those, single-case agreements negotiated before care, and post-adjudication negotiation on the payer's offer, remain the tools that set a defensible rate. The right approach is decided claim by claim, which is why out-of-network work benefits from a dedicated process rather than being folded into general A/R.
+Many out-of-network claims are not covered by the No Surprises Act, for example elective care a patient knowingly chose out of network. For those, single-case agreements negotiated before care, and post-adjudication negotiation on the payer's offer, remain the tools that set a defensible rate. The right approach is decided claim by claim, which is why out-of-network work benefits from a [dedicated process](/out-of-network-negotiations) rather than being folded into general A/R.
 
 > The Act did not make out-of-network care unpayable. It made the process more structured, and structure rewards practices that track it.

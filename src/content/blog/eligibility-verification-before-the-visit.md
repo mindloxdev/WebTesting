@@ -34,6 +34,8 @@ An electronic eligibility inquiry, the 270 transaction, returns a 271 response f
 - Collect known patient responsibility at check-in, using the deductible and copay figures from the response.
 - Route any authorization requirement to the authorization desk the moment the check reveals it.
 
+Run that way every day, for every scheduled visit, this is what [eligibility verification](/eligibility-verification) looks like as a service rather than a task someone fits in.
+
 ## How to know it is working
 
 Track eligibility-related denials as their own category, by count and by dollars, and watch the trend after the workflow changes. Track the share of visits verified before the appointment. Track point-of-service collections. When the first number falls and the other two rise, the front end is doing the job the back end used to pay for.

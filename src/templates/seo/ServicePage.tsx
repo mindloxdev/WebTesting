@@ -19,6 +19,7 @@ import { ClaimJourney } from "@/components/visuals/ClaimJourney";
 import { Handoff } from "@/components/visuals/Handoff";
 import { RevenueEngine } from "@/components/visuals/RevenueEngine";
 import { StatusTimeline } from "@/components/visuals/StatusTimeline";
+import { getPost } from "@/data/blog";
 import { getServiceContent } from "./service-content";
 
 const SITE = SITE_URL;
@@ -100,6 +101,19 @@ export function ServicePage({ service }: { service: Service }) {
     ) : (
       <OutcomesCard service={service} stages={c.stages} />
     );
+
+  /**
+   * Related reading: the reference pages named in the content file, then the
+   * blog posts it names. Post titles and summaries are read from the posts
+   * themselves, so retitling one never leaves a stale label here.
+   */
+  const reading = [
+    ...(c.relatedReading ?? []),
+    ...(c.relatedPosts ?? []).flatMap((slug) => {
+      const post = getPost(slug);
+      return post ? [{ label: post.title, href: `/blog/${post.slug}`, detail: post.excerpt }] : [];
+    }),
+  ];
 
   const lowerName = service.name;
   /** Signature sections alternate with the claim-journey block when both are present. */
@@ -292,11 +306,11 @@ export function ServicePage({ service }: { service: Service }) {
         </RevealGroup>
       </Section>
 
-      {c.relatedReading && c.relatedReading.length > 0 && (
+      {reading.length > 0 && (
         <Section id="related-reading">
           <SectionHeading eyebrow="Related reading" title="Go deeper." size="md" />
           <RevealGroup className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3" staggerChildren={0.06}>
-            {c.relatedReading.map((r) => (
+            {reading.map((r) => (
               <RevealItem key={r.href}>
                 <Link
                   href={r.href}

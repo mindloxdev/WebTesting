@@ -30,6 +30,8 @@ Most first-pass failures are not exotic. They are missing or mismatched demograp
 - Review the rate by payer and by provider. A practice-wide number hides the one payer or one workflow that is dragging it down.
 - Submit daily. Batching claims weekly adds delay and makes a single bad batch much more expensive.
 
+None of those is a project. They are habits, and keeping them is most of what a [medical billing](/medical-billing) operation does on any given day.
+
 ## What a good number looks like
 
 A mid-90s percentage is a common target, but the right goal depends on your specialty and payer mix. A practice with heavy authorization requirements or a complex Medicaid population will have a harder ceiling than a primary care office. The more useful question is direction: is the rate rising month over month, and can you name the root cause behind every point it drops?

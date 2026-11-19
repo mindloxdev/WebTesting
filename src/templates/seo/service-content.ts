@@ -22,8 +22,14 @@ export type ServiceContent = {
   visual: "journey" | "feed" | "card";
   /** Optional signature section: the 8-stage revenue engine, the live claim status board, or the AI-to-specialist handoff. */
   signature?: "engine" | "status-board" | "handoff";
-  /** Reference pages and articles that go deeper on this service. Nothing renders when absent. */
+  /** Reference pages that go deeper on this service. Nothing renders when absent. */
   relatedReading?: { label: string; href: string; detail: string }[];
+  /**
+   * Blog post slugs to surface under Related reading. Titles and summaries are
+   * read from the posts themselves, so a retitled post never leaves a stale
+   * label behind on a service page.
+   */
+  relatedPosts?: string[];
 };
 
 export const SERVICE_CONTENT: Record<string, ServiceContent> = {
@@ -57,6 +63,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     stages: [6, 7, 8],
     visual: "journey",
     signature: "status-board",
+    relatedPosts: ["clean-claim-rate"],
   },
   "revenue-cycle-management": {
     h1: "One partner for the entire revenue cycle.",
@@ -156,6 +163,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
         detail: "Every code a practice actually sees, with what it means, what causes it, and the control that prevents it.",
       },
     ],
+    relatedPosts: ["how-to-read-a-denial-carc-rarc"],
   },
   "ar-recovery": {
     h1: "Aging A/R, worked by strategy instead of by queue.",
@@ -186,6 +194,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     ctaHighlight: "about to expire.",
     stages: [11],
     visual: "feed",
+    relatedPosts: ["timely-filing-limits"],
   },
   credentialing: {
     h1: "Credentialing that lets new providers bill sooner.",
@@ -246,6 +255,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     ctaHighlight: "before they start.",
     stages: [2],
     visual: "feed",
+    relatedPosts: ["eligibility-verification-before-the-visit"],
   },
   "prior-authorization": {
     h1: "Authorizations in place before care happens.",
@@ -276,6 +286,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     ctaHighlight: "a thing of the past.",
     stages: [3],
     visual: "card",
+    relatedPosts: ["prior-authorization-denials"],
   },
   "payment-posting": {
     h1: "Every remittance posted, reconciled, and checked against contract.",
@@ -367,6 +378,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     ctaHighlight: "should be paying.",
     stages: [2, 9, 11, 12],
     visual: "card",
+    relatedPosts: ["no-surprises-act-out-of-network-claims"],
   },
 
 };

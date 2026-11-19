@@ -39,4 +39,6 @@ The value is not in knowing what CO-197 means. It is in grouping every denial in
 - Appeal what is appealable with the documentation the payer's policy asks for, and track the deadline for each level.
 - Send the top prevention fix back to the team that owns it, and check next week whether the category shrank.
 
+That loop, run every week rather than whenever the queue gets long, is what [denial management](/denial-management) actually is.
+
 > The payer has already told you why. The work is to listen at the level of patterns instead of claims.
