@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { FEATURED_SPECIALTIES, SPECIALTIES, type Specialty } from "@/data/specialties";
-import { CTA } from "@/data/site";
+import { CTA, SPECIALTY_COUNT } from "@/data/site";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/Card";
 import { MagneticButton } from "@/components/ui/MagneticButton";
@@ -49,7 +49,7 @@ export function SpecialtiesSection({ className, tone = "default", id = "specialt
         eyebrow="Specialties"
         title="Billing built around your specialty — not a generic queue."
         highlight="your specialty"
-        description="30+ specialties, each with its own coding reality, denial patterns, and payer rules. Pick yours and see the playbook."
+        description={`${SPECIALTY_COUNT} specialties, each with its own coding reality, denial patterns, and payer rules. Pick yours and see the playbook.`}
       />
       <Reveal className="mt-12" delay={0.1}>
         {variant === "morph" ? (
@@ -61,7 +61,7 @@ export function SpecialtiesSection({ className, tone = "default", id = "specialt
         )}
       </Reveal>
       <Reveal className="mt-10 flex justify-center">
-        <MagneticButton href="/specialties" arrow variant="outline" hoverLabel="See All 30+ Specialties">
+        <MagneticButton href="/specialties" arrow variant="outline" hoverLabel={`See All ${SPECIALTY_COUNT} Specialties`}>
           {CTA.specialty}
         </MagneticButton>
       </Reveal>

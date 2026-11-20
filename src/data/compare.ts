@@ -1,4 +1,7 @@
 import type { ComparisonRow } from "./content";
+import { SPECIALTIES } from "./specialties";
+
+const SPECIALTY_COUNT = String(SPECIALTIES.length);
 
 /* ------------------------------------------------------------------ */
 /*  Competitor-chasing content. Category-level language only. Fair.    */
@@ -186,7 +189,7 @@ export const SWITCH_OBJECTIONS = [
   { q: "Will we lose visibility during the switch?", a: "The opposite. Dashboards are on from day one of go-live, and during the parallel run you see both the legacy A/R plan and new charges in one place." },
   { q: "Is switching painful?", a: "It is designed not to be. A parallel run, a single cutover date for new charges, and a shared checklist mean no claim is orphaned and your staff always know who to call." },
   { q: "Who works our old A/R?", a: "We decide together during discovery. Options include Mindlox AI taking all open balances, a split by date of service, or your current vendor finishing a defined tail — with timely-filing deadlines tracked either way." },
-  { q: "Can you handle our specialty?", a: "30+ specialties and growing, with specialty-aligned coders and denial specialists. Discovery confirms fit before anything moves." },
+  { q: "Can you handle our specialty?", a: `${SPECIALTY_COUNT} specialties and growing, with specialty-aligned coders and denial specialists. Discovery confirms fit before anything moves.` },
   { q: "Do you work with our EHR?", a: "We support compatible workflows with major EHR and PM platforms and work within the system you have. Specific connectivity is confirmed during discovery." },
   { q: "What about our current contract?", a: "We review your agreement's notice period and terms with you and plan the parallel run around them. Nothing is cancelled until the transition plan is agreed." },
 ];

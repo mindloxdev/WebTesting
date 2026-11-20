@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
 import { SERVICES } from "@/data/services";
-import { CTA, SITE_URL } from "@/data/site";
+import { CTA, SITE_URL, SPECIALTY_COUNT } from "@/data/site";
 import { SPECIALTIES, type Specialty } from "@/data/specialties";
 import { cn } from "@/lib/utils";
 import { Frame } from "@/components/layout/Frame";
@@ -34,7 +34,7 @@ function buildFaq(s: Specialty) {
   return [
     {
       q: `Which ${s.name} denials do you see most often?`,
-      a: `The ${name} denials we work most often are ${joinList(s.denialTypes.map((d) => d.toLowerCase()))}. Each one is categorized by root cause, prioritized by recoverable value and timely-filing risk, and fed back into prevention at the front desk and in coding.`,
+      a: `The ${name} denials we work most often are ${joinList(s.denialTypes.map(lowerFirst))}. Each one is categorized by root cause, prioritized by recoverable value and timely-filing risk, and fed back into prevention at the front desk and in coding.`,
     },
     {
       q: `Do your coders understand ${s.name} coding?`,
@@ -53,8 +53,13 @@ function joinList(items: string[]) {
 }
 
 function lowerFirst(s: string) {
-  // Preserve acronyms / code strings (e.g., "E/M", "CPT", "99214") — only lowercase a leading plain word.
-  return /^[A-Z][a-z]+\s/.test(s) ? s.charAt(0).toLowerCase() + s.slice(1) : s;
+  // Preserve acronyms / code strings (e.g., "E/M", "CPT", "99214", "LCD/NCD",
+  // "MUE", "NDC", "NPI") — only lowercase a leading plain word. Lowercasing the
+  // whole name instead turns "Medical necessity (LCD/NCD) mismatch" into
+  // "medical necessity (lcd/ncd) mismatch", which reads as a typo.
+  // The leading word may be hyphenated ("Partial-month billed as full"), so
+  // accept a hyphen as the boundary as well as a space.
+  return /^[A-Z][a-z]+[\s-]/.test(s) ? s.charAt(0).toLowerCase() + s.slice(1) : s;
 }
 
 function PlaybookCard({ s, accent, soft }: { s: Specialty; accent: string; soft: string }) {
@@ -209,10 +214,10 @@ export function SpecialtyPage({ specialty: s }: { specialty: Specialty }) {
         {/* Other specialties */}
         <Section id="others">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <SectionHeading eyebrow="More specialties" title="Multi-specialty? We cover that too." highlight="cover that too." size="md" description="30+ specialties, each with its own playbook, under one set of dashboards." />
+            <SectionHeading eyebrow="More specialties" title="Multi-specialty? We cover that too." highlight="cover that too." size="md" description={`${SPECIALTY_COUNT} specialties, each with its own playbook, under one set of dashboards.`} />
             <Reveal className="lg:mb-2">
               <MagneticButton href="/specialties" variant="outline" arrow magnetic={false}>
-                All 30+ specialties
+                All {SPECIALTY_COUNT} specialties
               </MagneticButton>
             </Reveal>
           </div>

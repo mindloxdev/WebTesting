@@ -11,7 +11,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Specialty Medical Billing Services | Mindlox AI",
   description:
-    "Specialty-first medical billing and revenue cycle management for 30+ specialties — primary care, cardiology, orthopedics, behavioral health, dermatology, radiology, oncology, physical therapy, DME, laboratory, telehealth, and more.",
+    `Specialty-first medical billing and revenue cycle management for ${SPECIALTY_COUNT} specialties — primary care, cardiology, orthopedics, behavioral health, dermatology, radiology, oncology, physical therapy, DME, laboratory, telehealth, and more.`,
   path: "/specialties",
 });
 

@@ -1,5 +1,6 @@
 import type { SocialIconKey } from "@/components/ui/SocialIcons";
 import { DENIAL_CODES_HREF, DENIAL_CODES_LABEL } from "@/data/denial-codes-flag";
+import { SPECIALTIES } from "@/data/specialties";
 
 /**
  * The site's one address. No www: www.mindlox.ai redirects to the apex in
@@ -8,8 +9,13 @@ import { DENIAL_CODES_HREF, DENIAL_CODES_LABEL } from "@/data/denial-codes-flag"
  */
 export const SITE_URL = "https://mindlox.ai";
 
-/** Specialty count used in marketing copy site-wide. */
-export const SPECIALTY_COUNT = "30+";
+/**
+ * Specialty count used in marketing copy site-wide, counted from the data
+ * rather than written down. The copy said "30+" while the directory held
+ * fewer, which is a claim the site cannot support — and it would have gone
+ * stale again the next time a specialty was added or removed.
+ */
+export const SPECIALTY_COUNT = String(SPECIALTIES.length);
 
 export const BRAND = {
   name: "Mindlox AI",
@@ -93,7 +99,7 @@ export const NAV: NavItem[] = [
             { label: "Radiology", href: "/specialties/radiology" },
             { label: "Oncology", href: "/specialties/oncology" },
             { label: "Physical Therapy", href: "/specialties/physical-therapy" },
-            { label: "View all 30+ specialties →", href: "/specialties" },
+            { label: `View all ${SPECIALTY_COUNT} specialties →`, href: "/specialties" },
           ],
         },
       ],

@@ -4,6 +4,10 @@
 /*  Nothing here is a fabricated statistic.                            */
 /* ------------------------------------------------------------------ */
 
+import { SPECIALTIES } from "./specialties";
+
+const SPECIALTY_COUNT = String(SPECIALTIES.length);
+
 export type Problem = { title: string; detail: string; stat?: string };
 
 export const PROBLEMS: Problem[] = [
@@ -64,7 +68,7 @@ export const FAQ: FAQItem[] = [
   { q: "What does Mindlox AI handle?", a: "The entire revenue cycle — patient registration, eligibility, authorization, charge capture, coding, claim creation and scrubbing, submission, payment posting, denial management, A/R follow-up, appeals, patient billing, and reporting. You can engage us end-to-end or for specific stages." },
   { q: "Do you work with small practices?", a: "Yes. Solo and small group practices get the same dedicated team model, dashboards, and specialty expertise — scaled to the size of the practice." },
   { q: "Do you support multi-specialty groups?", a: "Yes. Multi-specialty groups get specialty-aligned coders and denial specialists, with consolidated reporting across locations and providers." },
-  { q: "Which specialties do you support?", a: "30+ and growing, including primary care, cardiology, orthopedics, behavioral health, dermatology, urgent care, radiology, oncology, physical therapy, DME, laboratory, and telehealth. See the Specialties page for the full list." },
+  { q: "Which specialties do you support?", a: `${SPECIALTY_COUNT} and growing, including primary care, cardiology, orthopedics, behavioral health, dermatology, urgent care, radiology, oncology, physical therapy, DME, laboratory, and telehealth. See the Specialties page for the full list.` },
   { q: "Do you handle credentialing?", a: "Yes — provider credentialing, payer enrollment, CAQH maintenance, re-credentialing calendars, and EDI/ERA/EFT connectivity." },
   { q: "How do you handle denied claims?", a: "Denials are categorized by root cause, prioritized by recoverable value and timely-filing risk, appealed with payer-specific documentation, and fed back into front-end prevention so the same denial does not recur." },
   { q: "Do you follow up on A/R?", a: "Yes. Insurance and patient A/R is segmented by age, payer, and value, then worked on a defined cadence with full visibility in your dashboard." },
